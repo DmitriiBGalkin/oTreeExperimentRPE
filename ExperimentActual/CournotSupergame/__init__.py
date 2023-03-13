@@ -2,8 +2,8 @@ from otree.api import *
 import random
 import itertools
 
-doc = """
-Cournot Supergames 
+doc = """   
+Cournot Supergames asdasdasdads
 """
 def cumsum(lst):
     total = 0
@@ -59,7 +59,7 @@ class C(BaseConstants):
                                      ["RR", "RA", "AR", "AA"]]
     POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES = repeat_elements_in_sublists(POSSIBLE_CONTRACT_ALLOCATIONS, ROUNDS_PER_SG)
     ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES = itertools.cycle(POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
-    ITERARED_CONTRACT_ORDERS = itertools.cycle(POSSIBLE_CONTRACT_ALLOCATIONS)
+    ITERATED_CONTRACT_ORDERS = itertools.cycle(POSSIBLE_CONTRACT_ALLOCATIONS)
     #Logic: There are 8 possible orders of how the contracts can be allocated for each supergame. "Repeat elements in the sublist" function then duplicates each contract according to how many rounds are played in a particular supergame.
     #We then assign this list to a participant. When we need to know which contract he is playing in round i, we just call this list[i].
     #The next step is to organise the groups and then reshuffle them for each supergame
@@ -72,7 +72,7 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession: Subsession):
     for player in subsession.get_players():
-        player.participant.CONTRACT_ORDER = ", ".join(next(C.ITERARED_CONTRACT_ORDERS))
+        player.participant.CONTRACT_ORDER = ", ".join(next(C.ITERATED_CONTRACT_ORDERS))
         player.CONTRACTUAL_ORDER_FOR_THIS_PLAYER = next(C.ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
         #Assigning each player
         player.type = player.participant.CONTRACT_ORDER
