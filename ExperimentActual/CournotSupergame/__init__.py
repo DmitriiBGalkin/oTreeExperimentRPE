@@ -91,6 +91,11 @@ class C(BaseConstants):
     #We then assign this list to a participant. When we need to know which contract he is playing in round i, we just call this list[i].
     #The next step is to organise the groups and then reshuffle them for each supergame
 
+    TOTAL_CAPACITY = 100
+    MAX_UNITS_PER_PLAYER=int(TOTAL_CAPACITY/2)
+    GAMMA=1
+
+
 
 class Subsession(BaseSubsession):
     sg = models.IntegerField()
@@ -127,22 +132,31 @@ def creating_session(subsession: Subsession):
 
 
 class Group(BaseGroup):
-    pass
+    UNIT_PRICE = models.CurrencyField()
+    TOTAL_UNITS = models.IntegerField(doc="""Total units produced by all players""")
+    print(groups.subsession.sg)
+
 
 
 class Player(BasePlayer):
     type = models.StringField()
+    CONTRACT_TYPE = player.participant.CONTRACT_ORDER[subsesssion.sg]
+    CONTRACT_TYPE = models.StringField()
+    units = models.IntegerField(
+        min=0,
+        max=C.MAX_UNITS_PER_PLAYER,
+        doc="""Quantity of units to produce""",
+        label="How many units will you produce (from 0 to 50)?",
+    )
+
+#FUNCTIONS:
+def 
+
+
+
 
 class NewSupergame(Page):
     wait_for_all_groups = True
-    print(C.SG_STARTS)
-
-    @staticmethod
-    def after_all_players_arrive(subsession):
-        if subsession.round_number in C.SG_STARTS:
-            subsession.set_group_matrix(next(C.ITERATED_LIST_OF_MATCHING_MATRICES))
-        else:
-            subsession.group_like_round(subsession.round_number - 1)
     @staticmethod
     def is_displayed(player: Player):
         subsession = player.subsession
