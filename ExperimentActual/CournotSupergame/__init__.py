@@ -16,11 +16,14 @@ def cumsum(lst):
 def random_numbers_until():
     numbers = []
     while True:
-        number = random.randint(1, 9)
+        number = random.randint(1, 3)
         numbers.append(number)
-        if number == 9:
+        if number == 3:
             break
     return numbers
+
+#The above function draws random numbers from 1-10 and stops when it hits 10.
+
 def repeat_elements_in_sublists(lst, reps):
     new_lst = []
     for sub_lst in lst:
@@ -29,8 +32,22 @@ def repeat_elements_in_sublists(lst, reps):
             new_sub_lst.extend([element]*reps[i])
         new_lst.append(new_sub_lst)
     return new_lst
+#The above function repeates the strings
 
-#The above function draws random numbers from 1-10 and stops when it hits 10.
+def calculate_game_starts(rounds_per_game):
+    game_starts = [1]
+    for i in range(1, len(rounds_per_game)):
+        game_starts.append(game_starts[-1] + rounds_per_game[i-1])
+    return game_starts
+
+#Calculate supergames first rounds
+
+def return_lists(my_list):
+    result_list = []
+    for i in range(len(my_list[0])):
+        result_list.append([sublist[i] for sublist in my_list])
+    return(result_list)
+
 
 SUPERGAME_1 = random_numbers_until()
 SUPERGAME_2 = random_numbers_until()
@@ -43,10 +60,11 @@ print(SUPERGAME_1,SUPERGAME_2,SUPERGAME_3,SUPERGAME_4)
 class C(BaseConstants):
     NAME_IN_URL = 'supergames'
     PLAYERS_PER_GROUP = 2
-    MIN_ROUNDS=10
+    MIN_ROUNDS=3
     ROUNDS_PER_SG = [max(MIN_ROUNDS, len(SUPERGAME_1)), max(MIN_ROUNDS, len(SUPERGAME_2)), max(MIN_ROUNDS, len(SUPERGAME_3)), max(MIN_ROUNDS, len(SUPERGAME_4))]
     #In the ROUNDS_PER_SG each supergame consist of at least 10 rounds. If there are less rounds in the supergame, then only those up to the len(supergame) would be payoff-relevant
     SG_ENDS = cumsum(ROUNDS_PER_SG)
+    SG_STARTS=calculate_game_starts(ROUNDS_PER_SG)
     print('SG_ENDS is', SG_ENDS)
     NUM_ROUNDS = sum(ROUNDS_PER_SG)
     POSSIBLE_CONTRACT_ALLOCATIONS = [["AA", "AR", "RA", "RR"],
@@ -57,12 +75,23 @@ class C(BaseConstants):
                                      ["RA", "RR", "AR", "AA"],
                                      ["RR", "RA", "AA", "AR"],
                                      ["RR", "RA", "AR", "AA"]]
+    PER_PERIOD_CONTRACTS = return_lists(POSSIBLE_CONTRACT_ALLOCATIONS)
+    SG_1_MATCHING = [[1, 3], [2, 5], [4, 6], [7, 8], [9, 11], [10, 13], [12, 14], [15, 16]]
+    SG_2_MATCHING = [[1, 7], [2, 4], [3, 8], [5, 6], [9, 15], [10, 12], [11, 16], [13, 14]]
+    SG_3_MATCHING = [[1, 8], [2, 6], [3, 4], [5, 7], [9, 16], [10, 14], [11, 12], [13, 15]]
+    SG_4_MATCHING = [[1, 2], [3, 5], [4, 7], [6, 8], [9, 10], [11, 13], [12, 15], [14, 16]]
+    LIST_OF_MATCHING_MATRICES = [SG_1_MATCHING, SG_2_MATCHING, SG_3_MATCHING, SG_4_MATCHING]
+    ITERATED_LIST_OF_MATCHING_MATRICES = itertools.cycle(LIST_OF_MATCHING_MATRICES)
+
+
     POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES = repeat_elements_in_sublists(POSSIBLE_CONTRACT_ALLOCATIONS, ROUNDS_PER_SG)
     ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES = itertools.cycle(POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
     ITERATED_CONTRACT_ORDERS = itertools.cycle(POSSIBLE_CONTRACT_ALLOCATIONS)
     #Logic: There are 8 possible orders of how the contracts can be allocated for each supergame. "Repeat elements in the sublist" function then duplicates each contract according to how many rounds are played in a particular supergame.
     #We then assign this list to a participant. When we need to know which contract he is playing in round i, we just call this list[i].
     #The next step is to organise the groups and then reshuffle them for each supergame
+
+
 class Subsession(BaseSubsession):
     sg = models.IntegerField()
     period = models.IntegerField()
@@ -72,10 +101,10 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession: Subsession):
     for player in subsession.get_players():
-        player.participant.CONTRACT_ORDER = ", ".join(next(C.ITERATED_CONTRACT_ORDERS))
-        player.CONTRACTUAL_ORDER_FOR_THIS_PLAYER = next(C.ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
+        player.participant.CONTRACT_ORDER = next(C.ITERATED_CONTRACT_ORDERS)
+        player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER = next(C.ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
         #Assigning each player
-        player.type = player.participant.CONTRACT_ORDER
+        player.type = ", ".join(player.participant.CONTRACT_ORDER)
     if subsession.round_number == 1:
         sg = 1
         period = 1
@@ -91,6 +120,10 @@ def creating_session(subsession: Subsession):
                 period = 1
             else:
                 period += 1
+    if subsession.round_number in C.SG_STARTS:
+        subsession.set_group_matrix(next(C.ITERATED_LIST_OF_MATCHING_MATRICES))
+    else:
+        subsession.group_like_round(subsession.round_number - 1)
 
 
 class Group(BaseGroup):
@@ -102,6 +135,14 @@ class Player(BasePlayer):
 
 class NewSupergame(Page):
     wait_for_all_groups = True
+    print(C.SG_STARTS)
+
+    @staticmethod
+    def after_all_players_arrive(subsession):
+        if subsession.round_number in C.SG_STARTS:
+            subsession.set_group_matrix(next(C.ITERATED_LIST_OF_MATCHING_MATRICES))
+        else:
+            subsession.group_like_round(subsession.round_number - 1)
     @staticmethod
     def is_displayed(player: Player):
         subsession = player.subsession
