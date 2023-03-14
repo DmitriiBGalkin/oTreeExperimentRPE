@@ -82,15 +82,12 @@ class C(BaseConstants):
     SG_4_MATCHING = [[1, 2], [3, 5], [4, 7], [6, 8], [9, 10], [11, 13], [12, 15], [14, 16]]
     LIST_OF_MATCHING_MATRICES = [SG_1_MATCHING, SG_2_MATCHING, SG_3_MATCHING, SG_4_MATCHING]
     ITERATED_LIST_OF_MATCHING_MATRICES = itertools.cycle(LIST_OF_MATCHING_MATRICES)
-
-
     POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES = repeat_elements_in_sublists(POSSIBLE_CONTRACT_ALLOCATIONS, ROUNDS_PER_SG)
     ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES = itertools.cycle(POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
     ITERATED_CONTRACT_ORDERS = itertools.cycle(POSSIBLE_CONTRACT_ALLOCATIONS)
     #Logic: There are 8 possible orders of how the contracts can be allocated for each supergame. "Repeat elements in the sublist" function then duplicates each contract according to how many rounds are played in a particular supergame.
     #We then assign this list to a participant. When we need to know which contract he is playing in round i, we just call this list[i].
     #The next step is to organise the groups and then reshuffle them for each supergame
-
     TOTAL_CAPACITY = 100
     MAX_UNITS_PER_PLAYER=int(TOTAL_CAPACITY/2)
     GAMMA=1
@@ -102,15 +99,14 @@ class Subsession(BaseSubsession):
     period = models.IntegerField()
     is_last_period = models.BooleanField()
 
-
-
 def creating_session(subsession: Subsession):
-    for player in subsession.get_players():
-        player.participant.CONTRACT_ORDER = next(C.ITERATED_CONTRACT_ORDERS)
-        player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER = next(C.ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
-        #Assigning each player
-        player.type = ", ".join(player.participant.CONTRACT_ORDER)
     if subsession.round_number == 1:
+        for player in subsession.get_players():
+            player.participant.CONTRACT_ORDER = next(C.ITERATED_CONTRACT_ORDERS)
+            player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER = next(C.ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
+            # Assigning each player
+            player.type = ", ".join(player.participant.CONTRACT_ORDER)
+            print("x")
         sg = 1
         period = 1
         # loop over all subsessions
@@ -138,6 +134,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    type = models.StringField()
     CONTRACT_TYPE_RP = models.BooleanField()
     UNITS = models.IntegerField(
         min=0,
