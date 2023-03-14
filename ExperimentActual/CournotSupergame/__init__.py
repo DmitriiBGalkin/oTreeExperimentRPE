@@ -134,15 +134,12 @@ def creating_session(subsession: Subsession):
 class Group(BaseGroup):
     UNIT_PRICE = models.CurrencyField()
     TOTAL_UNITS = models.IntegerField(doc="""Total units produced by all players""")
-    print(groups.subsession.sg)
 
 
 
 class Player(BasePlayer):
-    type = models.StringField()
-    CONTRACT_TYPE = player.participant.CONTRACT_ORDER[subsesssion.sg]
-    CONTRACT_TYPE = models.StringField()
-    units = models.IntegerField(
+    CONTRACT_TYPE_RP = models.BooleanField()
+    UNITS = models.IntegerField(
         min=0,
         max=C.MAX_UNITS_PER_PLAYER,
         doc="""Quantity of units to produce""",
@@ -150,7 +147,6 @@ class Player(BasePlayer):
     )
 
 #FUNCTIONS:
-def 
 
 
 
