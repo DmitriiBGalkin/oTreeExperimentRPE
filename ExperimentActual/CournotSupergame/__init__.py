@@ -5,6 +5,8 @@ import itertools
 doc = """   
 Cournot Supergames asdasdasdads
 """
+
+NUMBER_ROS = 3
 def cumsum(lst):
     total = 0
     new = []
@@ -16,9 +18,9 @@ def cumsum(lst):
 def random_numbers_until():
     numbers = []
     while True:
-        number = random.randint(1, 3)
+        number = random.randint(1, NUMBER_ROS)
         numbers.append(number)
-        if number == 3:
+        if number == NUMBER_ROS:
             break
     return numbers
 
@@ -60,7 +62,7 @@ print(SUPERGAME_1,SUPERGAME_2,SUPERGAME_3,SUPERGAME_4)
 class C(BaseConstants):
     NAME_IN_URL = 'supergames'
     PLAYERS_PER_GROUP = 2
-    MIN_ROUNDS=3
+    MIN_ROUNDS=NUMBER_ROS
     ROUNDS_PER_SG = [max(MIN_ROUNDS, len(SUPERGAME_1)), max(MIN_ROUNDS, len(SUPERGAME_2)), max(MIN_ROUNDS, len(SUPERGAME_3)), max(MIN_ROUNDS, len(SUPERGAME_4))]
     #In the ROUNDS_PER_SG each supergame consist of at least 10 rounds. If there are less rounds in the supergame, then only those up to the len(supergame) would be payoff-relevant
     SG_ENDS = cumsum(ROUNDS_PER_SG)
@@ -104,9 +106,7 @@ def creating_session(subsession: Subsession):
         for player in subsession.get_players():
             player.participant.CONTRACT_ORDER = next(C.ITERATED_CONTRACT_ORDERS)
             player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER = next(C.ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
-            # Assigning each player
-            player.type = ", ".join(player.participant.CONTRACT_ORDER)
-            print("x")
+            player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER_CONTRACT_TYPE = itertools.cycle(player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER)
         sg = 1
         period = 1
         # loop over all subsessions
@@ -125,7 +125,10 @@ def creating_session(subsession: Subsession):
         subsession.set_group_matrix(next(C.ITERATED_LIST_OF_MATCHING_MATRICES))
     else:
         subsession.group_like_round(subsession.round_number - 1)
-
+    for player in subsession.get_players():
+        # Assigning each player
+        player.ORDER = ", ".join(player.participant.CONTRACT_ORDER)
+        player.CONTRACT_TYPE_RP = True if (next(player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER_CONTRACT_TYPE)[0] == "R") else False
 
 class Group(BaseGroup):
     UNIT_PRICE = models.CurrencyField()
@@ -134,7 +137,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    type = models.StringField()
+    ORDER = models.StringField()
     CONTRACT_TYPE_RP = models.BooleanField()
     UNITS = models.IntegerField(
         min=0,
@@ -142,22 +145,52 @@ class Player(BasePlayer):
         doc="""Quantity of units to produce""",
         label="How many units will you produce (from 0 to 50)?",
     )
+    FIRM_PROFITS = models.CurrencyField()
+    CHOICE_IN_ROUNDS = models.IntegerField()
 
 #FUNCTIONS:
 
+def calculate_payoffs(group: Group):
+    players = group.get_players()
+    group.TOTAL_UNITS=sum([p.UNITS for p in players])
+    group.UNIT_PRICE=C.TOTAL_CAPACITY-group.TOTAL_UNITS
+    print()
+    for p in players:
+        print(p.CONTRACT_TYPE_RP)
+        p.FIRM_PROFITS = group.UNIT_PRICE * p.UNITS
+        if p.CONTRACT_TYPE_RP == False:
+            p.payoff = p.FIRM_PROFITS
+        if p.CONTRACT_TYPE_RP == True:
+            p.payoff = group.UNIT_PRICE * p.UNITS * (1+C.GAMMA) - group.UNIT_PRICE * C.GAMMA * (group.TOTAL_UNITS-p.UNITS)
+        p.CHOICE_IN_ROUNDS = p.UNITS
+
+def other_player(player: Player):
+    return player.get_others_in_group()[0]
 
 
 
+#PAGES:
 class NewSupergame(Page):
     wait_for_all_groups = True
     @staticmethod
     def is_displayed(player: Player):
         subsession = player.subsession
         return subsession.period == 1
-
+        player.CHOICE_IN_ROUNDS = ()
 
 class Play(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['UNITS']
+    @staticmethod
+    def vars_for_template(player: Player):
+         return dict(other_player_units=other_player(player).in_all_rounds().field_maybe_none("CHOICE_IN_ROUNDS"))
 
 
-page_sequence = [NewSupergame, Play]
+class ResultsWaitPage(WaitPage):
+    body_text = "Waiting for the other participant to decide."
+    after_all_players_arrive = calculate_payoffs
+
+
+
+
+page_sequence = [NewSupergame, Play, ResultsWaitPage]
