@@ -146,7 +146,7 @@ class Player(BasePlayer):
         label="How many units will you produce (from 0 to 50)?",
     )
     FIRM_PROFITS = models.CurrencyField()
-    CHOICE_IN_ROUNDS = models.IntegerField()
+    CHOICE_IN_ROUNDS = models.IntegerField(initial=0)
 
 #FUNCTIONS:
 
@@ -176,14 +176,15 @@ class NewSupergame(Page):
     def is_displayed(player: Player):
         subsession = player.subsession
         return subsession.period == 1
-        player.CHOICE_IN_ROUNDS = ()
+
 
 class Play(Page):
     form_model = 'player'
     form_fields = ['UNITS']
     @staticmethod
     def vars_for_template(player: Player):
-         return dict(other_player_units=other_player(player).in_all_rounds().field_maybe_none("CHOICE_IN_ROUNDS"))
+        print("VARS")
+        return dict(other_player_units=other_player(player).CHOICE_IN_ROUNDS)
 
 
 class ResultsWaitPage(WaitPage):
