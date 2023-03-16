@@ -183,7 +183,11 @@ class Play(Page):
     form_fields = ['UNITS']
     @staticmethod
     def vars_for_template(player: Player):
-        print("VARS")
+        print("Round Number",player.subsession.period)
+        if player.subsession.period > 1:
+            print(other_player(player).in_previous_rounds())
+            #print(player.in_previous_rounds())
+
         return dict(other_player_units=other_player(player).CHOICE_IN_ROUNDS)
 
 
