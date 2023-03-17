@@ -164,10 +164,32 @@ def calculate_payoffs(group: Group):
             p.payoff = group.UNIT_PRICE * p.UNITS * (1+C.GAMMA) - group.UNIT_PRICE * C.GAMMA * (group.TOTAL_UNITS-p.UNITS)
         p.CHOICE_IN_ROUNDS = p.UNITS
 
+def calculate_profits_and_compensation(list_my_choices, list_other_choices, my_contract):
+    profits_and_compensation = []
+    for period in range(0,len(list_my_choices)):
+        price = C.TOTAL_CAPACITY-list_my_choices[period]-list_other_choices[period]
+        my_profit = price * list_my_choices[period]
+        other_profit = price * list_other_choices[period]
+        my_compensation = my_profit
+        if my_contract == True:
+            my_compensation = 2*my_profit-other_profit
+        profits_and_compensation.append([my_profit, other_profit, my_compensation])
+    return profits_and_compensation
+
+
+
+
+
 def other_player(player: Player):
     return player.get_others_in_group()[0]
 
-
+def get_actions_in_previous_rounds_in_SG(player: Player):
+    xx = player.in_previous_rounds()
+    previous_actions = []
+    for round in xx:
+        action = round.UNITS
+        previous_actions.append(action)
+    return(previous_actions[(C.SG_STARTS[player.subsession.sg-1]-1):(C.SG_STARTS[player.subsession.sg-1]-1+player.subsession.period)])
 
 #PAGES:
 class NewSupergame(Page):
@@ -183,9 +205,16 @@ class Play(Page):
     form_fields = ['UNITS']
     @staticmethod
     def vars_for_template(player: Player):
-        print("Round Number",player.subsession.period)
         if player.subsession.period > 1:
-            print(other_player(player).in_previous_rounds())
+            print("subsession:",player.subsession.sg,"Subsession Starts",C.SG_STARTS[player.subsession.sg-1] )
+            my_actions = get_actions_in_previous_rounds_in_SG(player)
+            other_actions = get_actions_in_previous_rounds_in_SG(other_player(player))
+            table_to_display = calculate_profits_and_compensation(my_actions,other_actions,player.CONTRACT_TYPE_RP)
+            print(table_to_display)
+            print("my actions", my_actions)
+            print("other_actions", other_actions)
+
+            #print(xx[0])
             #print(player.in_previous_rounds())
 
         return dict(other_player_units=other_player(player).CHOICE_IN_ROUNDS)
