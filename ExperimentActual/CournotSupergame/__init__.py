@@ -96,14 +96,14 @@ class C(BaseConstants):
 
 
 
-class Subsession(BaseSubsession):
+class Subsession(BaseSubsession): #Creating fields in the subsession class
     sg = models.IntegerField()
     period = models.IntegerField()
     is_last_period = models.BooleanField()
 
 def creating_session(subsession: Subsession):
     if subsession.round_number == 1:
-        for player in subsession.get_players():
+        for player in subsession.get_players(): #I am not sure this thing here is needed - it slows down the session creation since it iterates over (all rounds x all players)
             player.participant.CONTRACT_ORDER = next(C.ITERATED_CONTRACT_ORDERS)
             player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER = next(C.ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
             player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER_CONTRACT_TYPE = itertools.cycle(player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER)
