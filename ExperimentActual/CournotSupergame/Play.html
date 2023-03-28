@@ -2,11 +2,32 @@
     Supergame {{ subsession.sg }}, period {{ subsession.period }}
 {{ endblock }}
 
+
 {{ block content }}
 
      {{ formfields }}
 
     {{ next_button }}
 
+{{ if table_to_display }}
+    <table>
+    {{ for row in table_to_display }}
+      <tr>
+        {{ for cell in row }}
+          <td>{{ cell }}</td>
+        {{ endfor }}
+      </tr>
+    {{ endfor }}
+    </table>
+  {{ else }}
+    <p>No data available.</p>
+  {{ endif }}
+
+
 
 {{ endblock }}
+
+
+
+
+

@@ -6,7 +6,7 @@ doc = """
 Cournot Supergames asdasdasdads
 """
 # setting the average number of rounds (i.e. through a max value on a die)
-NUMBER_ROS = 3
+NUMBER_ROS = 10
 
 
 def cumsum(lst):
@@ -190,7 +190,7 @@ def calculate_profits_and_compensation(list_my_choices, list_other_choices, my_c
         my_compensation = my_profit
         if my_contract == True:
             my_compensation = (1 + C.GAMMA) * my_profit - C.GAMMA * other_profit
-        profits_and_compensation.append([my_profit, other_profit, my_compensation])
+        profits_and_compensation.append([list_my_choices[period], list_other_choices[period], my_profit, other_profit, my_compensation])
     return profits_and_compensation
 
 
@@ -232,11 +232,12 @@ class Play(Page):
             print(table_to_display)
             print("my actions", my_actions)
             print("other_actions", other_actions)
-
+        else:
+            table_to_display=[]
             # print(xx[0])
             # print(player.in_previous_rounds())
 
-        return dict(other_player_units=other_player(player).CHOICE_IN_ROUNDS)
+        return dict(table_to_display=table_to_display)
     # The vars for template function creates variables that can be used in the play.html and "newSupergame".
     # After period 1 in each supergame, we would display the history of previous plays which include my_action (a list of periods from 1 to current period),
     # Others_action( a list of periods from 1 to current period) and "table_to_display" which is a list of lists of the type [profit of my firm, profit of the other firm, my compensation]
