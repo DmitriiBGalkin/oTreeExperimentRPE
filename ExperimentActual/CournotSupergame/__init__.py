@@ -6,7 +6,7 @@ doc = """
 Cournot Supergames asdasdasdads
 """
 # setting the average number of rounds (i.e. through a max value on a die)
-NUMBER_ROS = 10
+NUMBER_ROS = 4
 
 
 def cumsum(lst):
@@ -224,11 +224,15 @@ class Play(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
+        CONTRACT_TYPE = player.CONTRACT_TYPE_RP
+        YOUR_CONTRACT = "CONTRACT A" if (CONTRACT_TYPE == False) else "CONTRACT B"
+        CONTRACT_TYPE_OTHER = other_player(player).CONTRACT_TYPE_RP
+        OTHER_CONTRACT = "CONTRACT A" if (CONTRACT_TYPE_OTHER == False) else "CONTRACT B"
         if player.subsession.period > 1:
             print("subsession:", player.subsession.sg, "Subsession Starts", C.SG_STARTS[player.subsession.sg - 1])
             my_actions = get_actions_in_previous_rounds_in_SG(player)
             other_actions = get_actions_in_previous_rounds_in_SG(other_player(player))
-            table_to_display = calculate_profits_and_compensation(my_actions, other_actions, player.CONTRACT_TYPE_RP)
+            table_to_display = calculate_profits_and_compensation(my_actions, other_actions, CONTRACT_TYPE)
             print(table_to_display)
             print("my actions", my_actions)
             print("other_actions", other_actions)
@@ -237,7 +241,11 @@ class Play(Page):
             # print(xx[0])
             # print(player.in_previous_rounds())
 
-        return dict(table_to_display=table_to_display)
+        return dict(
+            table_to_display=table_to_display,
+            your_contract=YOUR_CONTRACT,
+            other_contract=OTHER_CONTRACT
+        )
     # The vars for template function creates variables that can be used in the play.html and "newSupergame".
     # After period 1 in each supergame, we would display the history of previous plays which include my_action (a list of periods from 1 to current period),
     # Others_action( a list of periods from 1 to current period) and "table_to_display" which is a list of lists of the type [profit of my firm, profit of the other firm, my compensation]

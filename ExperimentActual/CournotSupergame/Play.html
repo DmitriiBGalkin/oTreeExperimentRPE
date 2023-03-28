@@ -1,5 +1,7 @@
 {{ block title }}
-    Supergame {{ subsession.sg }}, period {{ subsession.period }}
+    Supergame {{ subsession.sg }}, period {{ subsession.period }} <br>
+    Your contract is {{your_contract}}<br>
+    Other firm's contract is {{other_contract}}
 {{ endblock }}
 
 
@@ -11,6 +13,13 @@
 
 {{ if table_to_display }}
     <table>
+    <tr>
+        <th>My output</th>
+        <th>Other firm's output</th>
+        <th>My firm profit</th>
+        <th>Other firm's profit</th>
+        <th>My compensation</th>
+      </tr>
     {{ for row in table_to_display }}
       <tr>
         {{ for cell in row }}
@@ -20,7 +29,19 @@
     {{ endfor }}
     </table>
   {{ else }}
-    <p>No data available.</p>
+    <table>
+    <tr>
+        <th>My output</th>
+        <th>Other firm's output</th>
+        <th>My firm profit</th>
+        <th>Other firm's profit</th>
+        <th>My compensation</th>
+    </tr>
+    <tr>
+        No data
+    </tr>
+
+    </table>
   {{ endif }}
 
 
