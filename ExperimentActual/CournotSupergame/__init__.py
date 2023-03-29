@@ -6,7 +6,7 @@ doc = """
 Cournot Supergames asdasdasdads
 """
 # setting the average number of rounds (i.e. through a max value on a die)
-NUMBER_ROS = 4
+NUMBER_ROS = 3
 
 
 def cumsum(lst):

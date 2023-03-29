@@ -1,54 +1,152 @@
 {{ block title }}
-    Supergame {{ subsession.sg }}, period {{ subsession.period }} <br>
-    Your contract is {{your_contract}}<br>
-    Other firm's contract is {{other_contract}}
+    <h1>Supergame {{ subsession.sg }}, period {{ subsession.period }}</h1>
+    <p>Your contract is {{ your_contract }}</p>
+    <p>Other firm's contract is {{ other_contract }}</p>
 {{ endblock }}
-
 
 {{ block content }}
+<style>
+.otree-body {
+    max-width:85%;
+    margin: 0 auto
+}
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
 
-     {{ formfields }}
+/* Style the title block */
+h1 {
+  font-size: 24px;
+  margin-top: 0;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
 
+p {
+  margin-bottom: 10px;
+}
+
+/* Style the main container */
+.main-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the text box */
+.text-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the sub container */
+.sub-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the calculator box */
+.calculator-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the table box */
+.table-box {
+  flex-basis: 60%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the table title */
+.table-box h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+/* Style the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Style the "No data available" message */
+p.no-data {
+  font-style: italic;
+  color:
+
+</style>
+
+<div class="main-container">
+  <div class="text-box">
+    <h2>Instructions</h2>
+    <div class="text-box">
+            <p> Welcome to the experiment! In this task, you will be presented with a series of images and asked to rate them on how attractive they are. Please take your time when rating each image and try to be as accurate as possible.
+
+            Before we begin, please make sure that you are in a quiet environment and can concentrate without any interruptions. Please also ensure that your device has a stable internet connection, and that your screen brightness is adjusted appropriately. </p>
+    </div>
+  </div>
+</div>
+
+<div class="sub-container">
+  <div class="calculator-box">
+    <h2>Calculator</h2>
+    {{ formfields }}
     {{ next_button }}
+  </div>
 
-{{ if table_to_display }}
+  <div class="table-box">
+    <h2>Past History</h2>
+    {% if table_to_display %}
     <table>
-    <tr>
-        <th>My output</th>
-        <th>Other firm's output</th>
-        <th>My firm profit</th>
-        <th>Other firm's profit</th>
-        <th>My compensation</th>
-      </tr>
-    {{ for row in table_to_display }}
       <tr>
-        {{ for cell in row }}
-          <td>{{ cell }}</td>
-        {{ endfor }}
-      </tr>
-    {{ endfor }}
-    </table>
-  {{ else }}
-    <table>
-    <tr>
         <th>My output</th>
         <th>Other firm's output</th>
         <th>My firm profit</th>
         <th>Other firm's profit</th>
         <th>My compensation</th>
-    </tr>
-    <tr>
-        No data
-    </tr>
-
+      </tr>
+      {% for row in table_to_display %}
+      <tr>
+        {% for cell in row %}
+        <td>{{ cell }}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
     </table>
-  {{ endif }}
+    {% else %}
+    <p class="no-data">No data available</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="sub-container">
+  <div class="button-box">
+    <div class="form-fields">
+      {{ formfields }}
+    </div>
+    <div class="button-container">
+      {{ next_button }}
+    </div>
+  </div>
+</div>
 
 
 
 {{ endblock }}
-
-
-
-
-
