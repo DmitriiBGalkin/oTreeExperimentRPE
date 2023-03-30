@@ -1,10 +1,4 @@
-{{ block title }}
-    <h1>Supergame {{ subsession.sg }}, period {{ subsession.period }}</h1>
-    <p>Your contract is {{ your_contract }}</p>
-    <p>Other firm's contract is {{ other_contract }}</p>
-{{ endblock }}
-
-{{ block content }}
+{{ block style }}
 <style>
 .otree-body {
     max-width:85%;
@@ -92,7 +86,109 @@ p.no-data {
   color:
 
 </style>
+{{ endblock }}
 
+
+{{ block scripts}}
+<script>
+var sliderA = document.getElementById("sliderRangeA");
+var sliderB = document.getElementById("sliderRangeB");
+var outputA = document.getElementById("sliderFirmA");
+var outputB = document.getElementById("sliderFirmB");
+
+b1="";
+b2="";
+ProfitA=0;
+let firmAChoice=0;
+let firmBChoice=0;
+
+let prohPrice=100;
+//prohibitive price
+let posProfit=100;
+let gamma=1;
+let message='Your firm is not making profits, your total payment is 0. ';
+
+sliderA.oninput = function() {
+outputA.innerHTML = this.value; // display value A in HTML
+firmAChoice=this.value*1; // value A in slider
+};
+sliderB.oninput = function() {
+outputB.innerHTML = this.value; // display value A in HTML
+firmBChoice=this.value*1;// value B in slider
+
+};
+
+[sliderA,sliderB].forEach(function(element) {
+	element.addEventListener("input", function() {
+  	if (firmAChoice+firmBChoice<prohPrice){
+        profitA=(prohPrice-firmAChoice-firmBChoice)*firmAChoice;
+        profitB=(prohPrice-firmAChoice-firmBChoice)*firmBChoice;
+        if(profitA>0){
+       		firmAContractPayment=posProfit+profitA;
+          firmABonus=posProfit;
+        	} else {
+        	firmAContractPayment=0;
+          firmABonus=0;
+        	}
+        if(profitB>0){
+        	apContractPayment=posProfit+profitB;
+          firmBBonus=posProfit;
+        	} else {
+        	apContractPayment=0;
+        	}
+         if(profitB>0){
+        	 rpContractPayment=posProfit+profitB+gamma*(profitB-profitA);
+           firmBBonus=posProfit+gamma*(profitB-profitA);
+           message='Your bonus is 100 + (Profit of Firm B - profit of Firm A) ';
+        	} else {
+        	rpContractPayment=0;
+        	firmBBonus=posProfit+gamma*(profitB-profitA);
+        	}
+
+
+       if (rpContractPayment<0){
+      	rpContractPayment=0;
+        firmBBonus=posProfit+gamma*(profitB-profitA);
+        message='Your bonus is less than the profits of the firm, your total payment is 0.';
+      } else {
+        message='Your bonus is 100 + (Profit of Firm B - profit of Firm A) ';
+      }
+      if (firmBChoice==0){
+        firmBBonus=0;
+        message='Your firm is not producing any quantity, your total payment is 0.';
+      }
+    } else {
+    profitA=0;
+    profitB=0;
+    apContractPayment=0;
+    rpContractPayment=0;
+    firmAContractPayment=0;
+    firmABonus=0;
+    firmBBonus=0;
+    message='Total production exceeds maximum of 80. Your total payment is 0. ';
+    }
+		firmAProfit.innerHTML=profitA.toFixed(0);
+
+    firmBProfit.innerHTML=profitB.toFixed(0);
+    bonusFirmA.innerHTML=firmABonus.toFixed(0);
+    bonusFirmB.innerHTML=firmBBonus.toFixed(0);
+    rpContract.innerHTML=rpContractPayment.toFixed(0);
+    firmAContract.innerHTML=firmAContractPayment.toFixed(0);
+    messageContract.innerHTML=message;
+  });
+});
+</script>
+{{ endblock }}
+
+
+
+{{ block title }}
+    <h1>Supergame {{ subsession.sg }}, period {{ subsession.period }}</h1>
+    <p>Your contract is {{ your_contract }}</p>
+    <p>Other firm's contract is {{ other_contract }}</p>
+{{ endblock }}
+
+{{ block content }}
 <div class="main-container">
   <div class="text-box">
     <h2>Instructions</h2>
@@ -107,8 +203,233 @@ p.no-data {
 <div class="sub-container">
   <div class="calculator-box">
     <h2>Calculator</h2>
-    {{ formfields }}
-    {{ next_button }}
+    <br>
+<meta name="viewport" content="width=device-width, initial-scale=2">
+<style>
+.responsive {
+    width: auto;
+    height: auto;
+  }
+
+  .slidecontainer {
+    margin-left: 1%;
+    margin-right: 1%;
+    width: 98%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .center {
+    margin-left: 10%;
+  }
+  .slidertable { /*This is a table for slider and ticks */
+     table-layout: fixed;
+      width: 100%;
+      max-width: 900px;
+  }
+
+  .infotable {
+   border: 2px solid black;
+    table-layout: fixed;
+    width: 90%;
+    padding: 10px;
+    max-width: 600px;
+    border-spacing: 5px;
+  }
+  .slides::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  .slides::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 5px;
+  }
+
+  .slides::-webkit-scrollbar-track {
+    background: transparent;
+  }
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #000000;
+  height: 25px;
+  width: 13px;
+  border-radius: 3px;
+  background: #ff0000;
+  cursor: pointer;
+  margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 25px;
+  width: 13px;
+  border-radius: 3px;
+  background: #ff0000;
+  cursor: pointer;
+}
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 25px;
+  width: 13px;
+  border-radius: 3px;
+  background: #ff0000;
+  cursor: pointer;
+}
+
+  .slider {
+    -webkit-appearance: none;
+    width: 99%;
+    /* <-- Problem was here when width is 100% */
+    height: 15px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+
+  .sliderticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+
+  .sliderticks p {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 2px;
+    background: #D3D3D3;
+    height: 10px;
+    line-height: 40px;
+    margin: 0 0 20 0;
+  }
+
+</style>
+
+
+<div class="slidecontainer">
+  <h3 style="font-size: 20px;"><b> Firms' Profit Calculator </b></h3>
+  <table class="slidertable">
+    <tbody>
+      <tr>
+        <td style="text-align:center;">
+          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">Firm A (Another participant) chooses: <span id="sliderFirmA"></span><br></span></h3>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="range" min="0" max="80" value="0" class="slider" id="sliderRangeA" step="1"></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="sliderticks">
+             <p>0</p>
+            <p>10</p>
+            <p>20</p>
+            <p>30</p>
+            <p>40</p>
+            <p>50</p>
+            <p>60</p>
+            <p>70</p>
+            <p>80</p>
+          </div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+  <table class="slidertable" style="margin-top:15px;">
+    <tbody>
+      <tr>
+        <td style="text-align:center;">
+          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">Firm B (You) chooses: <span id="sliderFirmB"></span><br></span></h3>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="range" min="0" max="80" value="0" class="slider" id="sliderRangeB" step="1"></td>
+      </tr>
+      <tr>
+        <td>
+          <div class="sliderticks">
+               <p>0</p>
+            <p>10</p>
+            <p>20</p>
+            <p>30</p>
+            <p>40</p>
+            <p>50</p>
+            <p>60</p>
+            <p>70</p>
+            <p>80</p>
+          </div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+
+  <h3 style="font-size: 16px;"><b> Payments to you and the participant you are matched with:</b></h3>
+
+<table class="infotable" style="text-align: center; margin-top: 30px;">
+
+
+
+
+    <colgroup>
+      <col style="width:61%">
+      <col style="width:13%">
+      <col style="width:13%">
+      <col style="width:13%">
+    </colgroup>
+
+    <tbody>
+      <tr>
+        <td> </td>
+        <td> <b>Profits</b></td>
+        <td> <b>Bonus</b></td>
+        <td> <b>Total</b></td>
+      </tr>
+
+      <tr>
+        <td> &nbsp;<b>Manager of Firm A (another participant):</b></td>
+        <td> <b><span id="firmAProfit"></span></b></td>
+        <td> <span id="bonusFirmA"></span></td>
+        <td> <b><span id="firmAContract"></span> EP</b></td>
+      </tr>
+      <tr>
+        <td><b>&nbsp;Your Payment under current contract*:</b></td>
+        <td> <b><span id="firmBProfit"></span></b></td>
+        <td> <span id="bonusFirmB"></span></td>
+        <td> <b> <span id="rpContract"></span> EP</b></td>
+      </tr>
+      <tr>
+      </tr>
+    </tbody>
+  </table>
+    <table class="infotable" style="text-align: center; margin-top: 10px;">
+      <tbody>
+        <tr>
+          <td style="text-align: center;"> &nbsp; <b> <span id="messageContract"></span></b> </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+</div>
+
   </div>
 
   <div class="table-box">
@@ -147,6 +468,11 @@ p.no-data {
   </div>
 </div>
 
+{{ endblock }}
 
+
+
+
+{{ block calculator}}
 
 {{ endblock }}
