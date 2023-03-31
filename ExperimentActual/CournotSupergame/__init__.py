@@ -246,6 +246,12 @@ class Play(Page):
             your_contract=YOUR_CONTRACT,
             other_contract=OTHER_CONTRACT
         )
+
+    @staticmethod
+    def js_vars(player):
+        return dict(
+            CONTRACT_RP=player.CONTRACT_TYPE_RP,
+        )
     # The vars for template function creates variables that can be used in the play.html and "newSupergame".
     # After period 1 in each supergame, we would display the history of previous plays which include my_action (a list of periods from 1 to current period),
     # Others_action( a list of periods from 1 to current period) and "table_to_display" which is a list of lists of the type [profit of my firm, profit of the other firm, my compensation]

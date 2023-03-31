@@ -72,12 +72,14 @@ table {
 th,
 td {
   padding: 8px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #ddd;
 }
 
 th {
   background-color: #f2f2f2;
+  text-align: center;
+  border-bottom: 1px solid #ddd
 }
 
 /* Style the "No data available" message */
@@ -103,17 +105,26 @@ let firmAChoice=0;
 let firmBChoice=0;
 
 let prohPrice=100;
+bonus_fixed=100
 //prohibitive price
-let posProfit=100;
+let CONTRACT_TYPE_RP = js_vars.CONTRACT_RP
 let gamma=1;
 let message='Your firm is not making profits, your total payment is 0. ';
+
+if (CONTRACT_TYPE_RP) {
+  message_for_instructions='Your total compensation for this round is TOTAL COMP = (Your profit) + 100 + (Your profit - Profit of other firm)';
+} else {
+  message_for_instructions='Your total compensation for this round is TOTAL COMP = (Your profit) + 100';
+}
+message_instructions.innerHTML=message_for_instructions;
+
 
 sliderA.oninput = function() {
 outputA.innerHTML = this.value; // display value A in HTML
 firmAChoice=this.value*1; // value A in slider
 };
 sliderB.oninput = function() {
-outputB.innerHTML = this.value; // display value A in HTML
+outputB.innerHTML = this.value; // display value B in HTML
 firmBChoice=this.value*1;// value B in slider
 
 };
@@ -123,57 +134,37 @@ firmBChoice=this.value*1;// value B in slider
   	if (firmAChoice+firmBChoice<prohPrice){
         profitA=(prohPrice-firmAChoice-firmBChoice)*firmAChoice;
         profitB=(prohPrice-firmAChoice-firmBChoice)*firmBChoice;
-        if(profitA>0){
-       		firmAContractPayment=posProfit+profitA;
-          firmABonus=posProfit;
-        	} else {
-        	firmAContractPayment=0;
-          firmABonus=0;
-        	}
-        if(profitB>0){
-        	apContractPayment=posProfit+profitB;
-          firmBBonus=posProfit;
-        	} else {
-        	apContractPayment=0;
-        	}
-         if(profitB>0){
-        	 rpContractPayment=posProfit+profitB+gamma*(profitB-profitA);
-           firmBBonus=posProfit+gamma*(profitB-profitA);
-           message='Your bonus is 100 + (Profit of Firm B - profit of Firm A) ';
-        	} else {
-        	rpContractPayment=0;
-        	firmBBonus=posProfit+gamma*(profitB-profitA);
-        	}
-
-
-       if (rpContractPayment<0){
-      	rpContractPayment=0;
-        firmBBonus=posProfit+gamma*(profitB-profitA);
-        message='Your bonus is less than the profits of the firm, your total payment is 0.';
-      } else {
-        message='Your bonus is 100 + (Profit of Firm B - profit of Firm A) ';
-      }
-      if (firmBChoice==0){
-        firmBBonus=0;
-        message='Your firm is not producing any quantity, your total payment is 0.';
+        if(CONTRACT_TYPE_RP){
+          firmBBonus=bonus_fixed+gamma*(profitB-profitA);
+          total_compensation=profitB+firmBBonus;
+          message='Your firm`s profits are ' + profitB + '. Your bonus is ' + firmBBonus + '. Your total compensation is ' + total_compensation + '.';
+          if (total_compensation<0){
+            total_compensation = 0;
+            message = 'Your bonus is negative and exceeds the profits. Your total compensation is 0.'};
+        } else {
+          firmBBonus=bonus_fixed
+          total_compensation=profitB+firmBBonus;
+          message='Your firm`s profits are ' + profitB + '. Your bonus is ' + firmBBonus + '. Your total compensation is ' + total_compensation + '.';
+          if (total_compensation<0){
+            total_compensation = 0;
+            message = 'Your bonus is negative and exceeds the profits. Your total compensation is 0.'};
+        }
+        if (firmBChoice==0){
+          firmBBonus=0;
+          total_compensation=profitB+firmBBonus;
+          message='Your firm is not producing any quantity, your total compensation is 0.';
       }
     } else {
     profitA=0;
     profitB=0;
-    apContractPayment=0;
-    rpContractPayment=0;
-    firmAContractPayment=0;
-    firmABonus=0;
     firmBBonus=0;
-    message='Total production exceeds maximum of 80. Your total payment is 0. ';
-    }
-		firmAProfit.innerHTML=profitA.toFixed(0);
 
+    message='Total production is at the maximum of 100. Your total compensation is 0. ';
+    }
+	firmAProfit.innerHTML=profitA.toFixed(0);
     firmBProfit.innerHTML=profitB.toFixed(0);
-    bonusFirmA.innerHTML=firmABonus.toFixed(0);
-    bonusFirmB.innerHTML=firmBBonus.toFixed(0);
-    rpContract.innerHTML=rpContractPayment.toFixed(0);
-    firmAContract.innerHTML=firmAContractPayment.toFixed(0);
+    my_bonusFirmB.innerHTML=firmBBonus.toFixed(0);
+    my_total_compensation.innerHTML=total_compensation.toFixed(0);
     messageContract.innerHTML=message;
   });
 });
@@ -184,8 +175,6 @@ firmBChoice=this.value*1;// value B in slider
 
 {{ block title }}
     <h1>Supergame {{ subsession.sg }}, period {{ subsession.period }}</h1>
-    <p>Your contract is {{ your_contract }}</p>
-    <p>Other firm's contract is {{ other_contract }}</p>
 {{ endblock }}
 
 {{ block content }}
@@ -193,17 +182,16 @@ firmBChoice=this.value*1;// value B in slider
   <div class="text-box">
     <h2>Instructions</h2>
     <div class="text-box">
-            <p> Welcome to the experiment! In this task, you will be presented with a series of images and asked to rate them on how attractive they are. Please take your time when rating each image and try to be as accurate as possible.
-
-            Before we begin, please make sure that you are in a quiet environment and can concentrate without any interruptions. Please also ensure that your device has a stable internet connection, and that your screen brightness is adjusted appropriately. </p>
+      <p> In this round your contract is <b>{{ your_contract }}</b>. The participant you are matched with has a contract <b>{{ other_contract }}</b> . Please make a choice for the amount of good you are to produce. </p>
+      <p> The market price is PRICE = 100 - (your quantity) - (quantity chosen by another participant) </p>
+      <p> The profits are (PRICE*QUANTITY) </p>
+      <p> <span id="message_instructions"></span></p>
     </div>
   </div>
 </div>
 
 <div class="sub-container">
   <div class="calculator-box">
-    <h2>Calculator</h2>
-    <br>
 <meta name="viewport" content="width=device-width, initial-scale=2">
 <style>
 .responsive {
@@ -236,7 +224,6 @@ firmBChoice=this.value*1;// value B in slider
     table-layout: fixed;
     width: 90%;
     padding: 10px;
-    max-width: 600px;
     border-spacing: 5px;
   }
   .slides::-webkit-scrollbar {
@@ -325,12 +312,12 @@ input[type=range]::-ms-thumb {
     <tbody>
       <tr>
         <td style="text-align:center;">
-          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">Firm A (Another participant) chooses: <span id="sliderFirmA"></span><br></span></h3>
+          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">If the other participant chooses: <span id="sliderFirmA"></span><br></span></h3>
         </td>
       </tr>
       <tr>
         <td>
-          <input type="range" min="0" max="80" value="0" class="slider" id="sliderRangeA" step="1"></td>
+          <input type="range" min="0" max="50" value="0" class="slider" id="sliderRangeA" step="1"></td>
       </tr>
       <tr>
         <td>
@@ -341,9 +328,6 @@ input[type=range]::-ms-thumb {
             <p>30</p>
             <p>40</p>
             <p>50</p>
-            <p>60</p>
-            <p>70</p>
-            <p>80</p>
           </div>
         </td>
       </tr>
@@ -354,12 +338,12 @@ input[type=range]::-ms-thumb {
     <tbody>
       <tr>
         <td style="text-align:center;">
-          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">Firm B (You) chooses: <span id="sliderFirmB"></span><br></span></h3>
+          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">And you choose: <span id="sliderFirmB"></span><br></span></h3>
         </td>
       </tr>
       <tr>
         <td>
-          <input type="range" min="0" max="80" value="0" class="slider" id="sliderRangeB" step="1"></td>
+          <input type="range" min="0" max="50" value="0" class="slider" id="sliderRangeB" step="1"></td>
       </tr>
       <tr>
         <td>
@@ -370,9 +354,6 @@ input[type=range]::-ms-thumb {
             <p>30</p>
             <p>40</p>
             <p>50</p>
-            <p>60</p>
-            <p>70</p>
-            <p>80</p>
           </div>
         </td>
       </tr>
@@ -380,44 +361,34 @@ input[type=range]::-ms-thumb {
     </tbody>
   </table>
 
+<br>
+  <h3 style="font-size: 16px;"><b> Firms' profits and your compensation</b></h3>
 
-  <h3 style="font-size: 16px;"><b> Payments to you and the participant you are matched with:</b></h3>
-
-<table class="infotable" style="text-align: center; margin-top: 30px;">
-
-
-
+  <table class="infotable" style="text-align: center; margin-top: 10px; border-collapse: collapse;">
 
     <colgroup>
-      <col style="width:61%">
-      <col style="width:13%">
-      <col style="width:13%">
-      <col style="width:13%">
+      <col style="width:25%; border: 1px solid black;">
+      <col style="width:25%; border: 1px solid black;">
+      <col style="width:15%; border: 1px solid black;">
+      <col style="width:30%; border: 1px solid black;">
     </colgroup>
 
     <tbody>
       <tr>
-        <td> </td>
-        <td> <b>Profits</b></td>
-        <td> <b>Bonus</b></td>
-        <td> <b>Total</b></td>
+        <td><b>My firm's profits</b></td>
+        <td><b>Other firm's profits</b></td>
+        <td><b>My bonus</b></td>
+        <td><b>My total compensation</b></td>
       </tr>
 
       <tr>
-        <td> &nbsp;<b>Manager of Firm A (another participant):</b></td>
-        <td> <b><span id="firmAProfit"></span></b></td>
-        <td> <span id="bonusFirmA"></span></td>
-        <td> <b><span id="firmAContract"></span> EP</b></td>
-      </tr>
-      <tr>
-        <td><b>&nbsp;Your Payment under current contract*:</b></td>
-        <td> <b><span id="firmBProfit"></span></b></td>
-        <td> <span id="bonusFirmB"></span></td>
-        <td> <b> <span id="rpContract"></span> EP</b></td>
-      </tr>
-      <tr>
+        <td><b><span id="firmBProfit"></span></b></td>
+        <td><b><span id="firmAProfit"></span></b></td>
+        <td><b><span id="my_bonusFirmB"></span></b></td>
+        <td><b><span id="my_total_compensation"></span></b></td>
       </tr>
     </tbody>
+
   </table>
     <table class="infotable" style="text-align: center; margin-top: 10px;">
       <tbody>
@@ -433,7 +404,7 @@ input[type=range]::-ms-thumb {
   </div>
 
   <div class="table-box">
-    <h2>Past History</h2>
+    <h3 style="font-size: 20px;"><b> Past History (with this participant) </b></h3>
     {% if table_to_display %}
     <table>
       <tr>
