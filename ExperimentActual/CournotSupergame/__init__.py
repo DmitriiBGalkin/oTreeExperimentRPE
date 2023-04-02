@@ -55,7 +55,7 @@ def return_lists(my_list):
     result_list = []
     for i in range(len(my_list[0])):
         result_list.append([sublist[i] for sublist in my_list])
-    return (result_list)
+    return result_list
 
 
 SUPERGAME_1 = random_numbers_until()
@@ -73,7 +73,8 @@ class C(BaseConstants):
     MIN_ROUNDS = NUMBER_ROS
     ROUNDS_PER_SG = [max(MIN_ROUNDS, len(SUPERGAME_1)), max(MIN_ROUNDS, len(SUPERGAME_2)),
                      max(MIN_ROUNDS, len(SUPERGAME_3)), max(MIN_ROUNDS, len(SUPERGAME_4))]
-    # In the ROUNDS_PER_SG each supergame consist of at least MIN_ROUNDS rounds. If there are less rounds in the supergame, then only those up to the len(supergame) would be payoff-relevant
+    # In the ROUNDS_PER_SG each supergame consist of at least MIN_ROUNDS rounds.
+    # If there are less rounds in the supergame then only those up to the len(supergame) would be payoff-relevant
     SG_ENDS = cumsum(ROUNDS_PER_SG)
     SG_STARTS = calculate_game_starts(ROUNDS_PER_SG)
     print('SG_ENDS is', SG_ENDS)
@@ -98,15 +99,18 @@ class C(BaseConstants):
     ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES = itertools.cycle(
         POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
     ITERATED_CONTRACT_ORDERS = itertools.cycle(POSSIBLE_CONTRACT_ALLOCATIONS)
-    # Logic: There are 8 possible orders of how the contracts can be allocated for each supergame. "Repeat elements in the sublist" function then duplicates each contract according to how many rounds are played in a particular supergame.
+    # Logic: There are 8 possible orders of how the contracts can be allocated for each supergame.
+    # "Repeat elements in the sublist" function then duplicates each contract according to how many rounds are played in a particular supergame.
     # We then assign this list to a participant. When we need to know which contract he is playing in round i, we just call this list[i].
     # The next step is to organise the groups and then reshuffle them for each supergame
     TOTAL_CAPACITY = 100
     MAX_UNITS_PER_PLAYER = int(TOTAL_CAPACITY / 2)
     GAMMA = 1
-    #The above are constants for market environment
+    # The above are constants for market environment
 
-class Subsession(BaseSubsession):  # Creating fields in the subsession class
+
+class Subsession(BaseSubsession):
+    # Creating fields in the subsession class
     sg = models.IntegerField()
     period = models.IntegerField()
     is_last_period = models.BooleanField()
@@ -142,7 +146,7 @@ def creating_session(subsession: Subsession):
         # Assigning each player
         player.ORDER = ", ".join(player.participant.CONTRACT_ORDER)
         player.CONTRACT_TYPE_RP = True if (
-                    next(player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER_CONTRACT_TYPE)[0] == "R") else False
+                next(player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER_CONTRACT_TYPE)[0] == "R") else False
 
 
 class Group(BaseGroup):
@@ -173,11 +177,11 @@ def calculate_payoffs(group: Group):
     for p in players:
         print(p.CONTRACT_TYPE_RP)
         p.FIRM_PROFITS = group.UNIT_PRICE * p.UNITS
-        if p.CONTRACT_TYPE_RP == False:
+        if not p.CONTRACT_TYPE_RP:
             p.payoff = p.FIRM_PROFITS
-        if p.CONTRACT_TYPE_RP == True:
-            p.payoff = group.UNIT_PRICE * p.UNITS * (1 + C.GAMMA) - group.UNIT_PRICE * C.GAMMA * (
-                        group.TOTAL_UNITS - p.UNITS)
+        if p.CONTRACT_TYPE_RP:
+            p.payoff = max(0, group.UNIT_PRICE * p.UNITS * (1 + C.GAMMA) - group.UNIT_PRICE * C.GAMMA * (
+                        group.TOTAL_UNITS - p.UNITS))
         p.CHOICE_IN_ROUNDS = p.UNITS
 
 
@@ -188,9 +192,10 @@ def calculate_profits_and_compensation(list_my_choices, list_other_choices, my_c
         my_profit = price * list_my_choices[period]
         other_profit = price * list_other_choices[period]
         my_compensation = my_profit
-        if my_contract == True:
-            my_compensation = (1 + C.GAMMA) * my_profit - C.GAMMA * other_profit
-        profits_and_compensation.append([list_my_choices[period], list_other_choices[period], my_profit, other_profit, my_compensation])
+        if my_contract:
+            my_compensation = max(0, (1 + C.GAMMA) * my_profit - C.GAMMA * other_profit)
+        profits_and_compensation.append(
+            [list_my_choices[period], list_other_choices[period], my_profit, other_profit, my_compensation])
     return profits_and_compensation
 
 
@@ -205,7 +210,7 @@ def get_actions_in_previous_rounds_in_SG(player: Player):
         action = round.UNITS
         previous_actions.append(action)
     return (previous_actions[(C.SG_STARTS[player.subsession.sg - 1] - 1):(
-                C.SG_STARTS[player.subsession.sg - 1] - 1 + player.subsession.period)])
+            C.SG_STARTS[player.subsession.sg - 1] - 1 + player.subsession.period)])
 
 
 # PAGES:
@@ -237,7 +242,7 @@ class Play(Page):
             print("my actions", my_actions)
             print("other_actions", other_actions)
         else:
-            table_to_display=[]
+            table_to_display = []
             # print(xx[0])
             # print(player.in_previous_rounds())
 
