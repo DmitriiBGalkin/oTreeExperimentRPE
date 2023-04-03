@@ -6,7 +6,7 @@ doc = """
 Cournot Supergames asdasdasdads
 """
 # setting the average number of rounds (i.e. through a max value on a die)
-NUMBER_ROS = 3
+NUMBER_ROS = 10
 
 
 def cumsum(lst):
@@ -106,6 +106,7 @@ class C(BaseConstants):
     TOTAL_CAPACITY = 100
     MAX_UNITS_PER_PLAYER = int(TOTAL_CAPACITY / 2)
     GAMMA = 1
+    BONUS_FIXED = 100
     # The above are constants for market environment
 
 
@@ -165,7 +166,7 @@ class Player(BasePlayer):
     )
     FIRM_PROFITS = models.CurrencyField()
     CHOICE_IN_ROUNDS = models.IntegerField(initial=0)
-
+    COMPENSATION = models.IntegerField()
 
 # FUNCTIONS:
 
@@ -178,10 +179,10 @@ def calculate_payoffs(group: Group):
         print(p.CONTRACT_TYPE_RP)
         p.FIRM_PROFITS = group.UNIT_PRICE * p.UNITS
         if not p.CONTRACT_TYPE_RP:
-            p.payoff = p.FIRM_PROFITS
+            p.COMPENSATION = p.FIRM_PROFITS + C.BONUS_FIXED
         if p.CONTRACT_TYPE_RP:
-            p.payoff = max(0, group.UNIT_PRICE * p.UNITS * (1 + C.GAMMA) - group.UNIT_PRICE * C.GAMMA * (
-                        group.TOTAL_UNITS - p.UNITS))
+            p.COMPENSATION = max(0, group.UNIT_PRICE * p.UNITS * (1 + C.GAMMA) - group.UNIT_PRICE * C.GAMMA * (
+                        group.TOTAL_UNITS - p.UNITS) + C.BONUS_FIXED)
         p.CHOICE_IN_ROUNDS = p.UNITS
 
 
@@ -193,7 +194,7 @@ def calculate_profits_and_compensation(list_my_choices, list_other_choices, my_c
         other_profit = price * list_other_choices[period]
         my_compensation = my_profit
         if my_contract:
-            my_compensation = max(0, (1 + C.GAMMA) * my_profit - C.GAMMA * other_profit)
+            my_compensation = max(0, C.BONUS_FIXED + (1 + C.GAMMA) * my_profit - C.GAMMA * other_profit)
         profits_and_compensation.append(
             [list_my_choices[period], list_other_choices[period], my_profit, other_profit, my_compensation])
     return profits_and_compensation
@@ -267,6 +268,11 @@ class Play(Page):
 class ResultsWaitPage(WaitPage):
     body_text = "Waiting for the other participant to decide."
     after_all_players_arrive = calculate_payoffs
+
+class FinalResultsPage(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
 
 
 page_sequence = [NewSupergame, Play, ResultsWaitPage]
