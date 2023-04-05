@@ -6,7 +6,7 @@ doc = """
 Cournot Supergames asdasdasdads
 """
 # setting the average number of rounds (i.e. through a max value on a die)
-NUMBER_ROS = 10
+NUMBER_ROS = 3
 
 
 def cumsum(lst):
@@ -125,6 +125,7 @@ def creating_session(subsession: Subsession):
                 C.ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
             player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER_CONTRACT_TYPE = itertools.cycle(
                 player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER)
+            player.WHICH_SUPERGAME = random.randint(1, 4)
         sg = 1
         period = 1
         # loop over all subsessions
@@ -167,7 +168,7 @@ class Player(BasePlayer):
     FIRM_PROFITS = models.CurrencyField()
     CHOICE_IN_ROUNDS = models.IntegerField(initial=0)
     COMPENSATION = models.IntegerField()
-
+    WHICH_SUPERGAME = models.IntegerField()
 # FUNCTIONS:
 
 def calculate_payoffs(group: Group):
@@ -212,6 +213,14 @@ def get_actions_in_previous_rounds_in_SG(player: Player):
         previous_actions.append(action)
     return (previous_actions[(C.SG_STARTS[player.subsession.sg - 1] - 1):(
             C.SG_STARTS[player.subsession.sg - 1] - 1 + player.subsession.period)])
+
+def set_final_payoffs(player: Player): #UNFINISHIED
+    PAYOFF_RELEVANT_SUPERGAME = 1
+    qq = player.in_rounds(C.SG_STARTS[PAYOFF_RELEVANT_SUPERGAME], C.SG_ENDS[PAYOFF_RELEVANT_SUPERGAME])
+    print("ss")
+    print(qq)
+
+
 
 
 # PAGES:
@@ -272,7 +281,8 @@ class ResultsWaitPage(WaitPage):
 class FinalResultsPage(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS
+        return player.round_number == 2
 
 
-page_sequence = [NewSupergame, Play, ResultsWaitPage]
+
+page_sequence = [NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
