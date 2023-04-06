@@ -194,7 +194,7 @@ def calculate_profits_and_compensation(list_my_choices, list_other_choices, my_c
         price = C.TOTAL_CAPACITY - list_my_choices[period] - list_other_choices[period]
         my_profit = price * list_my_choices[period]
         other_profit = price * list_other_choices[period]
-        my_compensation = my_profit
+        my_compensation = my_profit + C.BONUS_FIXED
         if my_contract:
             my_compensation = max(0, C.BONUS_FIXED + (1 + C.GAMMA) * my_profit - C.GAMMA * other_profit)
         profits_and_compensation.append(
@@ -301,9 +301,11 @@ class FinalResultsPage(Page):
         valid_rows = [row for row in display_table_final if isinstance(row[4], int) and row[3] is not None]
         average_payment = sum(row[3] for row in valid_rows) / len(valid_rows)
         player.payoff = average_payment
+        chosen_supergame = player.in_round(1).WHICH_SUPERGAME
         return dict(
             display_table_final = display_table_final,
-            your_final_payoff = average_payment
+            your_final_payoff = average_payment,
+            chosen_supergame = chosen_supergame
         )
 
 page_sequence = [NewSupergame, Play, ResultsWaitPage, FinalResultsPage]

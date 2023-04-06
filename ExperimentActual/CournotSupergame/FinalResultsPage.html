@@ -1,7 +1,130 @@
-<th>Round Number</th>
-              <th>Quantity Chosen</th>
-              <th>Your firm's Profits</th>
-              <th>Your Compensation</th>
-              <th>Random Roll</th>
-              <th>Your Contract</th>
-/* what should be in the table */
+{{ block style }}
+<style>
+.otree-body {
+    max-width:85%;
+    margin: 0 auto
+}
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* Style the title block */
+h1 {
+  font-size: 24px;
+  margin-top: 0;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+/* Style the main container */
+.main-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the text box */
+.text-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the sub container */
+.sub-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the calculator box */
+.calculator-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the table box */
+.table-box {
+  flex-basis: 60%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the table title */
+.table-box h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+/* Style the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  text-align: center;
+  border-bottom: 1px solid #ddd
+}
+
+/* Style the "No data available" message */
+p.no-data {
+  font-style: italic;
+  color:
+
+</style>
+{{ endblock }}
+
+
+{{ block title }}
+    <h1>Final compensation page</h1>
+{{ endblock }}
+
+{{ block content }}
+<div class="table-box">
+    <h3 style="font-size: 20px;"><b> Some text like instructions </b></h3>
+    <br>
+    Thank you for participating in our experiment. We have randomly chosen the supergame {{ chosen_supergame }} to be used for your payment.
+    You can find your actions for this supergame in a table below. On average your compensation in the payoff-relevant rounds was
+    {{ your_final_payoff }}.
+</div>
+<div class="table-box">
+    <h3 style="font-size: 20px;"><b> Your actions in the supergame {{ chosen_supergame}}  </b></h3>
+    {{ if display_table_final }}
+    <table>
+      <tr>
+          <th>Round Number</th>
+          <th>Quantity Chosen</th>
+          <th>Your firm's Profits</th>
+          <th>Your Compensation</th>
+          <th>Random Roll</th>
+          <th>Your Contract</th>
+      </tr>
+      {{ for row in display_table_final }}
+      <tr>
+        {{ for cell in row }}
+        <td>{{ cell }}</td>
+        {{ endfor }}
+      </tr>
+      {{ endfor }}
+    </table>
+    {{ else }}
+    <p class="no-data">No data available</p>
+    {{ endif }}
+</div>
+{{ endblock }}
