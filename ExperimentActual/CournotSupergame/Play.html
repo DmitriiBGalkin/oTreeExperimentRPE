@@ -405,7 +405,7 @@ input[type=range]::-ms-thumb {
 
   <div class="table-box">
     <h3 style="font-size: 20px;"><b> Past History (with this participant) </b></h3>
-    {% if table_to_display %}
+    {{ if table_to_display }}
     <table>
       <tr>
         <th>My output</th>
@@ -414,17 +414,17 @@ input[type=range]::-ms-thumb {
         <th>Other firm's profit</th>
         <th>My compensation</th>
       </tr>
-      {% for row in table_to_display %}
+      {{ for row in table_to_display }}
       <tr>
-        {% for cell in row %}
+        {{ for cell in row }}
         <td>{{ cell }}</td>
-        {% endfor %}
+        {{ endfor }}
       </tr>
-      {% endfor %}
+      {{ endfor }}
     </table>
-    {% else %}
+    {{ else }}
     <p class="no-data">No data available</p>
-    {% endif %}
+    {{ endif }}
   </div>
 </div>
 
@@ -442,8 +442,3 @@ input[type=range]::-ms-thumb {
 {{ endblock }}
 
 
-
-
-{{ block calculator}}
-
-{{ endblock }}

@@ -71,6 +71,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'supergames'
     PLAYERS_PER_GROUP = 2
     MIN_ROUNDS = NUMBER_ROS
+    RANDOM_SEQUENCE_IN_SUPERGAMES = [SUPERGAME_1,SUPERGAME_2,SUPERGAME_3,SUPERGAME_4]
     ROUNDS_PER_SG = [max(MIN_ROUNDS, len(SUPERGAME_1)), max(MIN_ROUNDS, len(SUPERGAME_2)),
                      max(MIN_ROUNDS, len(SUPERGAME_3)), max(MIN_ROUNDS, len(SUPERGAME_4))]
     # In the ROUNDS_PER_SG each supergame consist of at least MIN_ROUNDS rounds.
@@ -125,7 +126,7 @@ def creating_session(subsession: Subsession):
                 C.ITERATED_POSSIBLE_CONTRACT_ORDERS_THROUGH_ALL_SUPERGAMES)
             player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER_CONTRACT_TYPE = itertools.cycle(
                 player.participant.CONTRACTUAL_ORDER_FOR_THIS_PLAYER)
-            player.WHICH_SUPERGAME = random.randint(1, 4)
+            player.WHICH_SUPERGAME = random.randint(0, 3)
         sg = 1
         period = 1
         # loop over all subsessions
@@ -152,7 +153,7 @@ def creating_session(subsession: Subsession):
 
 
 class Group(BaseGroup):
-    UNIT_PRICE = models.CurrencyField()
+    UNIT_PRICE = models.IntegerField()
     TOTAL_UNITS = models.IntegerField(doc="""Total units produced by all players""")
 
 
@@ -165,7 +166,7 @@ class Player(BasePlayer):
         doc="""Quantity of units to produce""",
         label="How many units will you produce (from 0 to 50)?",
     )
-    FIRM_PROFITS = models.CurrencyField()
+    FIRM_PROFITS = models.IntegerField()
     CHOICE_IN_ROUNDS = models.IntegerField(initial=0)
     COMPENSATION = models.IntegerField()
     WHICH_SUPERGAME = models.IntegerField()
@@ -215,11 +216,22 @@ def get_actions_in_previous_rounds_in_SG(player: Player):
             C.SG_STARTS[player.subsession.sg - 1] - 1 + player.subsession.period)])
 
 def set_final_payoffs(player: Player): #UNFINISHIED
-    PAYOFF_RELEVANT_SUPERGAME = 1
+    PAYOFF_RELEVANT_SUPERGAME = 0 #player.WHICH_SUPERGAME
+    RANDOM_SEQUENCE = C.RANDOM_SEQUENCE_IN_SUPERGAMES[PAYOFF_RELEVANT_SUPERGAME]
     qq = player.in_rounds(C.SG_STARTS[PAYOFF_RELEVANT_SUPERGAME], C.SG_ENDS[PAYOFF_RELEVANT_SUPERGAME])
-    print("ss")
-    print(qq)
-
+    table_to_display = []
+    subperiod = 0
+    for round in qq:
+        action = round.field_maybe_none("UNITS")
+        profits = round.field_maybe_none("FIRM_PROFITS")
+        compensation = round.field_maybe_none("COMPENSATION")
+        random_number = RANDOM_SEQUENCE[subperiod] if (subperiod<len(RANDOM_SEQUENCE)) else "Not payoff relevant"
+        contract = "CONTRACT A" if (round.CONTRACT_TYPE_RP == False) else "CONTRACT B"
+        subperiod = subperiod + 1
+        table_to_display.append([subperiod, action, profits, compensation, random_number, contract])
+    print("Table to display - final payoffs")
+    print(table_to_display)
+    return(table_to_display)
 
 
 
@@ -283,6 +295,15 @@ class FinalResultsPage(Page):
     def is_displayed(player: Player):
         return player.round_number == 2
 
-
+    @staticmethod
+    def vars_for_template(player: Player):
+        display_table_final = set_final_payoffs(player)
+        valid_rows = [row for row in display_table_final if isinstance(row[4], int) and row[3] is not None]
+        average_payment = sum(row[3] for row in valid_rows) / len(valid_rows)
+        player.payoff = average_payment
+        return dict(
+            display_table_final = display_table_final,
+            your_final_payoff = average_payment
+        )
 
 page_sequence = [NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
