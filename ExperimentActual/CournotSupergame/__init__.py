@@ -215,8 +215,8 @@ def get_actions_in_previous_rounds_in_SG(player: Player):
     return (previous_actions[(C.SG_STARTS[player.subsession.sg - 1] - 1):(
             C.SG_STARTS[player.subsession.sg - 1] - 1 + player.subsession.period)])
 
-def set_final_payoffs(player: Player): #UNFINISHIED
-    PAYOFF_RELEVANT_SUPERGAME = 0 #player.WHICH_SUPERGAME
+def set_final_payoffs(player: Player): #
+    PAYOFF_RELEVANT_SUPERGAME = player.WHICH_SUPERGAME
     RANDOM_SEQUENCE = C.RANDOM_SEQUENCE_IN_SUPERGAMES[PAYOFF_RELEVANT_SUPERGAME]
     qq = player.in_rounds(C.SG_STARTS[PAYOFF_RELEVANT_SUPERGAME], C.SG_ENDS[PAYOFF_RELEVANT_SUPERGAME])
     table_to_display = []
@@ -293,7 +293,7 @@ class ResultsWaitPage(WaitPage):
 class FinalResultsPage(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == 2
+        return player.round_number == C.NUM_ROUNDS
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -307,5 +307,6 @@ class FinalResultsPage(Page):
             your_final_payoff = average_payment,
             chosen_supergame = chosen_supergame
         )
+
 
 page_sequence = [NewSupergame, Play, ResultsWaitPage, FinalResultsPage]

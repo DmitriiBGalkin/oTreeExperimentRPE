@@ -4,7 +4,8 @@ SESSION_CONFIGS = [
      dict(
          name='supergames',
          app_sequence=['CournotSupergame'],
-        num_demo_participants=16,
+         num_demo_participants=16,
+         use_browser_bots=True
         ),
 ]
 
