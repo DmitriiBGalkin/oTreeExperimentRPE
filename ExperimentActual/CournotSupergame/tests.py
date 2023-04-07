@@ -1,4 +1,5 @@
 from otree.api import *
+from . import *
 
 class PlayerBot(Bot):
     def play_round(self):
@@ -6,6 +7,3 @@ class PlayerBot(Bot):
 
         yield Play, dict(UNITS=20)
 
-        yield ResultsWaitPage
-
-        yield FinalResultsPage

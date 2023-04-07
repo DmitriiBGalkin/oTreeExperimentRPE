@@ -237,7 +237,7 @@ def set_final_payoffs(player: Player): #
 
 # PAGES:
 class NewSupergame(Page):
-    wait_for_all_groups = True
+    #wait_for_all_groups = True
 
     @staticmethod
     def is_displayed(player: Player):
