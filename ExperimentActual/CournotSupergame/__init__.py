@@ -6,7 +6,7 @@ doc = """
 Cournot Supergames asdasdasdads
 """
 # setting the average number of rounds (i.e. through a max value on a die)
-NUMBER_ROS = 3
+NUMBER_ROS = 10
 
 
 def cumsum(lst):
@@ -236,6 +236,27 @@ def set_final_payoffs(player: Player): #
 
 
 # PAGES:
+
+
+class IntroductionGeneral(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+
+class IntroductionMarket(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+
+class IntroductionGame(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+
+
 class NewSupergame(Page):
     #wait_for_all = True
 
@@ -260,9 +281,9 @@ class Play(Page):
             my_actions = get_actions_in_previous_rounds_in_SG(player)
             other_actions = get_actions_in_previous_rounds_in_SG(other_player(player))
             table_to_display = calculate_profits_and_compensation(my_actions, other_actions, CONTRACT_TYPE)
-            print(table_to_display)
-            print("my actions", my_actions)
-            print("other_actions", other_actions)
+            #print(table_to_display)
+            #print("my actions", my_actions)
+            #print("other_actions", other_actions)
         else:
             table_to_display = []
             # print(xx[0])
@@ -301,7 +322,7 @@ class FinalResultsPage(Page):
         valid_rows = [row for row in display_table_final if isinstance(row[4], int) and row[3] is not None]
         average_payment = sum(row[3] for row in valid_rows) / len(valid_rows)
         player.payoff = average_payment
-        chosen_supergame = player.in_round(1).WHICH_SUPERGAME
+        chosen_supergame = player.in_round(1).WHICH_SUPERGAME + 1
         return dict(
             display_table_final = display_table_final,
             your_final_payoff = average_payment,
@@ -309,4 +330,4 @@ class FinalResultsPage(Page):
         )
 
 
-page_sequence = [NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
+page_sequence = [IntroductionGeneral,NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
