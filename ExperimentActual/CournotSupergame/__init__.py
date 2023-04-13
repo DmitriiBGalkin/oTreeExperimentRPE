@@ -170,6 +170,39 @@ class Player(BasePlayer):
     CHOICE_IN_ROUNDS = models.IntegerField(initial=0)
     COMPENSATION = models.IntegerField()
     WHICH_SUPERGAME = models.IntegerField()
+    q1 = models.IntegerField(
+        min=0,
+        max=C.MAX_UNITS_PER_PLAYER,
+        doc="COMPREHENSION QUESTION 1",
+        label="Suppose the participant you are matched with produces 25 units and you produce 25 units. What will be your compensation under the contract A?",
+
+    )
+    q2 = models.IntegerField(
+        min=0,
+        max=C.MAX_UNITS_PER_PLAYER,
+        doc="COMPREHENSION QUESTION 1",
+        label="Suppose the participant you are matched with produces 24 units. What quantity will result in the highest compensation under the contract B?",
+
+    )
+    q3 = models.IntegerField(
+        min=0,
+        max=C.MAX_UNITS_PER_PLAYER,
+        doc="COMPREHENSION QUESTION 1",
+        label="Suppose the participant you are matched with produces 33 units and you produce 33 units. What will be your compensation under the contract A?",
+
+    )
+    def check_answers(player):
+        correct_answers = {
+            'q1': 1350,
+            'q2': 44,
+            'q3': 1222
+        }
+
+        return (
+                self.q1.lower() == correct_answers['q1'].lower() and
+                self.q2.lower() == correct_answers['q2'].lower() and
+                self.q3.lower() == correct_answers['q3'].lower()
+        )
 # FUNCTIONS:
 
 def calculate_payoffs(group: Group):
@@ -255,7 +288,19 @@ class IntroductionGame(Page):
     def is_displayed(player: Player):
         return player.round_number == 1
 
+class IntroductionCalculator(Page):
 
+    form_model = 'player'
+    form_fields = ['q1', 'q2','q3']
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+    @staticmethod
+
+    def error_message(player, values):
+        if not player.check_answers():
+            return 'Some of your answers were incorrect. Please try again.'
 
 class NewSupergame(Page):
     #wait_for_all = True
@@ -330,4 +375,4 @@ class FinalResultsPage(Page):
         )
 
 
-page_sequence = [IntroductionGeneral,NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
+page_sequence = [IntroductionGeneral,IntroductionMarket, IntroductionCalculator, NewSupergame, Play, ResultsWaitPage, FinalResultsPage]

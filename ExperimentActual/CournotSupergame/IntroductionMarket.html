@@ -1,10 +1,151 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{{ block style }}
+<style>
+.otree-body {
+    max-width:85%;
+    margin: 0 auto
+}
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
 
-</body>
-</html>
+/* Style the title block */
+h1 {
+  font-size: 24px;
+  margin-top: 0;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+/* Style the main container */
+.main-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the text box */
+.text-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the sub container */
+.sub-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the calculator box */
+.calculator-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the table box */
+.table-box {
+  flex-basis: 60%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the table title */
+.table-box h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+/* Style the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  text-align: center;
+  border-bottom: 1px solid #ddd
+}
+
+/* Style the "No data available" message */
+p.no-data {
+  font-style: italic;
+  color:
+
+</style>
+{{ endblock }}
+
+
+{{ block title }}
+    <h1>Information about the market environment</h1>
+{{ endblock }}
+
+{{ block content }}
+<div class="table-box">
+    <h3 style="font-size: 20px;"><b> General setting </b></h3>
+    Throughout this part of the experiment you will be asked to assume the role of the manager of a hypothetical firm and make decisions on behalf of the firm in the market environment.
+    Your firm will be in a market with one other firm that would be managed by another participant.
+    <br>
+    The decisions you and the participants you are matched with will be the basis of your compensation.
+    <br>
+    <h3 style="font-size: 20px;"><b> Market environment </b></h3>
+    In this market, your firm (firm X) and another firm (firm Y) are in a market for some good X. Each of the two firms produces a certain quantity of good.
+    <br>
+    The price of good X is:
+    <br>
+    <b>Price = 100 - (quantity produced by firm X + quantity produced by firm Y)</b>
+    <br>
+    The profit of each firm is given by:
+    <br>
+    <b>Profit = Quantity produced by the firm * Price</b>
+    <br>
+    <h3 style="font-size: 20px;"><b> Example </b></h3>
+    Suppose you choose a quantity of 30 and the participant you are matched with chooses a quantity of 40.
+    <br>
+    The price of good X will then be:
+    <br>
+    <b>Price = 100 - (30 + 40) = 30</b>
+    <br>
+    The profit of each firm is given by:
+    <br>
+    <b>Profit of your firm = 30(Price) * 30 (your quantity) = 900</b>
+    <br>
+    <b>Profit of the other firm = 30(Price) * 40 (other participant's quantity) = 1200</b>
+    <br>
+    <h3 style="font-size: 20px;"><b> Compensation </b></h3>
+    Throughout the experiment you will be compensated based on two possible contracts. The same will apply to the participant you are matched with.
+    <br>
+    <b> Contract A: Your compensation = 100 + (Profit of your firm) </b>
+    <br>
+    In the above example, your compensation under Contract A will then be:
+    <br>
+    Your compensation = 100 + 900 = 1000
+    <br>
+    <b> Contract B: Your compensation = 100 + (Profit of your firm) + (Profit of your firm - Profit of the other firm) </b>
+    <br>
+    In the above example, your compensation under Contract B will then be:
+    <br>
+    Your compensation = 100 + 900 + 900 - 1200 = 700
+
+</div>
+
+<div class="button-container">
+      {{ next_button }}
+</div>
+
+{{ endblock }}
