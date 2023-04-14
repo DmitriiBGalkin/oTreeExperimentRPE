@@ -109,7 +109,11 @@ class C(BaseConstants):
     GAMMA = 1
     BONUS_FIXED = 100
     # The above are constants for market environment
-
+    CORRECT_ANSWERS = {
+        'q1': 1350,
+        'q2': 44,
+        'q3': 1222
+    }
 
 class Subsession(BaseSubsession):
     # Creating fields in the subsession class
@@ -172,7 +176,7 @@ class Player(BasePlayer):
     WHICH_SUPERGAME = models.IntegerField()
     q1 = models.IntegerField(
         min=0,
-        max=C.MAX_UNITS_PER_PLAYER,
+        max=5000,
         doc="COMPREHENSION QUESTION 1",
         label="Suppose the participant you are matched with produces 25 units and you produce 25 units. What will be your compensation under the contract A?",
 
@@ -186,23 +190,14 @@ class Player(BasePlayer):
     )
     q3 = models.IntegerField(
         min=0,
-        max=C.MAX_UNITS_PER_PLAYER,
+        max=5000,
         doc="COMPREHENSION QUESTION 1",
         label="Suppose the participant you are matched with produces 33 units and you produce 33 units. What will be your compensation under the contract A?",
 
     )
-    def check_answers(player):
-        correct_answers = {
-            'q1': 1350,
-            'q2': 44,
-            'q3': 1222
-        }
 
-        return (
-                self.q1.lower() == correct_answers['q1'].lower() and
-                self.q2.lower() == correct_answers['q2'].lower() and
-                self.q3.lower() == correct_answers['q3'].lower()
-        )
+
+
 # FUNCTIONS:
 
 def calculate_payoffs(group: Group):
@@ -283,11 +278,6 @@ class IntroductionMarket(Page):
         return player.round_number == 1
 
 
-class IntroductionGame(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1
-
 class IntroductionCalculator(Page):
 
     form_model = 'player'
@@ -299,8 +289,17 @@ class IntroductionCalculator(Page):
     @staticmethod
 
     def error_message(player, values):
-        if not player.check_answers():
-            return 'Some of your answers were incorrect. Please try again.'
+        print(values)
+        if not (values['q1'] == C.CORRECT_ANSWERS['q1'] and values['q2'] == C.CORRECT_ANSWERS['q2'] and  values['q3'] == C.CORRECT_ANSWERS['q3']):
+            return 'At least one of the answers was incorrect.'
+
+
+class IntroductionGame(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+
+
 
 class NewSupergame(Page):
     #wait_for_all = True
@@ -309,6 +308,17 @@ class NewSupergame(Page):
     def is_displayed(player: Player):
         subsession = player.subsession
         return subsession.period == 1
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        CONTRACT_TYPE = player.CONTRACT_TYPE_RP
+        YOUR_CONTRACT = "CONTRACT A" if (CONTRACT_TYPE == False) else "CONTRACT B"
+        CONTRACT_TYPE_OTHER = other_player(player).CONTRACT_TYPE_RP
+        OTHER_CONTRACT = "CONTRACT A" if (CONTRACT_TYPE_OTHER == False) else "CONTRACT B"
+        return dict(
+            your_contract=YOUR_CONTRACT,
+            other_contract=OTHER_CONTRACT
+        )
 
 
 class Play(Page):
@@ -375,4 +385,4 @@ class FinalResultsPage(Page):
         )
 
 
-page_sequence = [IntroductionGeneral,IntroductionMarket, IntroductionCalculator, NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
+page_sequence = [IntroductionGeneral,IntroductionMarket, IntroductionCalculator, IntroductionGame, NewSupergame, Play, ResultsWaitPage, FinalResultsPage]

@@ -8,6 +8,12 @@ body {
   font-family: Arial, sans-serif;
   font-size: 16px;
 }
+.btn-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding-top: 20px;
+		}
 
 /* Style the title block */
 h1 {
@@ -54,12 +60,14 @@ p {
   flex-basis: 60%;
   border: 1px solid #ccc;
   padding: 10px;
+  align-items: center;
 }
 
 /* Style the table title */
 .table-box h2 {
   margin-top: 0;
   font-size: 20px;
+  align-items: center;
 }
 
 /* Style the table */
@@ -428,11 +436,11 @@ input[type=range]::-ms-thumb {
   <br>
   You can only proceed if you answer them correctly.
    {{ formfields }}
-  <br>
-   {{ next_button }}
 </div>
 
-
+<div class="btn-container">
+   {{ next_button }}
+</div>
 
 
 {{ endblock }}
