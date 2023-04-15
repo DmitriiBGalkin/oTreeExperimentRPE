@@ -112,7 +112,7 @@ let firmBChoice=0;
 let prohPrice=100;
 bonus_fixed=100
 //prohibitive price
-let CONTRACT_TYPE_RP = False
+let CONTRACT_TYPE_RP = false
 let gamma=1;
 let message='Your firm is not making profits, your total payment is 0. ';
 
@@ -189,11 +189,18 @@ firmBChoice=this.value*1;// value B in slider
     In the main part of the experiment, you will be playing as a manager in 4 markets. Each market will last for several periods.
     <br>
     In each market you will be matched with a different participant. You will be given information about your contract, contract of the participant you are matched with, a calculator similar to the one on the previous page and details about the outcomes in the previous periods.
-    <br>
+
     <h3 style="font-size: 20px;"><b> Duration of the markets </b></h3>
     The markets will last for an unknown number of periods. For each period the computer have generated a random number between 1 to 10. If a number for a period is 10, the market stops and you will be rematched with another participant.
-    You will be notified about this by a respective page.
-
+    You will be notified about this by a respective page. In other words, the probability that the market will stop is 10%.
+    <br>
+    The past history table (which you can see on the bottom right) will show you history in the current market (i.e. with the same participant. After you are rematched, the table would restart.
+    <br>
+    <h3 style="font-size: 20px;"><b> Your compensation </b></h3>
+    After you have played four markets in the main part of the experiment, we will draw a random number between 1-4 and pay you the average compensation you have earned in that market. In addition, you will also receive your participant fee.
+    <h3 style="font-size: 20px;"><b> Example </b></h3>
+    Below you can see an example market where you would play with a computerised manager.
+    <span id="message_instructions"></span>
 </div>
 
 
