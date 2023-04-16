@@ -173,6 +173,56 @@ firmBChoice=this.value*1;// value B in slider
     messageContract.innerHTML=message;
   });
 });
+
+
+let isFirstTurn = true;
+
+  function calculateProfits(myOutput, otherOutput) {
+    // Placeholder formulas - modify as needed
+    const myProfit = myOutput * (100 - myOutput - otherOutput);
+    const otherProfit = otherOutput * (100 - myOutput - otherOutput);
+    return [myProfit, otherProfit];
+  }
+
+  function calculateCompensation(myOutput, myProfit) {
+    // Placeholder formula - modify as needed
+    return myProfit+100;
+  }
+
+  document.getElementById('chooseBtn').addEventListener('click', function() {
+     event.preventDefault();
+    const userChoice = document.getElementById('userChoice').value;
+     if (userChoice === "" || userChoice < 0 || userChoice > 50) {
+        alert('Please enter a valid number between 0 and 50');
+        return;
+      }
+
+      let otherFirmOutput;
+
+      if (isFirstTurn) {
+        otherFirmOutput = Math.floor(Math.random() * 3) + 24;
+        isFirstTurn = false;
+      } else if (userChoice > 30) {
+        otherFirmOutput = Math.floor(Math.random() * 3) + 32;
+      } else {
+        otherFirmOutput = Math.floor(Math.random() * 51);
+      }
+
+      const [myProfit, otherProfit] = calculateProfits(userChoice, otherFirmOutput);
+      const myCompensation = calculateCompensation(userChoice, myProfit);
+
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${userChoice}</td>
+        <td>${otherFirmOutput}</td>
+        <td>${myProfit.toFixed(2)}</td>
+        <td>${otherProfit.toFixed(2)}</td>
+        <td>${myCompensation.toFixed(2)}</td>
+      `;
+      document.getElementById('results').appendChild(newRow);
+    });
+
+
 </script>
 {{ endblock }}
 
@@ -418,8 +468,25 @@ input[type=range]::-ms-thumb {
   </div>
 
   <div class="table-box">
+    <b><label for="userChoice">Your quantity choice:</label> </b>
+    <input type="number" id="userChoice" min="0" max="50">
+    <button id="chooseBtn">Choose</button>
+    <br>
+    <br>
     <h3 style="font-size: 20px;"><b> Past History </b></h3>
-
+    <table>
+    <thead>
+      <tr>
+        <th>My output</th>
+        <th>Other firm's output</th>
+        <th>My firm profit</th>
+        <th>Other firm's profit</th>
+        <th>My compensation</th>
+      </tr>
+    </thead>
+    <tbody id="results">
+    </tbody>
+  </table>
   </div>
 </div>
 
