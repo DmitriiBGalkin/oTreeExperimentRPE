@@ -175,8 +175,6 @@ firmBChoice=this.value*1;// value B in slider
 });
 
 
-let isFirstTurn = true;
-
   function calculateProfits(myOutput, otherOutput) {
     // Placeholder formulas - modify as needed
     const myProfit = myOutput * (100 - myOutput - otherOutput);
@@ -192,29 +190,21 @@ let isFirstTurn = true;
   document.getElementById('chooseBtn').addEventListener('click', function() {
      event.preventDefault();
     const userChoice = document.getElementById('userChoice').value;
-     if (userChoice === "" || userChoice < 0 || userChoice > 50) {
+    const userChoiceOther = document.getElementById('userChoiceOther').value;
+     if (userChoice === "" || userChoice < 0 || userChoice > 50 || userChoiceOther === "" || userChoiceOther < 0 || userChoiceOther > 50) {
         alert('Please enter a valid number between 0 and 50');
         return;
       }
 
       let otherFirmOutput;
 
-      if (isFirstTurn) {
-        otherFirmOutput = Math.floor(Math.random() * 3) + 24;
-        isFirstTurn = false;
-      } else if (userChoice > 30) {
-        otherFirmOutput = Math.floor(Math.random() * 3) + 32;
-      } else {
-        otherFirmOutput = Math.floor(Math.random() * 51);
-      }
-
-      const [myProfit, otherProfit] = calculateProfits(userChoice, otherFirmOutput);
+      const [myProfit, otherProfit] = calculateProfits(userChoice, userChoiceOther);
       const myCompensation = calculateCompensation(userChoice, myProfit);
 
       const newRow = document.createElement('tr');
       newRow.innerHTML = `
         <td>${userChoice}</td>
-        <td>${otherFirmOutput}</td>
+        <td>${userChoiceOther}</td>
         <td>${myProfit.toFixed(2)}</td>
         <td>${otherProfit.toFixed(2)}</td>
         <td>${myCompensation.toFixed(2)}</td>
@@ -286,7 +276,7 @@ let isFirstTurn = true;
   .infotable {
    border: 2px solid black;
     table-layout: fixed;
-    width: 90%;
+    width: 100%;
     padding: 10px;
     border-spacing: 5px;
   }
@@ -438,11 +428,12 @@ input[type=range]::-ms-thumb {
     </colgroup>
 
     <tbody>
+
       <tr>
         <td><b>Other firm's profits</b></td>
         <td><b>My firm's profits</b></td>
         <td><b>My bonus</b></td>
-        <td><b>My total compensation</b></td>
+        <td><b>My compensation</b></td>
       </tr>
 
       <tr>
@@ -470,6 +461,10 @@ input[type=range]::-ms-thumb {
   <div class="table-box">
     <b><label for="userChoice">Your quantity choice:</label> </b>
     <input type="number" id="userChoice" min="0" max="50">
+    <br>
+    <b><label for="userChoiceOther">Quantity choice for the other firm:</label> </b>
+    <input type="number" id="userChoiceOther" min="0" max="50">
+    <br>
     <button id="chooseBtn">Choose</button>
     <br>
     <br>
@@ -479,7 +474,7 @@ input[type=range]::-ms-thumb {
       <tr>
         <th>My output</th>
         <th>Other firm's output</th>
-        <th>My firm profit</th>
+        <th>My firm's profit</th>
         <th>Other firm's profit</th>
         <th>My compensation</th>
       </tr>
