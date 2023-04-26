@@ -116,12 +116,14 @@ let CONTRACT_TYPE_RP = false
 let gamma=1;
 let message='Your firm is not making profits, your total payment is 0. ';
 
+/*
 if (CONTRACT_TYPE_RP) {
   message_for_instructions='Your total compensation for this round is TOTAL COMP = (Your profit) + 100 + (Your profit - Profit of other firm)';
 } else {
   message_for_instructions='Your total compensation for this round is TOTAL COMP = (Your profit) + 100';
 }
 message_instructions.innerHTML=message_for_instructions;
+*/
 
 
 sliderA.oninput = function() {
@@ -176,17 +178,16 @@ firmBChoice=this.value*1;// value B in slider
 
 
   function calculateProfits(myOutput, otherOutput) {
-    // Placeholder formulas - modify as needed
     const myProfit = myOutput * (100 - myOutput - otherOutput);
     const otherProfit = otherOutput * (100 - myOutput - otherOutput);
     return [myProfit, otherProfit];
   }
 
   function calculateCompensation(myOutput, myProfit) {
-    // Placeholder formula - modify as needed
     return myProfit+100;
   }
-
+  var chooseCount = 0;
+  total_compensation = 0
   document.getElementById('chooseBtn').addEventListener('click', function() {
      event.preventDefault();
     const userChoice = document.getElementById('userChoice').value;
@@ -210,6 +211,9 @@ firmBChoice=this.value*1;// value B in slider
         <td>${myCompensation.toFixed(2)}</td>
       `;
       document.getElementById('results').appendChild(newRow);
+      chooseCount= chooseCount+1
+      total_compensation = total_compensation + myCompensation
+
     });
 
 
@@ -234,13 +238,27 @@ firmBChoice=this.value*1;// value B in slider
     The markets will last for an unknown number of periods. For each period the computer have generated a random number between 1 to 10. If a number for a period is 10, the market stops and you will be rematched with another participant.
     You will be notified about this by a respective page. In other words, the probability that the market will stop is 10%.
     <br>
-    The past history table (which you can see on the bottom right) will show you history in the current market (i.e. with the same participant. After you are rematched, the table would restart.
-    <br>
+    However, you will play at least 10 periods. If a random draw determines that the market has ended before 10 periods, remaining periods will not be used for your compensation.
     <h3 style="font-size: 20px;"><b> Your compensation </b></h3>
-    After you have played four markets in the main part of the experiment, we will draw a random number between 1-4 and pay you the average compensation you have earned in that market. In addition, you will also receive your participant fee.
-    <h3 style="font-size: 20px;"><b> Example </b></h3>
-    Below you can see an example market where you would play with a computerised manager.
-    <span id="message_instructions"></span>
+    After you have played four markets in the main part of the experiment, we will draw a random number between 1-4 and pay you the total compensation for the you have earned in that market. In addition, you will also receive your participant fee (5 EUR).
+    <br>
+    <b>The experiment is using exchange rate of 1000EP = 1 Euro.</b>
+    <h3 style="font-size: 20px;"><b> Example 1 of the compensation</b></h3>
+    Suppose the random draw (which will not be shown to you until the end of the experiment) is [1,5,1,6,8,2,9,1,10]. In this example, you will play 10 rounds, but only the first 9 will be relevant for compensation.
+    <br>
+    Thus, you will receive the sum of compensations for the first 9 rounds.
+    <h3 style="font-size: 20px;"><b> Example 2 of the compensation</b></h3>
+    Suppose the random draw (which will not be shown to you until the end of the experiment) is [1,5,1,6,8,2,9,1,3,7,5,10]. In this example, you will play 12 rounds, and all rounds will be relevant for compensation.
+    <br>
+    Thus, you will receive the sum of compensations for all 12 rounds.
+    <h3 style="font-size: 20px;"><b> Example of the market</b></h3>
+    Below you can see an example of the market where you can choose quantities both for yourself and a hypothetical other firm.
+    <br>
+    For this example market your contract is CONTRACT A.
+    <br>
+    Thus, your total compensation is YOUR PROFIT + 100.
+    <br>
+
 </div>
 
 

@@ -375,12 +375,12 @@ class FinalResultsPage(Page):
     def vars_for_template(player: Player):
         display_table_final = set_final_payoffs(player)
         valid_rows = [row for row in display_table_final if isinstance(row[4], int) and row[3] is not None]
-        average_payment = sum(row[3] for row in valid_rows) / len(valid_rows)
-        player.payoff = average_payment
+        cummulative_payment = sum(row[3] for row in valid_rows)
+        player.payoff = cummulative_payment
         chosen_supergame = player.in_round(1).WHICH_SUPERGAME + 1
         return dict(
             display_table_final = display_table_final,
-            your_final_payoff = average_payment,
+            your_final_payoff = cummulative_payment,
             chosen_supergame = chosen_supergame
         )
 

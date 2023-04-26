@@ -1,9 +1,10 @@
 {{ block title }}
-    Supergame {{ subsession.sg }}
+    Market {{ subsession.sg }}
 {{ endblock }}
 {{ block content }}
 
-    <p>This page is only shown at the beginning of a supergame...</p>
+    <p>You are matched with another participant </p>
+    <p> In this round your contract is <b>{{ your_contract }}</b>. The participant you are matched with has a contract <b>{{ other_contract }}</b> .
     {{ next_button }}
 
 {{ endblock }}
