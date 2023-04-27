@@ -97,14 +97,14 @@ p.no-data {
 
 {{ block content }}
 <div class="table-box">
-    <h3 style="font-size: 20px;"><b> Some text like instructions </b></h3>
+    <h3 style="font-size: 20px;"><b> Thank you for participation! </b></h3>
     <br>
     Thank you for participating in our experiment. We have randomly chosen the market {{ chosen_supergame }} to be used for your payment.
     You can find your actions for this market in a table below. Your total compensation in the payoff-relevant rounds was
-    {{ your_final_payoff }}.
+    <b>{{ your_final_payoff }} </b>. In addition, to your participation fee (5 EUR), you total payment will be <b> {{ total_payment }} EUR</b>.
 </div>
 <div class="table-box">
-    <h3 style="font-size: 20px;"><b> Your actions in the supergame {{ chosen_supergame}}  </b></h3>
+    <h3 style="font-size: 20px;"><b> Your actions in the Market {{ chosen_supergame}}  </b></h3>
     {{ if display_table_final }}
     <table>
       <tr>

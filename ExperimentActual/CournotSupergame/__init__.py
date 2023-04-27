@@ -105,7 +105,7 @@ class C(BaseConstants):
     # We then assign this list to a participant. When we need to know which contract he is playing in round i, we just call this list[i].
     # The next step is to organise the groups and then reshuffle them for each supergame
     TOTAL_CAPACITY = 100
-    MAX_UNITS_PER_PLAYER = int(TOTAL_CAPACITY / 2)
+    MAX_UNITS_PER_PLAYER = 70
     GAMMA = 1
     BONUS_FIXED = 100
     # The above are constants for market environment
@@ -114,6 +114,7 @@ class C(BaseConstants):
         'q2': 44,
         'q3': 1222
     }
+    EXCHANGE_RATE = 1000
 
 class Subsession(BaseSubsession):
     # Creating fields in the subsession class
@@ -298,8 +299,14 @@ class IntroductionGame(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == 1
-
-
+    def vars_for_template(player: Player):
+        return dict(
+            EXCHANGE_RATE = C.EXCHANGE_RATE
+        )
+    def js_vars(player: Player):
+        return dict(
+            EXCHANGE_RATE=C.EXCHANGE_RATE
+        )
 
 class NewSupergame(Page):
     #wait_for_all = True
@@ -375,13 +382,14 @@ class FinalResultsPage(Page):
     def vars_for_template(player: Player):
         display_table_final = set_final_payoffs(player)
         valid_rows = [row for row in display_table_final if isinstance(row[4], int) and row[3] is not None]
-        cummulative_payment = sum(row[3] for row in valid_rows)
-        player.payoff = cummulative_payment
+        cumulative_payment = round( sum(row[3] for row in valid_rows) / C.EXCHANGE_RATE, 2)
+        player.payoff = round(cumulative_payment, 2)
         chosen_supergame = player.in_round(1).WHICH_SUPERGAME + 1
         return dict(
             display_table_final = display_table_final,
-            your_final_payoff = cummulative_payment,
-            chosen_supergame = chosen_supergame
+            your_final_payoff = cumulative_payment,
+            chosen_supergame = chosen_supergame,
+            total_payment = cumulative_payment + 5
         )
 
 

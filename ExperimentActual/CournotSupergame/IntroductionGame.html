@@ -165,7 +165,7 @@ firmBChoice=this.value*1;// value B in slider
     profitA=0;
     profitB=0;
     firmBBonus=0;
-
+    total_compensation=0;
     message='Total production is at the maximum of 100. Your total compensation is 0. ';
     }
 	firmAProfit.innerHTML=profitA.toFixed(0);
@@ -177,23 +177,26 @@ firmBChoice=this.value*1;// value B in slider
 });
 
 
-  function calculateProfits(myOutput, otherOutput) {
-    const myProfit = myOutput * (100 - myOutput - otherOutput);
-    const otherProfit = otherOutput * (100 - myOutput - otherOutput);
-    return [myProfit, otherProfit];
-  }
+function calculateProfits(myOutput, otherOutput) {
+const myProfit = myOutput * (100 - myOutput - otherOutput);
+const otherProfit = otherOutput * (100 - myOutput - otherOutput);
+return [myProfit, otherProfit];
+}
 
-  function calculateCompensation(myOutput, myProfit) {
-    return myProfit+100;
-  }
-  var chooseCount = 0;
-  total_compensation = 0
-  document.getElementById('chooseBtn').addEventListener('click', function() {
+function calculateCompensation(myOutput, myProfit) {
+return myProfit+100;
+}
+var chooseCount = 0;
+total_compensation = 0;
+message_final_payoff = 'Please play at least 10 example games to see the final example payoffs. ';
+message_final.innerHTML=message_final_payoff;
+document.getElementById('chooseBtn').addEventListener('click', function() {
      event.preventDefault();
     const userChoice = document.getElementById('userChoice').value;
     const userChoiceOther = document.getElementById('userChoiceOther').value;
-     if (userChoice === "" || userChoice < 0 || userChoice > 50 || userChoiceOther === "" || userChoiceOther < 0 || userChoiceOther > 50) {
-        alert('Please enter a valid number between 0 and 50');
+
+     if (userChoice === "" || userChoice < 0 || userChoice > 70 || userChoiceOther === "" || userChoiceOther < 0 || userChoiceOther > 70) {
+        alert('Please enter a valid number between 0 and 70');
         return;
       }
 
@@ -211,10 +214,18 @@ firmBChoice=this.value*1;// value B in slider
         <td>${myCompensation.toFixed(2)}</td>
       `;
       document.getElementById('results').appendChild(newRow);
-      chooseCount= chooseCount+1
-      total_compensation = total_compensation + myCompensation
-
+      chooseCount= chooseCount+1;
+      if (chooseCount<10){
+      total_compensation = total_compensation + myCompensation}
+      if (chooseCount == 10){
+      var compensation_in_thousands = total_compensation / js_vars.EXCHANGE_RATE; // divide by 1000 to get the value in thousands
+      var compensation_in_thousands_rounded = Math.round(compensation_in_thousands * 100) / 100; // round to the nearest 0.01
+      var compensation_in_thousands_and_show = compensation_in_thousands_rounded + 5;
+      message_final_payoff = 'Your total compensation for the payoff relevant rounds(' + chooseCount + ') ' + total_compensation + ' experimental points. Your total payment is ' +  compensation_in_thousands_rounded + ' EUR plus your participation fee of 5 EUR. Your final payment is ' + compensation_in_thousands_and_show + ' EUR. If you would like to try again, please refresh this page (press F5). ';
+      message_final.innerHTML=message_final_payoff;
+      }
     });
+console.log(message_final_payoff)
 
 
 </script>
@@ -240,9 +251,9 @@ firmBChoice=this.value*1;// value B in slider
     <br>
     However, you will play at least 10 periods. If a random draw determines that the market has ended before 10 periods, remaining periods will not be used for your compensation.
     <h3 style="font-size: 20px;"><b> Your compensation </b></h3>
-    After you have played four markets in the main part of the experiment, we will draw a random number between 1-4 and pay you the total compensation for the you have earned in that market. In addition, you will also receive your participant fee (5 EUR).
+    After you have played four markets in the main part of the experiment, we will draw a random number between 1-4 and pay you the total compensation you have earned in that market. In addition, you will also receive your participant fee (5 EUR).
     <br>
-    <b>The experiment is using exchange rate of 1000EP = 1 Euro.</b>
+    <b>The experiment is using exchange rate of {{ EXCHANGE_RATE }} Experimental Points = 1 Euro.</b>
     <h3 style="font-size: 20px;"><b> Example 1 of the compensation</b></h3>
     Suppose the random draw (which will not be shown to you until the end of the experiment) is [1,5,1,6,8,2,9,1,10]. In this example, you will play 10 rounds, but only the first 9 will be relevant for compensation.
     <br>
@@ -389,7 +400,7 @@ input[type=range]::-ms-thumb {
       </tr>
       <tr>
         <td>
-          <input type="range" min="0" max="50" value="0" class="slider" id="sliderRangeA" step="1"></td>
+          <input type="range" min="0" max="70" value="0" class="slider" id="sliderRangeA" step="1"></td>
       </tr>
       <tr>
         <td>
@@ -400,6 +411,8 @@ input[type=range]::-ms-thumb {
             <p>30</p>
             <p>40</p>
             <p>50</p>
+            <p>60</p>
+            <p>70</p>
           </div>
         </td>
       </tr>
@@ -415,7 +428,7 @@ input[type=range]::-ms-thumb {
       </tr>
       <tr>
         <td>
-          <input type="range" min="0" max="50" value="0" class="slider" id="sliderRangeB" step="1"></td>
+          <input type="range" min="0" max="70" value="0" class="slider" id="sliderRangeB" step="1"></td>
       </tr>
       <tr>
         <td>
@@ -426,6 +439,8 @@ input[type=range]::-ms-thumb {
             <p>30</p>
             <p>40</p>
             <p>50</p>
+            <p>60</p>
+            <p>70</p>
           </div>
         </td>
       </tr>
@@ -501,6 +516,10 @@ input[type=range]::-ms-thumb {
     </tbody>
   </table>
   </div>
+</div>
+
+<div class="table-box">
+<b> <span id="message_final"></span></b>
 </div>
 
 <div class="btn-container">

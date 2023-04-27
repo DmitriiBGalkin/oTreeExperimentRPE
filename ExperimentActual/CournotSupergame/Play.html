@@ -158,7 +158,7 @@ firmBChoice=this.value*1;// value B in slider
     profitA=0;
     profitB=0;
     firmBBonus=0;
-
+    total_compensation=profitB+firmBBonus;
     message='Total production is at the maximum of 100. Your total compensation is 0. ';
     }
 	firmAProfit.innerHTML=profitA.toFixed(0);
@@ -174,7 +174,7 @@ firmBChoice=this.value*1;// value B in slider
 
 
 {{ block title }}
-    <h1>Supergame {{ subsession.sg }}, period {{ subsession.period }}</h1>
+    <h1> Market {{ subsession.sg }}, period {{ subsession.period }}</h1>
 {{ endblock }}
 
 {{ block content }}
@@ -317,7 +317,7 @@ input[type=range]::-ms-thumb {
       </tr>
       <tr>
         <td>
-          <input type="range" min="0" max="50" value="0" class="slider" id="sliderRangeA" step="1"></td>
+          <input type="range" min="0" max="70" value="0" class="slider" id="sliderRangeA" step="1"></td>
       </tr>
       <tr>
         <td>
@@ -328,6 +328,8 @@ input[type=range]::-ms-thumb {
             <p>30</p>
             <p>40</p>
             <p>50</p>
+            <p>60</p>
+            <p>70</p>
           </div>
         </td>
       </tr>
@@ -343,7 +345,7 @@ input[type=range]::-ms-thumb {
       </tr>
       <tr>
         <td>
-          <input type="range" min="0" max="50" value="0" class="slider" id="sliderRangeB" step="1"></td>
+          <input type="range" min="0" max="70" value="0" class="slider" id="sliderRangeB" step="1"></td>
       </tr>
       <tr>
         <td>
@@ -354,6 +356,8 @@ input[type=range]::-ms-thumb {
             <p>30</p>
             <p>40</p>
             <p>50</p>
+            <p>60</p>
+            <p>70</p>
           </div>
         </td>
       </tr>
@@ -410,7 +414,7 @@ input[type=range]::-ms-thumb {
       <tr>
         <th>My output</th>
         <th>Other firm's output</th>
-        <th>My firm profit</th>
+        <th>My firm's profit</th>
         <th>Other firm's profit</th>
         <th>My compensation</th>
       </tr>
