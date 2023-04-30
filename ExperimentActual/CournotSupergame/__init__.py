@@ -64,7 +64,7 @@ SUPERGAME_3 = random_numbers_until()
 SUPERGAME_4 = random_numbers_until()
 # Creating 4 sequences for block randomisation
 
-print(SUPERGAME_1, SUPERGAME_2, SUPERGAME_3, SUPERGAME_4)
+#print(SUPERGAME_1, SUPERGAME_2, SUPERGAME_3, SUPERGAME_4)
 
 
 class C(BaseConstants):
@@ -78,7 +78,7 @@ class C(BaseConstants):
     # If there are less rounds in the supergame then only those up to the len(supergame) would be payoff-relevant
     SG_ENDS = cumsum(ROUNDS_PER_SG)
     SG_STARTS = calculate_game_starts(ROUNDS_PER_SG)
-    print('SG_ENDS is', SG_ENDS)
+    #print('SG_ENDS is', SG_ENDS)
     NUM_ROUNDS = sum(ROUNDS_PER_SG)
     POSSIBLE_CONTRACT_ALLOCATIONS = [["AA", "AR", "RA", "RR"],
                                      ["AR", "AA", "RA", "RR"],
@@ -205,9 +205,7 @@ def calculate_payoffs(group: Group):
     players = group.get_players()
     group.TOTAL_UNITS = sum([p.UNITS for p in players])
     group.UNIT_PRICE = C.TOTAL_CAPACITY - group.TOTAL_UNITS
-    print()
     for p in players:
-        print(p.CONTRACT_TYPE_RP)
         p.FIRM_PROFITS = group.UNIT_PRICE * p.UNITS
         if not p.CONTRACT_TYPE_RP:
             p.COMPENSATION = p.FIRM_PROFITS + C.BONUS_FIXED
@@ -258,8 +256,6 @@ def set_final_payoffs(player: Player): #
         contract = "CONTRACT A" if (round.CONTRACT_TYPE_RP == False) else "CONTRACT B"
         subperiod = subperiod + 1
         table_to_display.append([subperiod, action, profits, compensation, random_number, contract])
-    print("Table to display - final payoffs")
-    print(table_to_display)
     return(table_to_display)
 
 
@@ -290,7 +286,6 @@ class IntroductionCalculator(Page):
     @staticmethod
 
     def error_message(player, values):
-        print(values)
         if not (values['q1'] == C.CORRECT_ANSWERS['q1'] and values['q2'] == C.CORRECT_ANSWERS['q2'] and  values['q3'] == C.CORRECT_ANSWERS['q3']):
             return 'At least one of the answers was incorrect.'
 
@@ -339,7 +334,7 @@ class Play(Page):
         CONTRACT_TYPE_OTHER = other_player(player).CONTRACT_TYPE_RP
         OTHER_CONTRACT = "CONTRACT A" if (CONTRACT_TYPE_OTHER == False) else "CONTRACT B"
         if player.subsession.period > 1:
-            print("subsession:", player.subsession.sg, "Subsession Starts", C.SG_STARTS[player.subsession.sg - 1])
+            #print("subsession:", player.subsession.sg, "Subsession Starts", C.SG_STARTS[player.subsession.sg - 1])
             my_actions = get_actions_in_previous_rounds_in_SG(player)
             other_actions = get_actions_in_previous_rounds_in_SG(other_player(player))
             table_to_display = calculate_profits_and_compensation(my_actions, other_actions, CONTRACT_TYPE)
@@ -383,13 +378,14 @@ class FinalResultsPage(Page):
         display_table_final = set_final_payoffs(player)
         valid_rows = [row for row in display_table_final if isinstance(row[4], int) and row[3] is not None]
         cumulative_payment = round( sum(row[3] for row in valid_rows) / C.EXCHANGE_RATE, 2)
-        player.payoff = round(cumulative_payment, 2)
+        print(cumulative_payment)
+        player.payoff = cumulative_payment
         chosen_supergame = player.in_round(1).WHICH_SUPERGAME + 1
         return dict(
             display_table_final = display_table_final,
             your_final_payoff = cumulative_payment,
             chosen_supergame = chosen_supergame,
-            total_payment = cumulative_payment + 5
+            total_payment = round(cumulative_payment + 5, 2)
         )
 
 

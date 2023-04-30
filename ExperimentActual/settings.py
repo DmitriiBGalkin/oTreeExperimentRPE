@@ -5,8 +5,7 @@ SESSION_CONFIGS = [
          name='supergames',
          app_sequence=['CournotSupergame'],
          num_demo_participants=16,
-         use_browser_bots=False,
-
+         use_browser_bots=True
         ),
 ]
 
@@ -16,7 +15,7 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
+    real_world_currency_per_point=1.00, participation_fee=5.00, doc=""
 )
 
 PARTICIPANT_FIELDS = ["CONTRACT_ORDER"]
@@ -28,7 +27,7 @@ LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'EUR'
-USE_POINTS = True
+USE_POINTS = False
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable
