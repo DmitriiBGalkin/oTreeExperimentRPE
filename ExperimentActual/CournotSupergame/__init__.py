@@ -1,12 +1,21 @@
 from otree.api import *
 import random
 import itertools
+from settings import LANGUAGE_CODE
+if LANGUAGE_CODE == 'de':
+    from .lexicon_de import Lexicon
+else:
+    from .lexicon_en import Lexicon
+which_language = {'en': False, 'de': False}  # noqa
+which_language[LANGUAGE_CODE[:2]] = True
 
 doc = """   
-Cournot Supergames asdasdasdads
+Cournot Supergames
 """
 # setting the average number of rounds (i.e. through a max value on a die)
 NUMBER_ROS = 10
+
+
 
 
 def cumsum(lst):
@@ -68,7 +77,7 @@ SUPERGAME_4 = random_numbers_until()
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'supergames'
+    NAME_IN_URL = 'ExperimentalStudyOfContracts'
     PLAYERS_PER_GROUP = 2
     MIN_ROUNDS = NUMBER_ROS
     RANDOM_SEQUENCE_IN_SUPERGAMES = [SUPERGAME_1,SUPERGAME_2,SUPERGAME_3,SUPERGAME_4]
@@ -169,7 +178,7 @@ class Player(BasePlayer):
         min=0,
         max=C.MAX_UNITS_PER_PLAYER,
         doc="""Quantity of units to produce""",
-        label="How many units will you produce (from 0 to 50)?",
+        label=Lexicon.player_choice_label,
     )
     FIRM_PROFITS = models.IntegerField()
     CHOICE_IN_ROUNDS = models.IntegerField(initial=0)
@@ -179,21 +188,21 @@ class Player(BasePlayer):
         min=0,
         max=5000,
         doc="COMPREHENSION QUESTION 1",
-        label="Suppose the participant you are matched with produces 25 units and you produce 25 units. What will be your compensation under the contract A?",
+        label=Lexicon.comprehension_question_1,
 
     )
     q2 = models.IntegerField(
         min=0,
         max=C.MAX_UNITS_PER_PLAYER,
         doc="COMPREHENSION QUESTION 1",
-        label="Suppose the participant you are matched with produces 24 units. What quantity will result in the highest compensation under the contract B?",
+        label=Lexicon.comprehension_question_2,
 
     )
     q3 = models.IntegerField(
         min=0,
         max=5000,
         doc="COMPREHENSION QUESTION 1",
-        label="Suppose the participant you are matched with produces 33 units and you produce 33 units. What will be your compensation under the contract A?",
+        label=Lexicon.comprehension_question_3,
 
     )
 
@@ -252,7 +261,7 @@ def set_final_payoffs(player: Player): #
         action = round.field_maybe_none("UNITS")
         profits = round.field_maybe_none("FIRM_PROFITS")
         compensation = round.field_maybe_none("COMPENSATION")
-        random_number = RANDOM_SEQUENCE[subperiod] if (subperiod<len(RANDOM_SEQUENCE)) else "Not payoff relevant"
+        random_number = RANDOM_SEQUENCE[subperiod] if (subperiod<len(RANDOM_SEQUENCE)) else Lexicon.not_payoff_relevant
         contract = "CONTRACT A" if (round.CONTRACT_TYPE_RP == False) else "CONTRACT B"
         subperiod = subperiod + 1
         table_to_display.append([subperiod, action, profits, compensation, random_number, contract])
@@ -267,12 +276,22 @@ class IntroductionGeneral(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == 1
+    def vars_for_template(player: Player):
+        return dict(
+            Lexicon=Lexicon,
+            **which_language
+        )
 
 
 class IntroductionMarket(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == 1
+    def vars_for_template(player: Player):
+        return dict(
+            Lexicon=Lexicon,
+            **which_language
+        )
 
 
 class IntroductionCalculator(Page):
@@ -286,8 +305,13 @@ class IntroductionCalculator(Page):
     @staticmethod
 
     def error_message(player, values):
-        if not (values['q1'] == C.CORRECT_ANSWERS['q1'] and values['q2'] == C.CORRECT_ANSWERS['q2'] and  values['q3'] == C.CORRECT_ANSWERS['q3']):
-            return 'At least one of the answers was incorrect.'
+        if not (values['q1'] == C.CORRECT_ANSWERS['q1'] and values['q2'] == C.CORRECT_ANSWERS['q2'] and values['q3'] == C.CORRECT_ANSWERS['q3']):
+            return Lexicon.at_least_one_answer_wrong
+    def vars_for_template(player: Player):
+        return dict(
+            Lexicon=Lexicon,
+            **which_language
+        )
 
 
 class IntroductionGame(Page):
@@ -296,11 +320,14 @@ class IntroductionGame(Page):
         return player.round_number == 1
     def vars_for_template(player: Player):
         return dict(
-            EXCHANGE_RATE = C.EXCHANGE_RATE
-        )
+            EXCHANGE_RATE = C.EXCHANGE_RATE,
+            Lexicon=Lexicon,
+            **which_language
+            )
     def js_vars(player: Player):
         return dict(
-            EXCHANGE_RATE=C.EXCHANGE_RATE
+            EXCHANGE_RATE=C.EXCHANGE_RATE,
+            is_it_en = which_language['en']
         )
 
 class NewSupergame(Page):
@@ -319,7 +346,9 @@ class NewSupergame(Page):
         OTHER_CONTRACT = "CONTRACT A" if (CONTRACT_TYPE_OTHER == False) else "CONTRACT B"
         return dict(
             your_contract=YOUR_CONTRACT,
-            other_contract=OTHER_CONTRACT
+            other_contract=OTHER_CONTRACT,
+            Lexicon=Lexicon,
+            **which_language
         )
 
 
@@ -349,13 +378,16 @@ class Play(Page):
         return dict(
             table_to_display=table_to_display,
             your_contract=YOUR_CONTRACT,
-            other_contract=OTHER_CONTRACT
+            other_contract=OTHER_CONTRACT,
+            Lexicon=Lexicon,
+            **which_language
         )
 
     @staticmethod
     def js_vars(player):
         return dict(
             CONTRACT_RP=player.CONTRACT_TYPE_RP,
+            is_it_en = which_language['en']
         )
     # The vars for template function creates variables that can be used in the play.html and "newSupergame".
     # After period 1 in each supergame, we would display the history of previous plays which include my_action (a list of periods from 1 to current period),

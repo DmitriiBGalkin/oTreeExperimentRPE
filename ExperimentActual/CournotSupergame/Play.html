@@ -109,14 +109,28 @@ bonus_fixed=100
 //prohibitive price
 let CONTRACT_TYPE_RP = js_vars.CONTRACT_RP
 let gamma=1;
-let message='Your firm is not making profits, your total payment is 0. ';
-
-if (CONTRACT_TYPE_RP) {
-  message_for_instructions='Your total compensation for this round is TOTAL COMP = (Your profit) + 100 + (Your profit - Profit of other firm)';
-} else {
-  message_for_instructions='Your total compensation for this round is TOTAL COMP = (Your profit) + 100';
+if (is_it_en) {
+    let message = 'Your firm is not making profits, your total payment is 0. ';}
+else {
+    let message = 'Ihr Unternehmen erzielt keine Gewinne, Ihre Gesamtvergütung beträgt 0.';}
 }
-message_instructions.innerHTML=message_for_instructions;
+
+if (is_it_en) {
+    if (CONTRACT_TYPE_RP) {
+      message_for_instructions='Your total compensation for this round is TOTAL COMP = (Your profit) + 100 + (Your profit - Profit of other firm)';
+    } else {
+      message_for_instructions='Your total compensation for this round is TOTAL COMP = (Your profit) + 100';
+    }
+    message_instructions.innerHTML=message_for_instructions;
+else {
+    if (CONTRACT_TYPE_RP) {
+      message_for_instructions='Ihre Gesamtvergütung für diese Runde beträgt GESAMTVERGÜTUNG = (Ihr Gewinn) + 100 + (Ihr Gewinn - Gewinn des anderen Unternehmens).';
+    } else {
+      message_for_instructions = 'Ihre Gesamtvergütung für diese Runde beträgt GESAMTVERGÜTUNG = (Ihr Gewinn) + 100.';
+    }
+    message_instructions.innerHTML=message_for_instructions;
+}
+
 
 
 sliderA.oninput = function() {

@@ -108,13 +108,17 @@ b2="";
 ProfitA=0;
 let firmAChoice=0;
 let firmBChoice=0;
-
+let is_it_en = js_vars.is_it_en
 let prohPrice=100;
 bonus_fixed=100
 //prohibitive price
 let CONTRACT_TYPE_RP = false
 let gamma=1;
-let message='Your firm is not making profits, your total payment is 0. ';
+if (is_it_en) {
+    let message = 'Your firm is not making profits, your total payment is 0. ';}
+else {
+    let message = 'Ihr Unternehmen erzielt keine Gewinne, Ihre Gesamtvergütung beträgt 0.';}
+}
 
 /*
 if (CONTRACT_TYPE_RP) {
@@ -255,11 +259,11 @@ console.log(message_final_payoff)
     <br>
     <b>The experiment is using exchange rate of {{ EXCHANGE_RATE }} Experimental Points = 1 Euro.</b>
     <h3 style="font-size: 20px;"><b> Example 1 of the compensation</b></h3>
-    Suppose the random draw (which will not be shown to you until the end of the experiment) is [1,5,1,6,8,2,9,1,10]. In this example, you will play 10 rounds, but only the first 9 will be relevant for compensation.
+    Suppose the random draw (which will not be shown to you until the end of the experiment) is [1,5,1,6,8,2,9,1,10]. In this example, you will play 10 rounds, but only the first 9 will be relevant for compensation. This happens because the random outcome 10 came at round 9.
     <br>
     Thus, you will receive the sum of compensations for the first 9 rounds.
     <h3 style="font-size: 20px;"><b> Example 2 of the compensation</b></h3>
-    Suppose the random draw (which will not be shown to you until the end of the experiment) is [1,5,1,6,8,2,9,1,3,7,5,10]. In this example, you will play 12 rounds, and all rounds will be relevant for compensation.
+    Suppose the random draw (which will not be shown to you until the end of the experiment) is [1,5,1,6,8,2,9,1,3,7,5,10]. In this example, you will play 12 rounds, and all rounds will be relevant for compensation. This happens because the random outcome 10 came at round 12.
     <br>
     Thus, you will receive the sum of compensations for all 12 rounds.
     <h3 style="font-size: 20px;"><b> Example of the market</b></h3>

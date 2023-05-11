@@ -99,21 +99,50 @@ p.no-data {
 
 
 {{ block title }}
-    <h1>Information about the market environment</h1>
+    <h1>{{ Lexicon.title_Introduction_Market }}</h1>
 {{ endblock }}
 
 {{ block content }}
+
+{{ if en }}
 <div class="table-box">
-    <h3 style="font-size: 20px;"><b> General setting </b></h3>
-    Throughout this part of the experiment you will be asked to assume the role of the manager of a hypothetical firm and make decisions on behalf of the firm in the market environment.
-    Your firm will be in a market with one other firm that would be managed by another participant.
-    <br>
-    The decisions you and the participants you are matched with will be the basis of your compensation.
-    <br>
+    <h3 style="font-size: 20px;"><b> General information </b></h3>
+    The instructions are split into three parts:
+    <ul>
+      <li>Market environment (this page): where you will get information about how the market works and some examples of your choices and the details about possible "contracts". </li>
+      <li>Calculator: where you will get a description of the calculator - a tool that would help you to make decisions</li>
+      <li>Main part of the experiment: where you get information about how you will be paid, how long the markets will operate and allow you to play a practice game against yourself.</li>
+    </ul>
+</div>
+{{ else }}
+<div class="table-box">
+    <h3 style="font-size: 20px;"><b>Allgemeine Informationen</b></h3>
+    Die Anweisungen sind in drei Teile unterteilt:
+    <ul>
+      <li>Marktumfeld (diese Seite): Hier erhalten Sie Informationen darüber, wie der Markt funktioniert, einige Beispiele für Ihre Entscheidungen und Details zu möglichen "Verträgen".</li>
+      <li>Rechner: Hier erhalten Sie eine Beschreibung des Rechners - ein Werkzeug, das Ihnen bei der Entscheidungsfindung hilft.</li>
+      <li>Hauptteil des Experiments: Hier erhalten Sie Informationen darüber, wie Sie bezahlt werden, wie lange die Märkte betrieben werden und die Möglichkeit, ein Übungsspiel gegen sich selbst zu spielen.</li>
+    </ul>
+</div>
+
+{{ endif}}
+
+{{ if en }}
+<div class="table-box">
     <h3 style="font-size: 20px;"><b> Market environment </b></h3>
-    In this market, your firm (firm X) and another firm (firm Y) are in a market for some good X. Each of the two firms produces a certain quantity of good.
+    Throughout the decision part of the experiment you will be asked to assume the role of the manager of a hypothetical firm and make decisions on behalf of the firm in the market environment.
+    Your firm will be in a market with one other firm that would be managed by another participant who is reading the same instructions.
     <br>
-    The price of good X is:
+    The decisions you and the participant you are matched with will be the basis of your compensation.
+    <br>
+    <br>
+    The experiment would be using Experimental Points as a currency. The exchange rate is 1000 points = 1EUR.
+    <br>
+    In a market, your firm (firm X) and another firm (firm Y) are in a market for the good Z. Each of the two firms produces a certain quantity of good.
+    <br>
+    Your decision would be to choose a quantity for your firm (firm X) . Participant you are matched with will choose a quantity for the firm Z.
+    <br>
+    The price of good Z is:
     <br>
     <br>
     <b>Price = 100 - (quantity produced by firm X + quantity produced by firm Y)</b>
@@ -182,6 +211,92 @@ p.no-data {
     <br>
     Your compensation = 0 + 0 + 0 - 0 = 0
 </div>
+{{ else }}
+<div class="table-box">
+    <h3 style="font-size: 20px;"><b>Marktumfeld</b></h3>
+    Während des Entscheidungsteils des Experiments werden Sie gebeten, die Rolle des Managers eines hypothetischen Unternehmens zu übernehmen und im Marktumfeld Entscheidungen im Namen des Unternehmens zu treffen.
+    Ihr Unternehmen wird sich auf einem Markt mit einem anderen Unternehmen befinden, das von einem anderen Teilnehmer verwaltet wird, der dieselben Anweisungen liest.
+    <br>
+    Die Entscheidungen, die Sie und der zugewiesene Teilnehmer treffen, bilden die Grundlage Ihrer Vergütung.
+    <br>
+    <br>
+    Im Experiment wird Experimental Points als Währung verwendet. Der Wechselkurs beträgt 1000 Punkte = 1 EUR.
+    <br>
+    Auf einem Markt befinden sich Ihr Unternehmen (Firma X) und ein anderes Unternehmen (Firma Y) für das Gut Z. Jedes der beiden Unternehmen produziert eine bestimmte Menge des Guts.
+    <br>
+    Ihre Entscheidung besteht darin, eine Menge für Ihr Unternehmen (Firma X) zu wählen. Der zugewiesene Teilnehmer wählt eine Menge für das Unternehmen Z.
+    <br>
+    Der Preis für Gut Z ergibt sich wie folgt:
+    <br>
+    <br>
+    <b>Preis = 100 - (Menge von Firma X + Menge von Firma Y)</b>
+    <br>
+    <b><i>HINWEIS: Wenn die Gesamtmenge über 100 liegt, beträgt der Preis 0.</i></b>
+    <br>
+    <br>
+    Der Gewinn jedes Unternehmens wird wie folgt berechnet:
+    <br>
+    <b>Gewinn = vom Unternehmen produzierte Menge * Preis</b>
+    <br>
+    <br>
+    <h3 style="font-size: 20px;"><b>Beispiel 1</b></h3>
+    Angenommen, Sie wählen eine Menge von 30 und der zugewiesene Teilnehmer wählt eine Menge von 40.
+    <br>
+    Der Preis für das Gut X beträgt dann:
+    <br>
+    <b>Preis = 100 - (30 + 40) = 30</b>
+    <br>
+    Der Gewinn jedes Unternehmens wird wie folgt berechnet:
+    <br>
+    <b>Gewinn Ihres Unternehmens = 30(Preis) * 30 (Ihre Menge) = 900</b>
+    <br>
+    <b>Gewinn des anderen Unternehmens = 30(Preis) * 40 (Menge des anderen Teilnehmers) = 1200</b>
+    <br>
+    <h3 style="font-size: 20px;"><b>Beispiel 2</b></h3>
+    Angenommen, Sie wählen eine Menge von 50 und der zugewiesene Teilnehmer wählt eine Menge von 70.
+    <br>
+    Der Preis für das Gut X beträgt dann:
+    <br>
+    <b>Preis = 100 - (50 + 70) = -20 < 0, daher beträgt der Preis 0.</b>
+    <br>
+    Der Gewinn jedes Unternehmens wird wie folgt berechnet:
+    <br>
+    <b>Gewinn Ihres Unternehmens = 0(Preis) * 50 (Ihre Menge) = 0</b>
+    <br>
+    <b>Gewinn des anderen Unternehmens = 0(Preis) * 70 (Menge des anderen Teilnehmers) = 0</b>
+    <br>
+    <br>
+    <h3 style="font-size: 20px;"><b>Vergütung</b></h3>
+    Im Verlauf des Experiments werden Sie basierend auf zwei möglichen Verträgen vergütet. Gleiches gilt für den zugewiesenen Teilnehmer.
+    <br>
+    <b>Vertrag A: Ihre Vergütung = (Gewinn Ihres Unternehmens) + 100 </b>
+    <br>
+    <b>HINWEIS: 100 wird nur hinzugefügt, wenn Ihre Gewinne positiv sind.</b>
+    <br>
+    Im obigen Beispiel 1 beträgt Ihre Vergütung unter Vertrag A dann:
+    <br>
+    Ihre Vergütung = 100 + 900 = 1000
+    <br>
+    Im obigen Beispiel 2 beträgt Ihre Vergütung unter Vertrag A dann:
+    <br>
+    Ihre Vergütung = 0 + 0 = 0
+    <br>
+    <br>
+    <b>Vertrag B: Ihre Vergütung = (Gewinn Ihres Unternehmens) + (Gewinn Ihres Unternehmens - Gewinn des anderen Unternehmens) + 100 </b>
+    <br>
+    <b>HINWEIS: 100 wird nur hinzugefügt, wenn Ihre Gewinne positiv sind.</b>
+    <br>
+    Im obigen Beispiel 1 beträgt Ihre Vergütung unter Vertrag B dann:
+    <br>
+    Ihre Vergütung = 100 + 900 + 900 - 1200 = 700
+    <br>
+    Im obigen Beispiel 2 beträgt Ihre Vergütung unter Vertrag A dann:
+    <br>
+    Ihre Vergütung = 0 + 0 + 0 - 0 = 0
+</div>
+
+{{ endif }}
+
 
 <div class="btn-container">
       {{ next_button }}

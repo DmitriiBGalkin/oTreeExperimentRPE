@@ -174,26 +174,41 @@ firmBChoice=this.value*1;// value B in slider
 
 
 {{ block title }}
-    <h1>Information about the calculator</h1>
+    <h1>{{ Lexicon.title_info_calculator }}</h1>
 {{ endblock }}
 
 {{ block content }}
-<div class="table-box">
-    <h3 style="font-size: 20px;"><b> Calculator </b></h3>
+{{ if en }}
+  <div class="table-box">
+      <h3 style="font-size: 20px;"><b> Calculator </b></h3>
+      <br>
+      To help you with your decisions, we introduce the calculator which would output firms profits and your compensation (based on your assigned contract).
+      <br>
+      <h3 style="font-size: 20px;"><b> Compensation </b></h3>
+      In this introduction the compensation is shown with two possible contracts.
+      <br>
+      <b> Contract A: Your compensation = 100 + (Profit of your firm) </b>
+      <br>
+      <b> Contract B: Your compensation = 100 + (Profit of your firm) + (Profit of your firm - Profit of the other firm) </b>
+      <br>
+      During the decision stages only a contract you are assigned to will be shown.
+  </div>
+{{ else }}
+  <div class="table-box">
+    <h3 style="font-size: 20px;"><b> Rechner </b></h3>
     <br>
-    To help you with your decisions we introduce the calculator which would output firms profits and your compensation (based on your assigned contract).
+    Um Ihnen bei Ihren Entscheidungen zu helfen, stellen wir Ihnen einen Rechner vor, der die Gewinne der Unternehmen und Ihre Vergütung (auf der Grundlage des Ihnen zugewiesenen Vertrags) ausgibt.
     <br>
-    <h3 style="font-size: 20px;"><b> Compensation </b></h3>
-    In this introduction the compensation is shown with two possible contracts.
+    <h3 style="font-size: 20px;"><b> Vergütung </b></h3>
+    In dieser Einführung wird die Vergütung mit zwei möglichen Verträgen dargestellt.
     <br>
-    <b> Contract A: Your compensation = 100 + (Profit of your firm) </b>
+    <b> Vertrag A: Ihre Vergütung = 100 + (Gewinn Ihres Unternehmens) </b>
     <br>
-    <b> Contract B: Your compensation = 100 + (Profit of your firm) + (Profit of your firm - Profit of the other firm) </b>
+    <b> Vertrag B: Ihre Vergütung = 100 + (Gewinn Ihres Unternehmens) + (Gewinn Ihres Unternehmens - Gewinn des anderen Unternehmens) </b>
     <br>
-    During the decision stages only a contract you are assigned to will be shown.
-
+    Während der Entscheidungsphasen wird nur der Vertrag angezeigt, dem Sie zugewiesen sind.
 </div>
-
+{{ endif}}
 
 <div class="sub-container">
   <div class="calculator-box">
@@ -312,12 +327,12 @@ input[type=range]::-ms-thumb {
 
 
 <div class="slidecontainer">
-  <h3 style="font-size: 20px;"><b> Firms' Profit Calculator </b></h3>
+  <h3 style="font-size: 20px;"><b> {{ if en }} Firms' Profit Calculator {{ else }} Profit-Rechner {{ endif }}   </b></h3>
   <table class="slidertable">
     <tbody>
       <tr>
         <td style="text-align:center;">
-          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">If the other participant chooses: <span id="sliderFirmA"></span><br></span></h3>
+          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;"> {{ if en }}  If the other participant chooses: {{ else }} Wählt der andere Teilnehmer: {{ endif }}  <span id="sliderFirmA"></span><br></span></h3>
         </td>
       </tr>
       <tr>
@@ -345,7 +360,7 @@ input[type=range]::-ms-thumb {
     <tbody>
       <tr>
         <td style="text-align:center;">
-          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">And you choose: <span id="sliderFirmB"></span><br></span></h3>
+          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;"> {{ if en }} And you choose: {{ else }} Und Sie wählen: {{ endif }}  <span id="sliderFirmB"></span><br></span></h3>
         </td>
       </tr>
       <tr>
@@ -371,7 +386,7 @@ input[type=range]::-ms-thumb {
   </table>
 
 <br>
-  <h3 style="font-size: 16px;"><b> Firms' profits and your compensation</b></h3>
+  <h3 style="font-size: 16px;"><b> {{ if en }} Firms' profits and your compensation {{ else }} Unternehmensgewinne und Ihre Vergütung {{ endif }} </b></h3>
 
   <table class="infotable" style="text-align: center; margin-top: 10px; border-collapse: collapse;">
 
@@ -384,23 +399,35 @@ input[type=range]::-ms-thumb {
     </colgroup>
 
      <tbody>
-      <tr>
+     {{ if en }}
+     <tr>
         <td><b>Contract </b></td>
         <td><b>Other firm's profits</b></td>
         <td><b>My firm's profits</b></td>
         <td><b>My bonus</b></td>
         <td><b>My compensation</b></td>
       </tr>
+     {{ else }}
+    <tr>
+        <td><b>Vertrag</b></td>
+        <td><b>Gewinn der anderen Firma</b></td>
+        <td><b>Gewinn meiner Firma</b></td>
+        <td><b>Mein Bonus</b></td>
+        <td><b>Meine Vergütung</b></td>
+    </tr>
+     {{ endif }}
+
+
 
       <tr>
-        <td><b>CONTRACT A: </b></td>
+        <td><b> {{ if en }} CONTRACT A:  {{ else }} Vertrag A:{{ endif }} </b></td>
         <td><b><span id="firmAProfitAP"></span></b></td>
         <td><b><span id="firmBProfitAP"></span></b></td>
         <td><b><span id="my_bonusFirmBAP"></span></b></td>
         <td><b><span id="my_total_compensationAP"></span></b></td>
       </tr>
       <tr>
-        <td><b>CONTRACT B: </b></td>
+        <td><b> {{ if en }} CONTRACT B:  {{ else }} Vertrag B:{{ endif }} </b></td>
         <td><b><span id="firmAProfitRP"></span></b></td>
         <td><b><span id="firmBProfitRP"></span></b></td>
         <td><b><span id="my_bonusFirmBRP"></span></b></td>
@@ -414,7 +441,7 @@ input[type=range]::-ms-thumb {
 
   </div>
 
-
+  {{ if en }}
   <div class="table-box">
     <h3 style="font-size: 20px;"><b> How the calculator works: </b></h3>
     <br>
@@ -433,14 +460,53 @@ input[type=range]::-ms-thumb {
     <br>
     Your total compensation will not go below 0.
   </div>
+  {{ else }}
+  <div class="table-box">
+    <h3 style="font-size: 20px;"><b>Wie der Rechner funktioniert:</b></h3>
+    <br>
+    Angenommen, Sie ändern die Position des Schiebereglers für ein beliebiges Unternehmen. In diesem Fall können Sie die neuen Gewinne sehen, die sich aus dieser spezifischen Kombination von Mengen ergeben.
+    Darüber hinaus können Sie Ihre Vergütung basierend auf den Gewinnen sehen.
+    <br>
+    <br>
+    <b>Vertrag A zahlt Ihren Gewinn + den Bonus der festen Zahlung von 100, wenn Ihr Gewinn positiv ist.</b>
+    <br>
+    <br>
+    <b>Vertrag B zahlt Ihren Gewinn + den Bonus von 100 + die <i>Differenz zwischen Ihren Gewinnen und den Gewinnen des anderen Unternehmens</i>.</b>
+    <br>
+    <br>
+    Daher zahlt Vertrag B für eine bestimmte Kombination von Mengen mehr als Vertrag A, wenn Sie mehr produzieren als der Teilnehmer, mit dem Sie abgeglichen sind.
+    <br>
+    <br>
+    Wenn Sie jedoch unter Vertrag B <i>weniger</i> als das andere Unternehmen produzieren, kann Ihr Bonus negativ sein. (Zum Beispiel, wenn Sie 10 für Ihr Unternehmen und 40 für das andere Unternehmen auswählen).
+    <br>
+    Ihre Gesamtvergütung wird jedoch nicht unter 0 fallen.
+  </div>
+  {{ endif }}
+
   </div>
 
+{{ if en }}
 <div class="table-box">
   <h3 style="font-size: 20px;"><b> Here are some comprehension questions. All the answers can be obtained with a calculator. </b></h3>
   <br>
   You can only proceed if you answer them correctly.
    {{ formfields }}
 </div>
+{{ else }}
+
+<div class="table-box">
+  <h3 style="font-size: 20px;"><b>Hier sind einige Verständnisfragen. Alle Antworten können mit einem Taschenrechner ermittelt werden.</b></h3>
+  <br>
+  Sie können nur fortfahren, wenn Sie sie korrekt beantworten.
+  {{ formfields }}
+</div>
+
+{{ endif }}
+
+
+
+
+
 
 <div class="btn-container">
    {{ next_button }}

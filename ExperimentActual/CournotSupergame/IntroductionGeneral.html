@@ -100,10 +100,12 @@ p.no-data {
 
 
 {{ block title }}
-    <h1>Introduction to the experiment</h1>
+    <h1>{{ Lexicon.title_Introduction_General }}</h1>
 {{ endblock }}
 
 {{ block content }}
+
+{{ if en }}
 <div class="table-box">
     <h3 style="font-size: 20px;"><b> General instructions </b></h3>
         Hello and welcome to our experiment. Please read this instruction set very carefully.
@@ -132,8 +134,32 @@ p.no-data {
     <br>
     <b><i>By clicking "Next" button, you consent to take part in this experiment. </i></b>
 
-
 </div>
+{{ else }}
+<div class="table-box">
+    <h3 style="font-size: 20px;"><b>Allgemeine Anweisungen</b></h3>
+    Hallo und herzlich willkommen zu unserem Experiment. Bitte lesen Sie diese Anweisungen sorgfältig durch.
+    <br>
+    <br>
+    Sie nehmen an einem Experiment teil, das Entscheidungsfindung beinhaltet. Die Höhe Ihres Verdienstes hängt von einer Kombination Ihrer eigenen Entscheidungen, den Entscheidungen anderer Personen und dem Zufall ab. Bitte stellen Sie sicher, dass Ihre Mobiltelefone und ähnliche Geräte ausgeschaltet sind. Außerdem bitten wir Sie, während des Experiments nicht zu sprechen oder zu versuchen, mit anderen Teilnehmern zu kommunizieren.
+    <br>
+    Das Experiment wird voraussichtlich 1 Stunde 15 Minuten bis 1 Stunde 30 Minuten dauern. Das Experiment wird anonym durchgeführt, das bedeutet, dass Sie nicht wissen werden, mit wem Sie interagieren.
+    <br>
+    <br>
+    Wir beginnen mit einer kurzen Einführungsphase. Während dieser Zeit erhalten Sie einen Überblick über die Hauptbestandteile des Experiments. Wenn Sie Fragen haben, heben Sie bitte Ihre Hand, und Ihre Frage wird laut für alle hörbar beantwortet.
+    <br>
+    <br>
+    <b><i>Wir garantieren, dass alle von Ihnen erhaltenen Informationen vertraulich behandelt werden. Das Spiel ist anonym. Ihre Antworten werden nur für wissenschaftliche Zwecke verwendet.
+    <br>
+    Das Projekt wurde ausführlich vom Ethik-Komitee der Universität Wuppertal besprochen, das positiv über die Unbedenklichkeit der geplanten Studie abgestimmt hat.
+    </i></b>
+    <br>
+    <br>
+    <b><i>Durch Klicken auf die Schaltfläche "Weiter" erklären Sie sich damit einverstanden, an diesem Experiment teilzunehmen.</i></b>
+</div>
+{{ endif }}
+
+
 
 <div class="btn-container">
   {{ next_button }}
