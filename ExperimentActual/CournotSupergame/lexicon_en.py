@@ -9,3 +9,5 @@ class Lexicon:
     title_Introduction_General = "Introduction to the Experiment"
     title_Introduction_Market = "Information about the market environment"
     title_info_calculator = "Information about the profit calculator"
+    contract_a = "CONTRACT A"
+    contract_b = "CONTRACT B"

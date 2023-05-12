@@ -8,6 +8,13 @@ body {
   font-family: Arial, sans-serif;
   font-size: 16px;
 }
+.btn-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding-top: 20px;
+		}
+
 
 /* Style the title block */
 h1 {
@@ -54,6 +61,7 @@ p {
   flex-basis: 60%;
   border: 1px solid #ccc;
   padding: 10px;
+  align-items: center;
 }
 
 /* Style the table title */
@@ -91,40 +99,43 @@ p.no-data {
 {{ endblock }}
 
 
-{{ block title }}
-    <h1>Final compensation page</h1>
-{{ endblock }}
-
 {{ block content }}
+
+{{ if en }}
 <div class="table-box">
-    <h3 style="font-size: 20px;"><b> Thank you for participation! </b></h3>
+    <h3 style="font-size: 20px;"><b> The main part of the experiment is about to begin. </b></h3>
     <br>
-    Thank you for participating in our experiment. We have randomly chosen the market {{ chosen_supergame }} to be used for your payment.
-    You can find your actions for this market in a table below. Your total compensation in the payoff-relevant rounds was
-    <b>{{ your_final_payoff }} </b>. In addition, to your participation fee (5 EUR), you total payment will be <b> {{ total_payment }} EUR</b>.
+    All decisions in the next rounds can be relevant to your final payment.
+    <br>
+    If you are experiencing any problems, please raise your hand and an assistant will be with you shortly.
+    <br>
+    <br>
+    <b> NOTE: BEFORE EACH MARKET YOU WILL BE ALLOWED TO COMMUNICATE WITH THE PARTICIPANT YOU ARE MATCHED WITH VIA ONLINE CHAT.
+    <br>
+    You are not allowed to disclose your identity.</b>
+
 </div>
+{{ else }}
 <div class="table-box">
-    <h3 style="font-size: 20px;"><b> Your actions in the Market {{ chosen_supergame}}  </b></h3>
-    {{ if display_table_final }}
-    <table>
-      <tr>
-          <th>Round Number</th>
-          <th>Quantity Chosen</th>
-          <th>Your firm's Profits</th>
-          <th>Your Compensation</th>
-          <th>Random Roll</th>
-          <th>Your Contract</th>
-      </tr>
-      {{ for row in display_table_final }}
-      <tr>
-        {{ for cell in row }}
-        <td>{{ cell }}</td>
-        {{ endfor }}
-      </tr>
-      {{ endfor }}
-    </table>
-    {{ else }}
-    <p class="no-data">No data available</p>
-    {{ endif }}
+    <h3 style="font-size: 20px;"><b>Der Hauptteil des Experiments beginnt bald.</b></h3>
+<br>
+Alle Entscheidungen in den nächsten Runden können für Ihre endgültige Zahlung relevant sein.
+<br>
+Wenn Sie Probleme haben, heben Sie bitte die Hand, und ein Assistent wird Ihnen in Kürze behilflich sein.
+<br>
+<br>
+<b>HINWEIS: VOR JEDEM MARKT WIRD IHNEN ERLAUBT, MIT DEM TEILNEHMER, MIT DEM SIE ABGEGLEICHEN WURDEN, PER ONLINE-CHAT ZU KOMMUNIZIEREN.
+<br>
+Es ist Ihnen nicht gestattet, Ihre Identität preiszugeben.
+</b>
 </div>
+{{ endif }}
+
+
+
+<div class="btn-container">
+  {{ next_button }}
+</div>
+
+
 {{ endblock }}

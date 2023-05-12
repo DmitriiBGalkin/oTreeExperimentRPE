@@ -1,7 +1,7 @@
 {{ block style }}
 <style>
 .otree-body {
-    max-width:85%;
+    max-width:95%;
     margin: 0 auto
 }
 body {
@@ -103,21 +103,22 @@ var sliderB = document.getElementById("sliderRangeB");
 var outputA = document.getElementById("sliderFirmA");
 var outputB = document.getElementById("sliderFirmB");
 
-b1="";
-b2="";
-ProfitA=0;
-let firmAChoice=0;
-let firmBChoice=0;
-let is_it_en = js_vars.is_it_en
-let prohPrice=100;
-bonus_fixed=100
+b1 = "";
+b2 = "";
+ProfitA = 0;
+let firmAChoice = 0;
+let firmBChoice = 0;
+let is_it_en = js_vars.is_it_en;
+console.log(is_it_en)
+let prohPrice = 100;
+bonus_fixed = 100;
 //prohibitive price
-let CONTRACT_TYPE_RP = false
-let gamma=1;
+let CONTRACT_TYPE_RP = false;
+let gamma = 1;
 if (is_it_en) {
-    let message = 'Your firm is not making profits, your total payment is 0. ';}
-else {
-    let message = 'Ihr Unternehmen erzielt keine Gewinne, Ihre Gesamtvergütung beträgt 0.';}
+  let message = 'Your firm is not making profits, your total compensation is 0. ';
+} else {
+  let message = 'Ihr Unternehmen erzielt keine Gewinne, Ihre Gesamtvergütung beträgt 0.';
 }
 
 /*
@@ -131,106 +132,149 @@ message_instructions.innerHTML=message_for_instructions;
 
 
 sliderA.oninput = function() {
-outputA.innerHTML = this.value; // display value A in HTML
-firmAChoice=this.value*1; // value A in slider
+  outputA.innerHTML = this.value; // display value A in HTML
+  firmAChoice = this.value * 1; // value A in slider
 };
 sliderB.oninput = function() {
-outputB.innerHTML = this.value; // display value B in HTML
-firmBChoice=this.value*1;// value B in slider
-
+  outputB.innerHTML = this.value; // display value B in HTML
+  firmBChoice = this.value * 1; // value B in slider
 };
-
-[sliderA,sliderB].forEach(function(element) {
-	element.addEventListener("input", function() {
-  	if (firmAChoice+firmBChoice<prohPrice){
-        profitA=(prohPrice-firmAChoice-firmBChoice)*firmAChoice;
-        profitB=(prohPrice-firmAChoice-firmBChoice)*firmBChoice;
-        if(CONTRACT_TYPE_RP){
-          firmBBonus=bonus_fixed+gamma*(profitB-profitA);
-          total_compensation=profitB+firmBBonus;
-          message='Your firm`s profits are ' + profitB + '. Your bonus is ' + firmBBonus + '. Your total compensation is ' + total_compensation + '.';
-          if (total_compensation<0){
-            total_compensation = 0;
-            message = 'Your bonus is negative and exceeds the profits. Your total compensation is 0.'};
+[sliderA, sliderB].forEach(function(element) {
+  element.addEventListener("input", function() {
+    if (firmAChoice + firmBChoice < prohPrice) {
+      profitA = (prohPrice - firmAChoice - firmBChoice) * firmAChoice;
+      profitB = (prohPrice - firmAChoice - firmBChoice) * firmBChoice;
+      if (CONTRACT_TYPE_RP) {
+        firmBBonus = bonus_fixed + gamma * (profitB - profitA);
+        total_compensation = profitB + firmBBonus;
+        if (is_it_en) {
+          message = 'Your firm`s profits are ' + profitB + '. Your bonus is ' + firmBBonus + '. Your total compensation is ' + total_compensation + '.';
         } else {
-          firmBBonus=bonus_fixed
-          total_compensation=profitB+firmBBonus;
-          message='Your firm`s profits are ' + profitB + '. Your bonus is ' + firmBBonus + '. Your total compensation is ' + total_compensation + '.';
-          if (total_compensation<0){
-            total_compensation = 0;
-            message = 'Your bonus is negative and exceeds the profits. Your total compensation is 0.'};
+          message = 'Der Gewinn Ihres Unternehmens beträgt ' + profitB + '. Ihr Bonus beträgt ' + firmBBonus + '. Ihre Gesamtvergütung beträgt ' + total_compensation + '.';
         }
-        if (firmBChoice==0){
-          firmBBonus=0;
-          total_compensation=profitB+firmBBonus;
-          message='Your firm is not producing any quantity, your total compensation is 0.';
+
+        if (total_compensation < 0) {
+          total_compensation = 0;
+          if (is_it_en) {
+            message = 'Your bonus is negative and exceeds the profits. Your total compensation is 0.';
+          } else {
+            message = 'Ihr Bonus ist negativ und übersteigt den Gewinn. Ihre Gesamtvergütung ist 0.';
+          }
+        }
+      } else {
+        firmBBonus = bonus_fixed
+        total_compensation = profitB + firmBBonus;
+        if (is_it_en) {
+          message = 'Your firm`s profits are ' + profitB + '. Your bonus is ' + firmBBonus + '. Your total compensation is ' + total_compensation + '.';
+        } else {
+          message = 'Der Gewinn Ihres Unternehmens beträgt ' + profitB + '. Ihr Bonus beträgt ' + firmBBonus + '. Ihre Gesamtvergütung beträgt ' + total_compensation + '.';
+        }
+      }
+      if (firmBChoice == 0) {
+        firmBBonus = 0;
+        total_compensation = profitB + firmBBonus;
+        if (is_it_en) {
+          message = 'Your firm is not producing any quantity. Your bonus is 0. Your total compensation is 0.';
+        } else {
+          message = 'Ihr Unternehmen produziert keine Menge. Ihr Bonus ist 0. Ihre Gesamtvergütung ist 0.';
+        }
       }
     } else {
-    profitA=0;
-    profitB=0;
-    firmBBonus=0;
-    total_compensation=0;
-    message='Total production is at the maximum of 100. Your total compensation is 0. ';
+      profitA = 0;
+      profitB = 0;
+      firmBBonus = 0;
+      total_compensation = 0;
+      if (is_it_en) {
+        message = 'Total production is at the maximum of 100. Your total compensation is 0. ';
+      } else {
+        message = 'Die Gesamtproduktion ist auf dem Höchstwert von 100. Ihre Gesamtvergütung beträgt 0.';
+      }
     }
-	firmAProfit.innerHTML=profitA.toFixed(0);
-    firmBProfit.innerHTML=profitB.toFixed(0);
-    my_bonusFirmB.innerHTML=firmBBonus.toFixed(0);
-    my_total_compensation.innerHTML=total_compensation.toFixed(0);
-    messageContract.innerHTML=message;
+    firmAProfit.innerHTML = profitA.toFixed(0);
+    firmBProfit.innerHTML = profitB.toFixed(0);
+    my_bonusFirmB.innerHTML = firmBBonus.toFixed(0);
+    my_total_compensation.innerHTML = total_compensation.toFixed(0);
+    messageContract.innerHTML = message;
   });
 });
 
 
 function calculateProfits(myOutput, otherOutput) {
-const myProfit = myOutput * (100 - myOutput - otherOutput);
-const otherProfit = otherOutput * (100 - myOutput - otherOutput);
-return [myProfit, otherProfit];
+  let myProfit, otherProfit;
+  if (myOutput + otherOutput < prohPrice) {
+    myProfit = myOutput * (100 - myOutput - otherOutput);
+    otherProfit = otherOutput * (100 - myOutput - otherOutput);
+  } else {
+    myProfit = 0;
+    otherProfit = 0;
+  }
+  return [myProfit, otherProfit];
 }
 
-function calculateCompensation(myOutput, myProfit) {
-return myProfit+100;
+function calculateCompensation(myProfit) {
+  if (myProfit !== 0) {
+    return myProfit + 100;
+  } else {
+    return 0;
+  }
 }
+
 var chooseCount = 0;
 total_compensation = 0;
-message_final_payoff = 'Please play at least 10 example games to see the final example payoffs. ';
-message_final.innerHTML=message_final_payoff;
+if (is_it_en) {
+  message_final_payoff = 'Please play at least 10 example games to see the final example payoffs. ';
+} else {
+  message_final_payoff = 'Bitte spielen Sie mindestens 10 Beispielspiele, um die endgültigen Beispielauszahlungen zu sehen. ';
+}
+
+
+message_final.innerHTML = message_final_payoff;
 document.getElementById('chooseBtn').addEventListener('click', function() {
-     event.preventDefault();
-    const userChoice = document.getElementById('userChoice').value;
-    const userChoiceOther = document.getElementById('userChoiceOther').value;
+  event.preventDefault();
+  const userChoice = +document.getElementById('userChoice').value;
+  const userChoiceOther = +document.getElementById('userChoiceOther').value;
 
-     if (userChoice === "" || userChoice < 0 || userChoice > 70 || userChoiceOther === "" || userChoiceOther < 0 || userChoiceOther > 70) {
-        alert('Please enter a valid number between 0 and 70');
-        return;
-      }
+  if (userChoice === "" || userChoice < 0 || userChoice > 70 || userChoiceOther === "" || userChoiceOther < 0 || userChoiceOther > 70) {
+    if (is_it_en) {
+      alert('Please enter a valid number between 0 and 70');
+    } else {
+      alert('Bitte geben Sie eine gültige Zahl zwischen 0 und 70 ein.');
+    }
+    return;
+  }
 
-      let otherFirmOutput;
+  let otherFirmOutput;
 
-      const [myProfit, otherProfit] = calculateProfits(userChoice, userChoiceOther);
-      const myCompensation = calculateCompensation(userChoice, myProfit);
+  const [myProfit, otherProfit] = calculateProfits(userChoice, userChoiceOther);
+  const myCompensation = calculateCompensation(myProfit);
 
-      const newRow = document.createElement('tr');
-      newRow.innerHTML = `
+  const newRow = document.createElement('tr');
+  newRow.innerHTML = `
         <td>${userChoice}</td>
         <td>${userChoiceOther}</td>
         <td>${myProfit.toFixed(2)}</td>
         <td>${otherProfit.toFixed(2)}</td>
         <td>${myCompensation.toFixed(2)}</td>
       `;
-      document.getElementById('results').appendChild(newRow);
-      chooseCount= chooseCount+1;
-      if (chooseCount<10){
-      total_compensation = total_compensation + myCompensation}
-      if (chooseCount == 10){
-      var compensation_in_thousands = total_compensation / js_vars.EXCHANGE_RATE; // divide by 1000 to get the value in thousands
-      var compensation_in_thousands_rounded = Math.round(compensation_in_thousands * 100) / 100; // round to the nearest 0.01
-      var compensation_in_thousands_and_show = compensation_in_thousands_rounded + 5;
-      message_final_payoff = 'Your total compensation for the payoff relevant rounds(' + chooseCount + ') ' + total_compensation + ' experimental points. Your total payment is ' +  compensation_in_thousands_rounded + ' EUR plus your participation fee of 5 EUR. Your final payment is ' + compensation_in_thousands_and_show + ' EUR. If you would like to try again, please refresh this page (press F5). ';
-      message_final.innerHTML=message_final_payoff;
-      }
-    });
-console.log(message_final_payoff)
+  document.getElementById('results').appendChild(newRow);
+  chooseCount = chooseCount + 1;
+  if (chooseCount < 10) {
+    total_compensation = total_compensation + myCompensation
+  }
+  if (chooseCount == 10) {
+    var compensation_in_thousands = total_compensation / js_vars.EXCHANGE_RATE; // divide by 1000 to get the value in thousands
+    var compensation_in_thousands_rounded = Math.round(compensation_in_thousands * 100) / 100; // round to the nearest 0.01
+    var compensation_in_thousands_and_show = compensation_in_thousands_rounded + 5;
+    if (is_it_en) {
+      message_final_payoff = 'Your total compensation for the payoff relevant rounds(' + chooseCount + ') ' + total_compensation + ' experimental points. Your total payment is ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR plus your participation fee of 5 EUR. Your final payment is ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. If you would like to try again, please refresh this page (press F5). ';
+    } else {
+      message_final_payoff = 'Ihre Gesamtentschädigung für die relevanten Auszahlungsrunden (' + chooseCount + ') beträgt ' + total_compensation + ' experimentelle Punkte. Ihre Gesamtzahlung beträgt ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR zuzüglich Ihrer Teilnahmegebühr von 5 EUR. Ihre endgültige Zahlung beträgt ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. Wenn Sie es erneut versuchen möchten, aktualisieren Sie bitte diese Seite (drücken Sie F5). ';
+    }
 
+    message_final.innerHTML = message_final_payoff;
+  }
+});
+console.log(message_final_payoff)
 
 </script>
 {{ endblock }}
@@ -239,25 +283,29 @@ console.log(message_final_payoff)
 
 
 {{ block title }}
-    <h1>Information about setting, matching and compensation </h1>
+    <h1>{{ if en }} Information about setting, matching and compensation  {{ else }} Informationen über Einstellung, Anpassung und Vergütung {{ endif }}  </h1>
 {{ endblock }}
 
 {{ block content }}
+{{ if en }}
 <div class="table-box">
     <h3 style="font-size: 20px;"><b> Main part of the experiment </b></h3>
     In the main part of the experiment, you will be playing as a manager in 4 markets. Each market will last for several periods.
     <br>
     In each market you will be matched with a different participant. You will be given information about your contract, contract of the participant you are matched with, a calculator similar to the one on the previous page and details about the outcomes in the previous periods.
-
+    <br>
+    <h3 style="font-size: 20px;"><b> Your compensation </b></h3>
+    After you have played four markets in the main part of the experiment, we will draw a random number between 1-4 and pay you the total compensation you have earned in that market. In addition, you will also receive your participant fee (5 EUR).
+    <br>
+    <b>The experiment is using exchange rate of {{ EXCHANGE_RATE }} Experimental Points = 1 Euro.</b>
+    <br>
+    <br>
     <h3 style="font-size: 20px;"><b> Duration of the markets </b></h3>
     The markets will last for an unknown number of periods. For each period the computer have generated a random number between 1 to 10. If a number for a period is 10, the market stops and you will be rematched with another participant.
     You will be notified about this by a respective page. In other words, the probability that the market will stop is 10%.
     <br>
     However, you will play at least 10 periods. If a random draw determines that the market has ended before 10 periods, remaining periods will not be used for your compensation.
-    <h3 style="font-size: 20px;"><b> Your compensation </b></h3>
-    After you have played four markets in the main part of the experiment, we will draw a random number between 1-4 and pay you the total compensation you have earned in that market. In addition, you will also receive your participant fee (5 EUR).
-    <br>
-    <b>The experiment is using exchange rate of {{ EXCHANGE_RATE }} Experimental Points = 1 Euro.</b>
+
     <h3 style="font-size: 20px;"><b> Example 1 of the compensation</b></h3>
     Suppose the random draw (which will not be shown to you until the end of the experiment) is [1,5,1,6,8,2,9,1,10]. In this example, you will play 10 rounds, but only the first 9 will be relevant for compensation. This happens because the random outcome 10 came at round 9.
     <br>
@@ -275,6 +323,45 @@ console.log(message_final_payoff)
     <br>
 
 </div>
+{{ else }}
+<div class="table-box">
+    <h3 style="font-size: 20px;"><b>Hauptteil des Experiments</b></h3>
+    Im Hauptteil des Experiments spielen Sie als Manager in 4 Märkten. Jeder Markt dauert mehrere Perioden.
+    <br>
+    In jedem Markt werden Sie mit einem anderen Teilnehmer gematcht. Ihnen werden Informationen über Ihren Vertrag, den Vertrag des Teilnehmers, mit dem Sie gematcht sind, ein Taschenrechner ähnlich dem auf der vorherigen Seite und Details über die Ergebnisse in den vorherigen Perioden gegeben.
+    <br>
+    <h3 style="font-size: 20px;"><b>Ihre Vergütung</b></h3>
+    Nachdem Sie vier Märkte im Hauptteil des Experiments gespielt haben, ziehen wir eine Zufallszahl zwischen 1 und 4 und zahlen Ihnen die Gesamtvergütung, die Sie in diesem Markt verdient haben. Zusätzlich erhalten Sie auch Ihre Teilnahmegebühr (5 EUR).
+    <br>
+    <b>Das Experiment verwendet einen Wechselkurs von {{ EXCHANGE_RATE }} Experimental Points = 1 Euro.</b>
+    <br>
+    <br>
+    <h3 style="font-size: 20px;"><b>Dauer der Märkte</b></h3>
+    Die Märkte dauern eine unbekannte Anzahl von Perioden. Für jede Periode generiert der Computer eine Zufallszahl zwischen 1 und 10. Wenn eine Zahl für eine Periode 10 ist, endet der Markt und Sie werden mit einem anderen Teilnehmer neu gematcht.
+    Sie werden darüber auf einer entsprechenden Seite benachrichtigt. Mit anderen Worten beträgt die Wahrscheinlichkeit, dass der Markt endet, 10%.
+    <br>
+    Sie spielen jedoch mindestens 10 Perioden. Wenn bei einer Zufallsziehung bestimmt wird, dass der Markt vor 10 Perioden endet, werden die verbleibenden Perioden nicht für Ihre Vergütung verwendet.
+
+    <h3 style="font-size: 20px;"><b>Beispiel 1 der Vergütung</b></h3>
+    Angenommen, die Zufallsziehung (die Ihnen erst am Ende des Experiments gezeigt wird) lautet [1,5,1,6,8,2,9,1,10]. In diesem Beispiel spielen Sie 10 Runden, aber nur die ersten 9 sind relevant für die Vergütung. Das liegt daran, dass das zufällige Ergebnis 10 in Runde 9 auftrat.
+    <br>
+    Sie erhalten also die Summe der Vergütungen für die ersten 9 Runden.
+
+    <h3 style="font-size: 20px;"><b>Beispiel 2 der Vergütung</b></h3>
+    Angenommen, die Zufallsziehung (die Ihnen erst am Ende des Experiments gezeigt wird) lautet [1,5,1,6,8,2,9,1,3,7,5,10]. In diesem Beispiel spielen Sie 12 Runden, und alle Runden sind relevant für die Vergütung. Das liegt daran, dass das zufällige Ergebnis 10 in Runde 12 auftrat.
+    <br>
+    Sie erhalten also die Summe der Vergütungen für alle 12 Runden.
+    <h3 style="font-size: 20px;"><b>Beispiel des Marktes</b></h3>
+    Unten sehen Sie ein Beispiel für den Markt, bei dem Sie Mengen sowohl für sich selbst als auch für eine hypothetische andere Firma wählen können.
+    <br>
+    Für diesen Beispielmarkt ist Ihr Vertrag VERTRAG A:
+    <br>
+Daher beträgt Ihre Gesamtvergütung IHREN PROFIT + 100.
+<br>
+</div>
+{{ endif }}
+
+
 
 
 <div class="sub-container">
@@ -394,12 +481,12 @@ input[type=range]::-ms-thumb {
 
 
 <div class="slidecontainer">
-  <h3 style="font-size: 20px;"><b> Firms' Profit Calculator </b></h3>
+  <h3 style="font-size: 20px;"><b> {{ if en }} Firms' Profit Calculator {{ else }} Profit-Rechner {{ endif }}  </b></h3>
   <table class="slidertable">
     <tbody>
       <tr>
         <td style="text-align:center;">
-          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">If the other participant chooses: <span id="sliderFirmA"></span><br></span></h3>
+          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">{{ if en }}  If the other participant chooses: {{ else }} Wählt der andere Teilnehmer: {{ endif }}  <span id="sliderFirmA"></span><br></span></h3>
         </td>
       </tr>
       <tr>
@@ -427,7 +514,7 @@ input[type=range]::-ms-thumb {
     <tbody>
       <tr>
         <td style="text-align:center;">
-          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">And you choose: <span id="sliderFirmB"></span><br></span></h3>
+          <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;"> {{ if en }} And you choose: {{ else }} Und Sie wählen: {{ endif }}  <span id="sliderFirmB"></span><br></span></h3>
         </td>
       </tr>
       <tr>
@@ -453,7 +540,7 @@ input[type=range]::-ms-thumb {
   </table>
 
 <br>
-  <h3 style="font-size: 16px;"><b> Firms' profits and your compensation</b></h3>
+  <h3 style="font-size: 16px;"><b> {{ if en }} Firms' profits and your compensation {{ else }} Unternehmensgewinne und Ihre Vergütung {{ endif }} </b></h3>
 
   <table class="infotable" style="text-align: center; margin-top: 10px; border-collapse: collapse;">
 
@@ -465,14 +552,21 @@ input[type=range]::-ms-thumb {
     </colgroup>
 
     <tbody>
-
-      <tr>
+    {{ if en }}
+    <tr>
         <td><b>Other firm's profits</b></td>
         <td><b>My firm's profits</b></td>
         <td><b>My bonus</b></td>
         <td><b>My compensation</b></td>
-      </tr>
-
+    </tr>
+     {{ else }}
+    <tr>
+        <td><b>Gewinn der anderen Firma</b></td>
+        <td><b>Gewinn meiner Firma</b></td>
+        <td><b>Mein Bonus</b></td>
+        <td><b>Meine Vergütung</b></td>
+    </tr>
+     {{ endif }}
       <tr>
         <td><b><span id="firmAProfit"></span></b></td>
         <td><b><span id="firmBProfit"></span></b></td>
@@ -496,25 +590,35 @@ input[type=range]::-ms-thumb {
   </div>
 
   <div class="table-box">
-    <b><label for="userChoice">Your quantity choice:</label> </b>
+    <b><label for="userChoice">{{ if en }} Your quantity choice: {{ else }} Ihre Mengenauswahl: {{ endif }}</label> </b>
     <input type="number" id="userChoice" min="0" max="50">
     <br>
-    <b><label for="userChoiceOther">Quantity choice for the other firm:</label> </b>
+    <b><label for="userChoiceOther">{{ if en }} Quantity choice for the other firm: {{ else }} Mengenauswahl für das andere Unternehmen: {{ endif }}</label> </b>
     <input type="number" id="userChoiceOther" min="0" max="50">
     <br>
     <button id="chooseBtn">Choose</button>
     <br>
     <br>
-    <h3 style="font-size: 20px;"><b> Past History </b></h3>
+    <h3 style="font-size: 20px;"><b> {{ if en }} Past History {{ else }} Frühere Ergebnisse: {{ endif }} </b></h3>
     <table>
     <thead>
-      <tr>
+    {{ if en }}
+     <tr>
         <th>My output</th>
         <th>Other firm's output</th>
         <th>My firm's profit</th>
         <th>Other firm's profit</th>
         <th>My compensation</th>
       </tr>
+     {{ else }}
+    <tr>
+        <td><b>Meine Produktion</b></td>
+        <td><b>Produktion der anderen Firma</b></td>
+        <td><b>Gewinn meiner Firma</b></td>
+        <td><b>Gewinn der anderen Firma</b></td>
+        <td><b>Meine Vergütung</b></td>
+    </tr>
+     {{ endif }}
     </thead>
     <tbody id="results">
     </tbody>

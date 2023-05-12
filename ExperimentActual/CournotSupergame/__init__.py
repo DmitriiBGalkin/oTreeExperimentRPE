@@ -292,6 +292,16 @@ class IntroductionMarket(Page):
             Lexicon=Lexicon,
             **which_language
         )
+class FirstGame(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+    def vars_for_template(player: Player):
+        return dict(
+            Lexicon=Lexicon,
+            **which_language
+        )
+
 
 
 class IntroductionCalculator(Page):
@@ -341,16 +351,21 @@ class NewSupergame(Page):
     @staticmethod
     def vars_for_template(player: Player):
         CONTRACT_TYPE = player.CONTRACT_TYPE_RP
-        YOUR_CONTRACT = "CONTRACT A" if (CONTRACT_TYPE == False) else "CONTRACT B"
+        YOUR_CONTRACT = Lexicon.contract_a if (CONTRACT_TYPE == False) else Lexicon.contract_b
         CONTRACT_TYPE_OTHER = other_player(player).CONTRACT_TYPE_RP
-        OTHER_CONTRACT = "CONTRACT A" if (CONTRACT_TYPE_OTHER == False) else "CONTRACT B"
+        OTHER_CONTRACT = Lexicon.contract_a if (CONTRACT_TYPE_OTHER == False) else Lexicon.contract_b
         return dict(
             your_contract=YOUR_CONTRACT,
             other_contract=OTHER_CONTRACT,
             Lexicon=Lexicon,
             **which_language
         )
-
+    @staticmethod
+    def js_vars(player):
+        return dict(
+            CONTRACT_RP=player.CONTRACT_TYPE_RP,
+            is_it_en=which_language['en']
+        )
 
 class Play(Page):
     form_model = 'player'
@@ -359,9 +374,9 @@ class Play(Page):
     @staticmethod
     def vars_for_template(player: Player):
         CONTRACT_TYPE = player.CONTRACT_TYPE_RP
-        YOUR_CONTRACT = "CONTRACT A" if (CONTRACT_TYPE == False) else "CONTRACT B"
+        YOUR_CONTRACT = Lexicon.contract_a if (CONTRACT_TYPE == False) else Lexicon.contract_b
         CONTRACT_TYPE_OTHER = other_player(player).CONTRACT_TYPE_RP
-        OTHER_CONTRACT = "CONTRACT A" if (CONTRACT_TYPE_OTHER == False) else "CONTRACT B"
+        OTHER_CONTRACT = Lexicon.contract_a if (CONTRACT_TYPE_OTHER == False) else Lexicon.contract_b
         if player.subsession.period > 1:
             #print("subsession:", player.subsession.sg, "Subsession Starts", C.SG_STARTS[player.subsession.sg - 1])
             my_actions = get_actions_in_previous_rounds_in_SG(player)
@@ -421,4 +436,4 @@ class FinalResultsPage(Page):
         )
 
 
-page_sequence = [IntroductionGeneral,IntroductionMarket, IntroductionCalculator, IntroductionGame, NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
+page_sequence = [IntroductionGeneral,IntroductionMarket, IntroductionCalculator, IntroductionGame,FirstGame, NewSupergame, Play, ResultsWaitPage, FinalResultsPage]

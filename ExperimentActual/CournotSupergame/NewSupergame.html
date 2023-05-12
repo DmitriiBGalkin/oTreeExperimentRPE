@@ -1,10 +1,501 @@
+{{ block style }}
+<style>
+.otree-body {
+    max-width:95%;
+    margin: 0 auto
+}
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* Style the title block */
+h1 {
+  font-size: 24px;
+  margin-top: 0;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+/* Style the main container */
+.main-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the text box */
+.text-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the sub container */
+.sub-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the calculator box */
+.calculator-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the table box */
+.table-box {
+  flex-basis: 60%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the table title */
+.table-box h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+/* Style the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  text-align: center;
+  border-bottom: 1px solid #ddd
+}
+
+/* Style the "No data available" message */
+p.no-data {
+  font-style: italic;
+  color:
+
+</style>
+{{ endblock }}
+
+
+{{ block scripts}}
+<script>
+var sliderA = document.getElementById("sliderRangeA");
+var sliderB = document.getElementById("sliderRangeB");
+var outputA = document.getElementById("sliderFirmA");
+var outputB = document.getElementById("sliderFirmB");
+
+b1="";
+b2="";
+ProfitA=0;
+let firmAChoice=0;
+let firmBChoice=0;
+let is_it_en = js_vars.is_it_en;
+let prohPrice=100;
+bonus_fixed=100
+//prohibitive price
+let CONTRACT_TYPE_RP = js_vars.CONTRACT_RP
+let gamma=1;
+if (is_it_en) {
+    let message = 'Your firm is not making profits, your total payment is 0. ';}
+else {
+    let message = 'Ihr Unternehmen erzielt keine Gewinne, Ihre Gesamtvergütung beträgt 0.';
+}
+
+if (is_it_en) {
+    if (CONTRACT_TYPE_RP) {
+      message_for_instructions='Your total compensation for this round is TOTAL COMP = (Your profit) + 100 + (Your profit - Profit of other firm)';
+    } else {
+      message_for_instructions='Your total compensation for this round is TOTAL COMP = (Your profit) + 100';
+    }
+    message_instructions.innerHTML=message_for_instructions;
+    }
+else {
+    if (CONTRACT_TYPE_RP) {
+      message_for_instructions='Ihre Gesamtvergütung für diese Runde beträgt GESAMTVERGÜTUNG = (Ihr Gewinn) + 100 + (Ihr Gewinn - Gewinn des anderen Unternehmens).';
+    } else {
+      message_for_instructions = 'Ihre Gesamtvergütung für diese Runde beträgt GESAMTVERGÜTUNG = (Ihr Gewinn) + 100.';
+    }
+    message_instructions.innerHTML=message_for_instructions;
+}
+
+
+
+sliderA.oninput = function() {
+outputA.innerHTML = this.value; // display value A in HTML
+firmAChoice=this.value*1; // value A in slider
+};
+sliderB.oninput = function() {
+outputB.innerHTML = this.value; // display value B in HTML
+firmBChoice=this.value*1;// value B in slider
+
+};
+
+[sliderA, sliderB].forEach(function(element) {
+  element.addEventListener("input", function() {
+    if (firmAChoice + firmBChoice < prohPrice) {
+      profitA = (prohPrice - firmAChoice - firmBChoice) * firmAChoice;
+      profitB = (prohPrice - firmAChoice - firmBChoice) * firmBChoice;
+      if (CONTRACT_TYPE_RP) {
+        firmBBonus = bonus_fixed + gamma * (profitB - profitA);
+        total_compensation = profitB + firmBBonus;
+        if (is_it_en) {
+          message = 'Your firm`s profits are ' + profitB + '. Your bonus is ' + firmBBonus + '. Your total compensation is ' + total_compensation + '.';
+        } else {
+          message = 'Der Gewinn Ihres Unternehmens beträgt ' + profitB + '. Ihr Bonus beträgt ' + firmBBonus + '. Ihre Gesamtvergütung beträgt ' + total_compensation + '.';
+        }
+
+        if (total_compensation < 0) {
+          total_compensation = 0;
+          if (is_it_en) {
+            message = 'Your bonus is negative and exceeds the profits. Your total compensation is 0.';
+          } else {
+            message = 'Ihr Bonus ist negativ und übersteigt den Gewinn. Ihre Gesamtvergütung ist 0.';
+          }
+        }
+      } else {
+        firmBBonus = bonus_fixed
+        total_compensation = profitB + firmBBonus;
+        if (is_it_en) {
+          message = 'Your firm`s profits are ' + profitB + '. Your bonus is ' + firmBBonus + '. Your total compensation is ' + total_compensation + '.';
+        } else {
+          message = 'Der Gewinn Ihres Unternehmens beträgt ' + profitB + '. Ihr Bonus beträgt ' + firmBBonus + '. Ihre Gesamtvergütung beträgt ' + total_compensation + '.';
+        }
+      }
+      if (firmBChoice == 0) {
+        firmBBonus = 0;
+        total_compensation = profitB + firmBBonus;
+        if (is_it_en) {
+            message = 'Your firm is not producing any quantity. Your bonus is 0. Your total compensation is 0.';
+          } else {
+            message = 'Ihr Unternehmen produziert keine Menge. Ihr Bonus ist 0. Ihre Gesamtvergütung ist 0.';
+          }
+      }
+    } else {
+      profitA = 0;
+      profitB = 0;
+      firmBBonus = 0;
+      total_compensation = 0;
+      if (is_it_en) {
+        message = 'Total production is at the maximum of 100. Your total compensation is 0. ';
+      } else {
+        message = 'Die Gesamtproduktion ist auf dem Höchstwert von 100. Ihre Gesamtvergütung beträgt 0.';
+      }
+    }
+    firmAProfit.innerHTML = profitA.toFixed(0);
+    firmBProfit.innerHTML = profitB.toFixed(0);
+    my_bonusFirmB.innerHTML = firmBBonus.toFixed(0);
+    my_total_compensation.innerHTML = total_compensation.toFixed(0);
+    messageContract.innerHTML = message;
+  });
+});
+
+
+</script>
+{{ endblock }}
+
+
 {{ block title }}
-    Market {{ subsession.sg }}
+    {{ if en }} This is a new Market ({{ subsession.sg }}).You have been matched with another participant! {{ else }} Das ist ein neuer Markt ({{ subsession.sg }}). Sie sind mit einem anderen Teilnehmer zusammengeführt worden! {{ endif }}
 {{ endblock }}
 {{ block content }}
 
-    <p>You are matched with another participant </p>
-    <p> In this round your contract is <b>{{ your_contract }}</b>. The participant you are matched with has a contract <b>{{ other_contract }}</b> .
-    {{ next_button }}
+<div class="main-container">
+{{ if en }}
+  <div class="text-box">
+    <h2>Instructions</h2>
+    <div class="text-box">
+      <p> In this round your contract is <b>{{ your_contract }}</b>. The participant you are matched with has a contract <b>{{ other_contract }}</b> . Please make a choice for the amount of good you are to produce. </p>
+      <p> The market price is PRICE = 100 - (your quantity) - (quantity chosen by another participant) </p>
+      <p> The profits are (PRICE*QUANTITY) </p>
+      <p> <span id="message_instructions"></span></p>
+      <br>
+      <h3 style="font-size: 20px;"><b>Communication </b></h3>
+      You are now allowed to communicate with the participant you are matched with. The chat has a maximum duration of 3 minutes to discuss your strategies in this market.
+      <br> The chat window is to the right of the calculator.
+      <br>This communication option will not be shared with other participants.
+      <br>
+      <b> You are not allowed to disclose your identity or arrange meetings with other participants. </b>
+    </div>
+  </div>
+{{ else }}
+  <div class="text-box">
+  <h2>Anweisungen</h2>
+  <div class="text-box">
+    <p>In dieser Runde ist Ihr Vertrag <b>{{ your_contract }}</b>. Der Teilnehmer, mit dem Sie abgeglichen wurden, hat einen Vertrag <b>{{ other_contract }}</b>.</p>
+    <p>Bitte treffen Sie eine Auswahl für die Menge des Gutes, das Sie produzieren möchten.</p>
+    <p>Der Marktpreis beträgt PREIS = 100 - (Ihre Menge) - (Menge, die von einem anderen Teilnehmer gewählt wurde).</p>
+    <p>Die Gewinne betragen (PREIS * MENGE).</p>
+    <p> <span id="message_instructions"></span></p>
+    <h3 style="font-size: 20px;"><b>Kommunikation</b></h3>
+    Sie dürfen nun mit dem Teilnehmer kommunizieren, mit dem Sie abgeglichen wurden. Der Chat hat eine maximale Dauer von 3 Minuten, um Ihre Strategien in diesem Markt zu besprechen.
+    <br> Das Chat-Fenster befindet sich rechts neben dem Rechner.
+    <br> Diese Kommunikationsoption wird nicht mit anderen Teilnehmern geteilt.
+    <br>
+    <b>Sie dürfen Ihre Identität nicht preisgeben oder Treffen mit anderen Teilnehmern arrangieren.</b>
+
+
+  </div>
+  </div>
+{{ endif }}
+</div>
+
+{{ if en }}
+
+<div class="sub-container">
+  <div class="calculator-box">
+    <meta name="viewport" content="width=device-width, initial-scale=2">
+    <style>
+      .responsive {
+        width: auto;
+        height: auto;
+      }
+
+      .slidecontainer {
+        margin-left: 1%;
+        margin-right: 1%;
+        width: 98%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      .center {
+        margin-left: 10%;
+      }
+
+      .slidertable {
+        /*This is a table for slider and ticks */
+        table-layout: fixed;
+        width: 100%;
+        max-width: 900px;
+      }
+
+      .infotable {
+        border: 2px solid black;
+        table-layout: fixed;
+        width: 90%;
+        padding: 10px;
+        border-spacing: 5px;
+      }
+
+      .slides::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+
+      .slides::-webkit-scrollbar-thumb {
+        background: black;
+        border-radius: 5px;
+      }
+
+      .slides::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border: 1px solid #000000;
+        height: 25px;
+        width: 13px;
+        border-radius: 3px;
+        background: #ff0000;
+        cursor: pointer;
+        margin-top: -5px;
+        /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+        /* Add cool effects to your sliders! */
+      }
+
+      /* All the same stuff for Firefox */
+      input[type=range]::-moz-range-thumb {
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+        border: 1px solid #000000;
+        height: 25px;
+        width: 13px;
+        border-radius: 3px;
+        background: #ff0000;
+        cursor: pointer;
+      }
+
+      /* All the same stuff for IE */
+      input[type=range]::-ms-thumb {
+        box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+        border: 1px solid #000000;
+        height: 25px;
+        width: 13px;
+        border-radius: 3px;
+        background: #ff0000;
+        cursor: pointer;
+      }
+
+      .slider {
+        -webkit-appearance: none;
+        width: 99%;
+        /* <-- Problem was here when width is 100% */
+        height: 15px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+      }
+
+      .sliderticks {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+      }
+
+      .sliderticks p {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        width: 2px;
+        background: #D3D3D3;
+        height: 10px;
+        line-height: 40px;
+        margin: 0 0 20 0;
+      }
+
+    </style>
+
+
+    <div class="slidecontainer">
+      <h3 style="font-size: 20px;"><b> {{ if en }} Firms' Profit Calculator {{ else }} Profit-Rechner {{ endif }} </b></h3>
+      <table class="slidertable">
+        <tbody>
+          <tr>
+            <td style="text-align:center;">
+              <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;"> {{ if en }} If the other participant chooses: {{ else }} Wählt der andere Teilnehmer: {{ endif }} <span id="sliderFirmA"></span><br></span></h3>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="range" min="0" max="70" value="0" class="slider" id="sliderRangeA" step="1"></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="sliderticks">
+                <p>0</p>
+                <p>10</p>
+                <p>20</p>
+                <p>30</p>
+                <p>40</p>
+                <p>50</p>
+                <p>60</p>
+                <p>70</p>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <table class="slidertable" style="margin-top:15px;">
+        <tbody>
+          <tr>
+            <td style="text-align:center;">
+              <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;">{{ if en }} And you choose: {{ else }} Und Sie wählen: {{ endif }} <span id="sliderFirmB"></span><br></span></h3>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type="range" min="0" max="70" value="0" class="slider" id="sliderRangeB" step="1"></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="sliderticks">
+                <p>0</p>
+                <p>10</p>
+                <p>20</p>
+                <p>30</p>
+                <p>40</p>
+                <p>50</p>
+                <p>60</p>
+                <p>70</p>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <br>
+      <h3 style="font-size: 16px;"><b> {{ if en }} Firms' profits and your compensation {{ else }} Unternehmensgewinne und Ihre Vergütung {{ endif }} </b></h3>
+
+      <table class="infotable" style="text-align: center; margin-top: 10px; border-collapse: collapse;">
+
+        <colgroup>
+          <col style="width:25%; border: 1px solid black;">
+          <col style="width:25%; border: 1px solid black;">
+          <col style="width:15%; border: 1px solid black;">
+          <col style="width:30%; border: 1px solid black;">
+        </colgroup>
+
+        <tbody>
+          {{ if en }}
+          <tr>
+            <td><b>Other firm's profits</b></td>
+            <td><b>My firm's profits</b></td>
+            <td><b>My bonus</b></td>
+            <td><b>My compensation</b></td>
+          </tr>
+          {{ else }}
+          <tr>
+            <td><b>Gewinn der anderen Firma</b></td>
+            <td><b>Gewinn meiner Firma</b></td>
+            <td><b>Mein Bonus</b></td>
+            <td><b>Meine Vergütung</b></td>
+          </tr>
+          {{ endif }}
+
+          <tr>
+            <td><b><span id="firmAProfit"></span></b></td>
+            <td><b><span id="firmBProfit"></span></b></td>
+            <td><b><span id="my_bonusFirmB"></span></b></td>
+            <td><b><span id="my_total_compensation"></span></b></td>
+          </tr>
+        </tbody>
+
+      </table>
+      <table class="infotable" style="text-align: center; margin-top: 10px;">
+        <tbody>
+          <tr>
+            <td style="text-align: center;"> &nbsp; <b> <span id="messageContract"></span></b> </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+  <div class="table-box">
+    <h3 style="font-size: 20px;"><b> {{ if en }} Chat window {{ else }} Chat-Fenster {{ endif }} </b></h3>
+    {{ chat }}
+  </div>
+</div>
+{{ endif }}
+
+
+{{ next_button }}
+
 
 {{ endblock }}

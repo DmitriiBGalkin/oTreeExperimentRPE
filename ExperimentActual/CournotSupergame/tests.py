@@ -9,6 +9,7 @@ class PlayerBot(Bot):
             yield IntroductionMarket
             yield IntroductionCalculator, dict(q1 = 1350, q2 = 44, q3 = 1222)
             yield IntroductionGame
+            yield FirstGame
         if self.player.subsession.period == 1:
             yield NewSupergame
         yield Play, dict(UNITS=round(random.gauss(30,5)))
