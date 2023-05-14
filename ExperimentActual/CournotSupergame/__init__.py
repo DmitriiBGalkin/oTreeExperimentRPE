@@ -13,7 +13,7 @@ doc = """
 Cournot Supergames
 """
 # setting the average number of rounds (i.e. through a max value on a die)
-NUMBER_ROS = 10
+NUMBER_ROS = 1
 
 
 
@@ -49,7 +49,7 @@ def repeat_elements_in_sublists(lst, reps):
     return new_lst
 
 
-# The above function repeates the strings
+# The above function repeats the strings
 
 def calculate_game_starts(rounds_per_game):
     game_starts = [1]
@@ -143,6 +143,7 @@ def creating_session(subsession: Subsession):
             player.WHICH_SUPERGAME = random.randint(0, 3)
         sg = 1
         period = 1
+        print(C.NUM_ROUNDS)
         # loop over all subsessions
         for ss in subsession.in_rounds(1, C.NUM_ROUNDS):
             ss.sg = sg
@@ -262,7 +263,7 @@ def set_final_payoffs(player: Player): #
         profits = round.field_maybe_none("FIRM_PROFITS")
         compensation = round.field_maybe_none("COMPENSATION")
         random_number = RANDOM_SEQUENCE[subperiod] if (subperiod<len(RANDOM_SEQUENCE)) else Lexicon.not_payoff_relevant
-        contract = "CONTRACT A" if (round.CONTRACT_TYPE_RP == False) else "CONTRACT B"
+        contract = Lexicon.contract_a if (round.CONTRACT_TYPE_RP == False) else Lexicon.contract_b
         subperiod = subperiod + 1
         table_to_display.append([subperiod, action, profits, compensation, random_number, contract])
     return(table_to_display)
@@ -412,7 +413,7 @@ class Play(Page):
 
 
 class ResultsWaitPage(WaitPage):
-    body_text = "Waiting for the other participant to decide."
+    body_text = "Waiting for the other participant to decide." if (which_language['en']) else "Wir warten auf die Entscheidung des anderen Teilnehmers."
     after_all_players_arrive = calculate_payoffs
 
 class FinalResultsPage(Page):
@@ -432,7 +433,9 @@ class FinalResultsPage(Page):
             display_table_final = display_table_final,
             your_final_payoff = cumulative_payment,
             chosen_supergame = chosen_supergame,
-            total_payment = round(cumulative_payment + 5, 2)
+            total_payment = round(cumulative_payment + 5, 2),
+            Lexicon=Lexicon,
+            **which_language
         )
 
 

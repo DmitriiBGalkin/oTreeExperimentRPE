@@ -92,10 +92,11 @@ p.no-data {
 
 
 {{ block title }}
-    <h1>Final compensation page</h1>
+    <h1>{{ if en }} Final compensation page {{ else }} Endgültige Vergütung {{ endif }} </h1>
 {{ endblock }}
 
 {{ block content }}
+{{ if en }}
 <div class="table-box">
     <h3 style="font-size: 20px;"><b> Thank you for participation! </b></h3>
     <br>
@@ -103,17 +104,40 @@ p.no-data {
     You can find your actions for this market in a table below. Your total compensation in the payoff-relevant rounds was
     <b>{{ your_final_payoff }} </b>. In addition, to your participation fee (5 EUR), you total payment will be <b> {{ total_payment }} EUR</b>.
 </div>
+{{ else }}
+    <div class="table-box">
+    <h3 style="font-size: 20px;"><b>Vielen Dank für Ihre Teilnahme!</b></h3>
+    <br>
+    Vielen Dank, dass Sie an unserem Experiment teilgenommen haben. Wir haben den Markt {{ chosen_supergame }} zufällig für Ihre Zahlung ausgewählt.
+    Sie können Ihre Aktionen für diesen Markt in der untenstehenden Tabelle finden. Ihre Gesamtvergütung in den für die Auszahlung relevanten Runden beträgt
+    <b>{{ your_final_payoff }} </b>. Zusätzlich zu Ihrer Teilnahmegebühr (5 EUR) beträgt Ihre Gesamtzahlung <b> {{ total_payment }} EUR</b>.
+</div>
+{{ endif }}
+
 <div class="table-box">
+    {{ if en }}
     <h3 style="font-size: 20px;"><b> Your actions in the Market {{ chosen_supergame}}  </b></h3>
+    {{ else }}
+    <h3 style="font-size: 20px;"><b> Ihre Aktionen im Markt {{ chosen_supergame }} </b></h3>
+    {{ endif }}
     {{ if display_table_final }}
     <table>
       <tr>
+      {{ if en }}
           <th>Round Number</th>
           <th>Quantity Chosen</th>
           <th>Your firm's Profits</th>
           <th>Your Compensation</th>
           <th>Random Roll</th>
           <th>Your Contract</th>
+      {{ else }}
+          <th>Rundennummer</th>
+            <th>Gewählte Menge</th>
+            <th>Gewinn Ihres Unternehmens</th>
+            <th>Ihre Vergütung</th>
+            <th>Zufälliger Wurf</th>
+            <th>Ihr Vertrag</th>
+      {{ endif }}
       </tr>
       {{ for row in display_table_final }}
       <tr>
@@ -124,7 +148,7 @@ p.no-data {
       {{ endfor }}
     </table>
     {{ else }}
-    <p class="no-data">No data available</p>
+    {{ if en }} <p class="no-data">No data available</p>  {{ else }} <p class="no-data">Keine Daten verfügbar</p>  {{ endif }}
     {{ endif }}
 </div>
 {{ endblock }}
