@@ -110,24 +110,27 @@ p.no-data {
     If you are experiencing any problems, please raise your hand and an assistant will be with you shortly.
     <br>
     <br>
+    {{ if is_chat }}
     <b> NOTE: BEFORE EACH MARKET YOU WILL BE ALLOWED TO COMMUNICATE WITH THE PARTICIPANT YOU ARE MATCHED WITH VIA ONLINE CHAT.
     <br>
     You are not allowed to disclose your identity.</b>
-
+    {{ endif }}
 </div>
 {{ else }}
 <div class="table-box">
-    <h3 style="font-size: 20px;"><b>Der Hauptteil des Experiments beginnt bald.</b></h3>
+    <h3 style="font-size: 20px;"><b>Das Haupexperiment beginnt nun.</b></h3>
 <br>
-Alle Entscheidungen in den nächsten Runden können für Ihre endgültige Zahlung relevant sein.
+Alle Entscheidungen in den nächsten Runden können für Ihre endgültige Zahlung relevant sein.
 <br>
-Wenn Sie Probleme haben, heben Sie bitte die Hand, und ein Assistent wird Ihnen in Kürze behilflich sein.
+Wenn Sie Probleme haben, heben Sie bitte die Hand. Ein Assistent wird Ihnen in Kürze helfen.
 <br>
 <br>
-<b>HINWEIS: VOR JEDEM MARKT WIRD IHNEN ERLAUBT, MIT DEM TEILNEHMER, MIT DEM SIE ABGEGLEICHEN WURDEN, PER ONLINE-CHAT ZU KOMMUNIZIEREN.
-<br>
-Es ist Ihnen nicht gestattet, Ihre Identität preiszugeben.
-</b>
+{{ if is_chat }}
+    <b>HINWEIS: VOR JEDEM MARKT WIRD IHNEN ERLAUBT, MIT DEM TEILNEHMER, MIT DEM SIE ABGEGLEICHEN WURDEN, PER ONLINE-CHAT ZU KOMMUNIZIEREN.
+    <br>
+    Es ist Ihnen nicht gestattet, Ihre Identität preiszugeben.
+    </b>
+{{ endif }}
 </div>
 {{ endif }}
 

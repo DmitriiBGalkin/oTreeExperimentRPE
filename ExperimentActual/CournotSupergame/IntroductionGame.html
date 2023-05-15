@@ -224,7 +224,7 @@ total_compensation = 0;
 if (is_it_en) {
   message_final_payoff = 'Please play at least 10 example games to see the final example payoffs. ';
 } else {
-  message_final_payoff = 'Bitte spielen Sie mindestens 10 Beispielspiele, um die endgültigen Beispielauszahlungen zu sehen. ';
+  message_final_payoff = 'Bitte spielen Sie mindestens 10 Probespiele, um die endgültigen Beispielauszahlungen zu sehen. ';
 }
 
 
@@ -268,7 +268,7 @@ document.getElementById('chooseBtn').addEventListener('click', function() {
     if (is_it_en) {
       message_final_payoff = 'Your total compensation for the payoff relevant rounds(' + chooseCount + ') ' + total_compensation + ' experimental points. Your total payment is ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR plus your participation fee of 5 EUR. Your final payment is ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. If you would like to try again, please refresh this page (press F5). ';
     } else {
-      message_final_payoff = 'Ihre Gesamtentschädigung für die relevanten Auszahlungsrunden (' + chooseCount + ') beträgt ' + total_compensation + ' experimentelle Punkte. Ihre Gesamtzahlung beträgt ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR zuzüglich Ihrer Teilnahmegebühr von 5 EUR. Ihre endgültige Zahlung beträgt ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. Wenn Sie es erneut versuchen möchten, aktualisieren Sie bitte diese Seite (drücken Sie F5). ';
+      message_final_payoff = 'Ihre Gesamtentvergütung für die relevanten Auszahlungsrunden (' + chooseCount + ') beträgt ' + total_compensation + ' Experimental Points. Ihre Gesamtzahlung beträgt ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR zuzüglich Ihrer Teilnahmegebühr von 5 EUR. Ihre endgültige Zahlung beträgt ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. Wenn Sie es erneut versuchen möchten, aktualisieren Sie bitte diese Seite (drücken Sie F5). ';
     }
 
     message_final.innerHTML = message_final_payoff;
@@ -295,7 +295,7 @@ console.log(message_final_payoff)
     In each market you will be matched with a different participant. You will be given information about your contract, contract of the participant you are matched with, a calculator similar to the one on the previous page and details about the outcomes in the previous periods.
     <br>
     <h3 style="font-size: 20px;"><b> Your compensation </b></h3>
-    After you have played four markets in the main part of the experiment, we will draw a random number between 1-4 and pay you the total compensation you have earned in that market. In addition, you will also receive your participant fee (5 EUR).
+    After you have played four markets in the main part of the experiment, we will randomly select one market (out of 4) and pay you the total compensation you have earned in that market. In addition, you will also receive your participant fee (5 EUR).
     <br>
     <b>The experiment is using exchange rate of {{ EXCHANGE_RATE }} Experimental Points = 1 Euro.</b>
     <br>
@@ -326,32 +326,31 @@ console.log(message_final_payoff)
 {{ else }}
 <div class="table-box">
     <h3 style="font-size: 20px;"><b>Hauptteil des Experiments</b></h3>
-    Im Hauptteil des Experiments spielen Sie als Manager in 4 Märkten. Jeder Markt dauert mehrere Perioden.
+    Im Hauptteil des Experiments agieren Sie als Manager in 4 Märkten. Jeder Markt dauert mehrere Perioden.
     <br>
     In jedem Markt werden Sie mit einem anderen Teilnehmer gematcht. Ihnen werden Informationen über Ihren Vertrag, den Vertrag des Teilnehmers, mit dem Sie gematcht sind, ein Taschenrechner ähnlich dem auf der vorherigen Seite und Details über die Ergebnisse in den vorherigen Perioden gegeben.
     <br>
     <h3 style="font-size: 20px;"><b>Ihre Vergütung</b></h3>
-    Nachdem Sie vier Märkte im Hauptteil des Experiments gespielt haben, ziehen wir eine Zufallszahl zwischen 1 und 4 und zahlen Ihnen die Gesamtvergütung, die Sie in diesem Markt verdient haben. Zusätzlich erhalten Sie auch Ihre Teilnahmegebühr (5 EUR).
+    Nachdem Sie vier Märkte im Hauptteil des Experiments gespielt haben, werden wir zufällig einen Markt (von 4) auswählen und Ihnen die Gesamtvergütung aus diesem Markt auszahlen. Zusätzlich erhalten Sie auch Ihre Teilnahmegebühr von 5 EUR.
     <br>
     <b>Das Experiment verwendet einen Wechselkurs von {{ EXCHANGE_RATE }} Experimental Points = 1 Euro.</b>
     <br>
     <br>
     <h3 style="font-size: 20px;"><b>Dauer der Märkte</b></h3>
-    Die Märkte dauern eine unbekannte Anzahl von Perioden. Für jede Periode generiert der Computer eine Zufallszahl zwischen 1 und 10. Wenn eine Zahl für eine Periode 10 ist, endet der Markt und Sie werden mit einem anderen Teilnehmer neu gematcht.
-    Sie werden darüber auf einer entsprechenden Seite benachrichtigt. Mit anderen Worten beträgt die Wahrscheinlichkeit, dass der Markt endet, 10%.
+    Die Märkte dauern eine unbekannte Anzahl von Perioden. Für jede Periode generiert der Computer eine Zufallszahl zwischen 1 und 10. Wenn eine Zahl für eine Periode 10 ist, endet der Markt und Sie werden mit einem anderen Teilnehmer neu gematcht. Sie werden darüber auf einer entsprechenden Seite benachrichtigt. Die Wahrscheinlichkeit, dass der Markt endet, beträgt somit 10%.
     <br>
     Sie spielen jedoch mindestens 10 Perioden. Wenn bei einer Zufallsziehung bestimmt wird, dass der Markt vor 10 Perioden endet, werden die verbleibenden Perioden nicht für Ihre Vergütung verwendet.
 
-    <h3 style="font-size: 20px;"><b>Beispiel 1 der Vergütung</b></h3>
+    <h3 style="font-size: 20px;"><b>1. Vergütungsbeispiel </b></h3>
     Angenommen, die Zufallsziehung (die Ihnen erst am Ende des Experiments gezeigt wird) lautet [1,5,1,6,8,2,9,1,10]. In diesem Beispiel spielen Sie 10 Runden, aber nur die ersten 9 sind relevant für die Vergütung. Das liegt daran, dass das zufällige Ergebnis 10 in Runde 9 auftrat.
     <br>
     Sie erhalten also die Summe der Vergütungen für die ersten 9 Runden.
 
-    <h3 style="font-size: 20px;"><b>Beispiel 2 der Vergütung</b></h3>
+    <h3 style="font-size: 20px;"><b>2. Vergütungsbeispiel </b></h3>
     Angenommen, die Zufallsziehung (die Ihnen erst am Ende des Experiments gezeigt wird) lautet [1,5,1,6,8,2,9,1,3,7,5,10]. In diesem Beispiel spielen Sie 12 Runden, und alle Runden sind relevant für die Vergütung. Das liegt daran, dass das zufällige Ergebnis 10 in Runde 12 auftrat.
     <br>
     Sie erhalten also die Summe der Vergütungen für alle 12 Runden.
-    <h3 style="font-size: 20px;"><b>Beispiel des Marktes</b></h3>
+    <h3 style="font-size: 20px;"><b>Marktbeispiel</b></h3>
     Unten sehen Sie ein Beispiel für den Markt, bei dem Sie Mengen sowohl für sich selbst als auch für eine hypothetische andere Firma wählen können.
     <br>
     Für diesen Beispielmarkt ist Ihr Vertrag VERTRAG A:
@@ -596,7 +595,7 @@ input[type=range]::-ms-thumb {
     <b><label for="userChoiceOther">{{ if en }} Quantity choice for the other firm: {{ else }} Mengenauswahl für das andere Unternehmen: {{ endif }}</label> </b>
     <input type="number" id="userChoiceOther" min="0" max="50">
     <br>
-    <button id="chooseBtn">Choose</button>
+    <button id="chooseBtn">{{ if en }} Choose {{ else }} Wählen {{ endif }}</button>
     <br>
     <br>
     <h3 style="font-size: 20px;"><b> {{ if en }} Past History {{ else }} Frühere Ergebnisse: {{ endif }} </b></h3>

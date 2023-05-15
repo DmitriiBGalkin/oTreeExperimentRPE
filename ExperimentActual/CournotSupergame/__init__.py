@@ -8,12 +8,11 @@ else:
     from .lexicon_en import Lexicon
 which_language = {'en': False, 'de': False}  # noqa
 which_language[LANGUAGE_CODE[:2]] = True
-
 doc = """   
 Cournot Supergames
 """
 # setting the average number of rounds (i.e. through a max value on a die)
-NUMBER_ROS = 1
+NUMBER_ROS = 5
 
 
 
@@ -124,6 +123,7 @@ class C(BaseConstants):
         'q3': 1222
     }
     EXCHANGE_RATE = 1000
+    is_chat = True
 
 class Subsession(BaseSubsession):
     # Creating fields in the subsession class
@@ -300,7 +300,8 @@ class FirstGame(Page):
     def vars_for_template(player: Player):
         return dict(
             Lexicon=Lexicon,
-            **which_language
+            **which_language,
+            is_chat = C.is_chat
         )
 
 
@@ -359,7 +360,8 @@ class NewSupergame(Page):
             your_contract=YOUR_CONTRACT,
             other_contract=OTHER_CONTRACT,
             Lexicon=Lexicon,
-            **which_language
+            **which_language,
+            is_chat = C.is_chat
         )
     @staticmethod
     def js_vars(player):
@@ -416,11 +418,23 @@ class ResultsWaitPage(WaitPage):
     body_text = "Waiting for the other participant to decide." if (which_language['en']) else "Wir warten auf die Entscheidung des anderen Teilnehmers."
     after_all_players_arrive = calculate_payoffs
 
+class Questionnaire(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
+
+
 class FinalResultsPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(
+            Lexicon=Lexicon,
+            **which_language
+        )
     @staticmethod
     def vars_for_template(player: Player):
         display_table_final = set_final_payoffs(player)
