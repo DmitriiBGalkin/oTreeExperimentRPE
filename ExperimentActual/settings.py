@@ -5,7 +5,7 @@ SESSION_CONFIGS = [
          name='supergames',
          app_sequence=['CournotSupergame'],
          num_demo_participants=16,
-         use_browser_bots=True
+         use_browser_bots=False
         ),
 ]
 
@@ -28,6 +28,8 @@ LANGUAGE_CODE = 'de'
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'EUR'
 USE_POINTS = False
+
+
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable

@@ -12,7 +12,7 @@ doc = """
 Cournot Supergames
 """
 # setting the average number of rounds (i.e. through a max value on a die)
-NUMBER_ROS = 5
+NUMBER_ROS = 10
 
 
 
@@ -428,13 +428,6 @@ class FinalResultsPage(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        return dict(
-            Lexicon=Lexicon,
-            **which_language
-        )
     @staticmethod
     def vars_for_template(player: Player):
         display_table_final = set_final_payoffs(player)

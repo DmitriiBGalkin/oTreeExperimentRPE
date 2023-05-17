@@ -209,8 +209,11 @@ firmBChoice=this.value*1;// value B in slider
 
 
 {{ block title }}
-    {{ if en }} This is a new Market ({{ subsession.sg }}).You have been matched with another participant! {{ else }} Das ist ein neuer Markt ({{ subsession.sg }}). Sie sind mit einem anderen Teilnehmer zusammengeführt worden! {{ endif }}
+<b> {{ if en }} This is a new Market ({{ subsession.sg }}). <br>You have been matched with another participant!
+  {{ else }} Das ist ein neuer Markt ({{ subsession.sg }}). <br>Sie sind mit einem anderen Teilnehmer zusammengeführt worden! {{ endif }} </br>
+</b>
 {{ endblock }}
+
 {{ block content }}
 
 <div class="main-container">
@@ -235,13 +238,13 @@ firmBChoice=this.value*1;// value B in slider
   <div class="text-box">
   <h2>Anweisungen</h2>
   <div class="text-box">
-    <p>In dieser Runde ist Ihr Vertrag <b>{{ your_contract }}</b>. Der Teilnehmer, mit dem Sie abgeglichen wurden, hat einen Vertrag <b>{{ other_contract }}</b>.</p>
+    <p>In dieser Runde ist Ihr Vertrag <b>{{ your_contract }}</b>. Der Teilnehmer, der Ihnen zugewiesen wurde, hat einen Vertrag <b>{{ other_contract }}</b>.</p>
     <p>Bitte treffen Sie eine Auswahl für die Menge des Gutes, das Sie produzieren möchten.</p>
     <p>Der Marktpreis beträgt PREIS = 100 - (Ihre Menge) - (Menge, die von einem anderen Teilnehmer gewählt wurde).</p>
     <p>Die Gewinne betragen (PREIS * MENGE).</p>
     <p> <span id="message_instructions"></span></p>
     <h3 style="font-size: 20px;"><b>Kommunikation</b></h3>
-    Sie dürfen nun mit dem Teilnehmer kommunizieren, mit dem Sie abgeglichen wurden. Der Chat hat eine maximale Dauer von 3 Minuten, um Ihre Strategien in diesem Markt zu besprechen.
+    Sie dürfen nun mit dem Teilnehmer kommunizieren, der Ihnen zugewiesen wurde. Sie haben die Möglichkeit, maximal 3 Minuten lang eine Strategie in diesem Markt mit dem Ihnen zugewiesenen Teilnehmer zu besprechen. Danach wird das Chat-Fenster geschlossen und eine weitere Kommunikation mit dem Ihnen zugewiesenen Teilnehmer ist nicht mehr möglich.
     <br> Das Chat-Fenster befindet sich rechts neben dem Rechner.
     <br> Diese Kommunikationsoption wird nicht mit anderen Teilnehmern geteilt.
     <br>
@@ -378,7 +381,7 @@ firmBChoice=this.value*1;// value B in slider
 
 
     <div class="slidecontainer">
-      <h3 style="font-size: 20px;"><b> {{ if en }} Firms' Profit Calculator {{ else }} Profit-Rechner {{ endif }} </b></h3>
+      <h3 style="font-size: 20px;"><b> {{ if en }} Firms' Profit Calculator {{ else }} Rechner {{ endif }} </b></h3>
       <table class="slidertable">
         <tbody>
           <tr>

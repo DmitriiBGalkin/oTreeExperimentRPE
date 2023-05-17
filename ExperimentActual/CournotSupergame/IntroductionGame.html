@@ -258,7 +258,7 @@ document.getElementById('chooseBtn').addEventListener('click', function() {
       `;
   document.getElementById('results').appendChild(newRow);
   chooseCount = chooseCount + 1;
-  if (chooseCount < 10) {
+  if (chooseCount < 11) {
     total_compensation = total_compensation + myCompensation
   }
   if (chooseCount == 10) {
@@ -283,7 +283,7 @@ console.log(message_final_payoff)
 
 
 {{ block title }}
-    <h1>{{ if en }} Information about setting, matching and compensation  {{ else }} Informationen über Einstellung, Anpassung und Vergütung {{ endif }}  </h1>
+    <h1>{{ if en }} Information about setting, matching and compensation  {{ else }} Informationen: Hauptteil des Experiments {{ endif }}  </h1>
 {{ endblock }}
 
 {{ block content }}
@@ -325,19 +325,23 @@ console.log(message_final_payoff)
 </div>
 {{ else }}
 <div class="table-box">
-    <h3 style="font-size: 20px;"><b>Hauptteil des Experiments</b></h3>
+    <h3 style="font-size: 20px;"><b>Allgemein </b></h3>
     Im Hauptteil des Experiments agieren Sie als Manager in 4 Märkten. Jeder Markt dauert mehrere Perioden.
     <br>
-    In jedem Markt werden Sie mit einem anderen Teilnehmer gematcht. Ihnen werden Informationen über Ihren Vertrag, den Vertrag des Teilnehmers, mit dem Sie gematcht sind, ein Taschenrechner ähnlich dem auf der vorherigen Seite und Details über die Ergebnisse in den vorherigen Perioden gegeben.
+    In jedem Markt werden Sie mit einem anderen Teilnehmer gematcht. Ihnen werden Informationen über Ihren Vertrag, den Vertrag des Teilnehmers, mit dem Sie gematcht sind, ein Rechner ähnlich dem auf der vorherigen Seite und Details über die Ergebnisse in den vorherigen Perioden gegeben.
     <br>
     <h3 style="font-size: 20px;"><b>Ihre Vergütung</b></h3>
-    Nachdem Sie vier Märkte im Hauptteil des Experiments gespielt haben, werden wir zufällig einen Markt (von 4) auswählen und Ihnen die Gesamtvergütung aus diesem Markt auszahlen. Zusätzlich erhalten Sie auch Ihre Teilnahmegebühr von 5 EUR.
+    Nachdem Sie in vier Märkten im Hauptteil des Experiments Entscheidungen getroffen haben, werden wir zufällig einen Markt (von 4) auswählen und Ihnen die Gesamtvergütung aus diesem Markt auszahlen. Zusätzlich erhalten Sie auch Ihre Teilnahmegebühr von 5 EUR.
     <br>
-    <b>Das Experiment verwendet einen Wechselkurs von {{ EXCHANGE_RATE }} Experimental Points = 1 Euro.</b>
+    <b>Das Experiment verwendet einen Wechselkurs von {{ EXCHANGE_RATE }} Experimental Points (EP) = 1 Euro.</b>
     <br>
     <br>
     <h3 style="font-size: 20px;"><b>Dauer der Märkte</b></h3>
-    Die Märkte dauern eine unbekannte Anzahl von Perioden. Für jede Periode generiert der Computer eine Zufallszahl zwischen 1 und 10. Wenn eine Zahl für eine Periode 10 ist, endet der Markt und Sie werden mit einem anderen Teilnehmer neu gematcht. Sie werden darüber auf einer entsprechenden Seite benachrichtigt. Die Wahrscheinlichkeit, dass der Markt endet, beträgt somit 10%.
+    Die Märkte dauern eine unbekannte Anzahl von Perioden.
+    <br> In jeder Periode beträgt die Wahrscheinlichkeit, dass der Markt nach dieser Periode weiterbesteht, 90 %.
+    <br>
+    Für jede Periode generiert der Computer eine Zufallszahl zwischen 1 und 10. Wenn eine Zahl für eine Periode 10 ist, endet der Markt und Sie werden mit einem anderen Teilnehmer neu gematcht. Sie werden darüber auf einer entsprechenden Seite benachrichtigt.
+
     <br>
     Sie spielen jedoch mindestens 10 Perioden. Wenn bei einer Zufallsziehung bestimmt wird, dass der Markt vor 10 Perioden endet, werden die verbleibenden Perioden nicht für Ihre Vergütung verwendet.
 
@@ -351,9 +355,9 @@ console.log(message_final_payoff)
     <br>
     Sie erhalten also die Summe der Vergütungen für alle 12 Runden.
     <h3 style="font-size: 20px;"><b>Marktbeispiel</b></h3>
-    Unten sehen Sie ein Beispiel für den Markt, bei dem Sie Mengen sowohl für sich selbst als auch für eine hypothetische andere Firma wählen können.
+    Unten sehen Sie ein Beispiel für den Markt, bei dem Sie die Mengen sowohl für sich selbst als auch für eine hypothetische andere Firma wählen können.
     <br>
-    Für diesen Beispielmarkt ist Ihr Vertrag VERTRAG A:
+    Für diesen Beispielmarkt ist Ihr Vertrag <b> VERTRAG A: </b>
     <br>
 Daher beträgt Ihre Gesamtvergütung IHREN PROFIT + 100.
 <br>
@@ -480,7 +484,7 @@ input[type=range]::-ms-thumb {
 
 
 <div class="slidecontainer">
-  <h3 style="font-size: 20px;"><b> {{ if en }} Firms' Profit Calculator {{ else }} Profit-Rechner {{ endif }}  </b></h3>
+  <h3 style="font-size: 20px;"><b> {{ if en }} Firms' Profit Calculator {{ else }} Rechner {{ endif }}  </b></h3>
   <table class="slidertable">
     <tbody>
       <tr>
