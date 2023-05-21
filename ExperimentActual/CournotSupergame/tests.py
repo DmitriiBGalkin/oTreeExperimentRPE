@@ -11,6 +11,6 @@ class PlayerBot(Bot):
             yield IntroductionGame
             yield FirstGame
         if self.player.subsession.period == 1:
-            yield NewSupergame
+            yield NewSupergame, dict()
         yield Play, dict(UNITS=round(random.gauss(30,5)))
 

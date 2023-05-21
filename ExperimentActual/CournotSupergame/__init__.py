@@ -16,7 +16,6 @@ NUMBER_ROS = 10
 
 
 
-
 def cumsum(lst):
     total = 0
     new = []
@@ -123,7 +122,7 @@ class C(BaseConstants):
         'q3': 1222
     }
     EXCHANGE_RATE = 1000
-    is_chat = True
+    CHAT_LENGTH_ONE = 180
 
 class Subsession(BaseSubsession):
     # Creating fields in the subsession class
@@ -293,16 +292,6 @@ class IntroductionMarket(Page):
             Lexicon=Lexicon,
             **which_language
         )
-class FirstGame(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1
-    def vars_for_template(player: Player):
-        return dict(
-            Lexicon=Lexicon,
-            **which_language,
-            is_chat = C.is_chat
-        )
 
 
 
@@ -326,6 +315,18 @@ class IntroductionCalculator(Page):
         )
 
 
+class FirstGame(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+    def vars_for_template(player: Player):
+        chat_treatment = player.session.config['chat_treatment']
+        return dict(
+            Lexicon=Lexicon,
+            **which_language,
+            is_chat = chat_treatment
+        )
+
 class IntroductionGame(Page):
     @staticmethod
     def is_displayed(player: Player):
@@ -343,8 +344,6 @@ class IntroductionGame(Page):
         )
 
 class NewSupergame(Page):
-    #wait_for_all = True
-
     @staticmethod
     def is_displayed(player: Player):
         subsession = player.subsession
@@ -356,12 +355,13 @@ class NewSupergame(Page):
         YOUR_CONTRACT = Lexicon.contract_a if (CONTRACT_TYPE == False) else Lexicon.contract_b
         CONTRACT_TYPE_OTHER = other_player(player).CONTRACT_TYPE_RP
         OTHER_CONTRACT = Lexicon.contract_a if (CONTRACT_TYPE_OTHER == False) else Lexicon.contract_b
+        chat_treatment = player.session.config['chat_treatment']
         return dict(
             your_contract=YOUR_CONTRACT,
             other_contract=OTHER_CONTRACT,
             Lexicon=Lexicon,
             **which_language,
-            is_chat = C.is_chat
+            is_chat = chat_treatment
         )
     @staticmethod
     def js_vars(player):
@@ -373,7 +373,6 @@ class NewSupergame(Page):
 class Play(Page):
     form_model = 'player'
     form_fields = ['UNITS']
-
     @staticmethod
     def vars_for_template(player: Player):
         CONTRACT_TYPE = player.CONTRACT_TYPE_RP
@@ -418,6 +417,15 @@ class ResultsWaitPage(WaitPage):
     body_text = "Waiting for the other participant to decide." if (which_language['en']) else "Wir warten auf die Entscheidung des anderen Teilnehmers."
     after_all_players_arrive = calculate_payoffs
 
+class WaitForOthers(WaitPage):
+    @staticmethod
+    def is_displayed(player: Player):
+        subsession = player.subsession
+        return subsession.period == 1
+    body_text = "Waiting for the other participant." if (which_language['en']) else "Warten auf die/den andere/n Teilnehmer/in."
+
+
+
 class Questionnaire(Page):
     @staticmethod
     def is_displayed(player: Player):
@@ -446,4 +454,4 @@ class FinalResultsPage(Page):
         )
 
 
-page_sequence = [IntroductionGeneral,IntroductionMarket, IntroductionCalculator, IntroductionGame,FirstGame, NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
+page_sequence = [IntroductionGeneral,IntroductionMarket, IntroductionCalculator, IntroductionGame, FirstGame, WaitForOthers, NewSupergame, Play, ResultsWaitPage, FinalResultsPage]

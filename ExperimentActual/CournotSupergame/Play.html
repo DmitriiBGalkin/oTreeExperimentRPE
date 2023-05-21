@@ -210,7 +210,7 @@ firmBChoice=this.value*1;// value B in slider
 
 
 {{ block title }}
-    <h1> {{ if en }} Market {{ subsession.sg }}, Period {{ subsession.period }} {{ else }} Markt : {{ subsession.sg }}, Periode {{ subsession.period }}  {{ endif }} </h1>
+    <h1> {{ if en }} Market: {{ subsession.sg }}, Period: {{ subsession.period }} {{ else }} Markt: {{ subsession.sg }}, Periode: {{ subsession.period }}  {{ endif }} </h1>
 {{ endblock }}
 
 {{ block content }}
@@ -228,10 +228,10 @@ firmBChoice=this.value*1;// value B in slider
 {{ else }}
   <div class="text-box">
   <h2>Anweisungen</h2>
-  <div class="text-box">
-    <p>In dieser Runde ist Ihr Vertrag <b>{{ your_contract }}</b>. Der Teilnehmer, der Ihnen zugewiesen wurde, hat einen Vertrag <b>{{ other_contract }}</b>.</p>
+ <div class="text-box">
+    <p>In dieser Runde ist Ihr Vertrag <b>{{ your_contract }}</b>. Die Person, die Ihnen zugewiesen wurde, hat einen Vertrag <b>{{ other_contract }}</b>.</p>
     <p>Bitte treffen Sie eine Auswahl für die Menge des Gutes, das Sie produzieren möchten.</p>
-    <p>Der Marktpreis beträgt PREIS = 100 - (Ihre Menge) - (Menge, die von einem anderen Teilnehmer gewählt wurde).</p>
+    <p>Der Marktpreis beträgt PREIS = 100 - (Ihre Menge) - (Menge, die von der anderen Person gewählt wurde).</p>
     <p>Die Gewinne betragen (PREIS * MENGE).</p>
     <p> <span id="message_instructions"></span></p>
   </div>
@@ -368,7 +368,7 @@ firmBChoice=this.value*1;// value B in slider
         <tbody>
           <tr>
             <td style="text-align:center;">
-              <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;"> {{ if en }} If the other participant chooses: {{ else }} Wählt der andere Teilnehmer: {{ endif }} <span id="sliderFirmA"></span><br></span></h3>
+              <h3 style="text-align: center;font-size: 18px;"><span style="color: inherit; font-family: inherit; background-color: initial;"> {{ if en }} If the other participant chooses: {{ else }} Wählt die andere teilnehmende Person: {{ endif }} <span id="sliderFirmA"></span><br></span></h3>
             </td>
           </tr>
           <tr>
@@ -473,7 +473,7 @@ firmBChoice=this.value*1;// value B in slider
   </div>
 
   <div class="table-box">
-    <h3 style="font-size: 20px;"><b> {{ if en }} Past History (with this participant) {{ else }} Frühere Ergebnisse (mit diesem Teilnehmer): {{ endif }} </b></h3>
+    <h3 style="font-size: 20px;"><b> {{ if en }} Past History (with this participant) {{ else }} Frühere Ergebnisse (mit diesem Teilnehmer/in): {{ endif }} </b></h3>
     {{ if table_to_display }}
     <table>
       {{ if en}}

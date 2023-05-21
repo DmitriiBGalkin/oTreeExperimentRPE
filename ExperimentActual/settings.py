@@ -5,7 +5,8 @@ SESSION_CONFIGS = [
          name='supergames',
          app_sequence=['CournotSupergame'],
          num_demo_participants=16,
-         use_browser_bots=False
+         use_browser_bots=False,
+         chat_treatment=True
         ),
 ]
 
