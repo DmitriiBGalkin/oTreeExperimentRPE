@@ -224,7 +224,7 @@ total_compensation = 0;
 if (is_it_en) {
   message_final_payoff = 'Please play at least 10 example games to see the final example payoffs. ';
 } else {
-  message_final_payoff = 'Bitte spielen Sie mindestens 10 Probespiele, um die endgültigen Beispielauszahlungen zu sehen. ';
+  message_final_payoff = 'Bitte führen Sie mindestens 10 Übungsrunden aus, um die endgültigen Beispielauszahlungen zu sehen. ';
 }
 
 
@@ -301,10 +301,14 @@ console.log(message_final_payoff)
     <br>
     <br>
     <h3 style="font-size: 20px;"><b> Duration of the markets </b></h3>
-    The markets will last for an unknown number of periods. For each period the computer have generated a random number between 1 to 10. If a number for a period is 10, the market stops and you will be rematched with another participant.
-    You will be notified about this by a respective page. In other words, the probability that the market will stop is 10%.
-    <br>
-    However, you will play at least 10 periods. If a random draw determines that the market has ended before 10 periods, remaining periods will not be used for your compensation.
+    <ul>
+          <li>You will make decisions in ten or more periods.</li>
+          <li>Your compensation depends on whether the market exists or not.</li>
+          <li>If the market ends before <b>10</b> periods, you will make decisions for ten periods, but only the periods until the market's end will be considered for your compensation.</li>
+          <li>If the market ends after <b>10</b> periods, you will make decisions as long as the market exists, and all periods until the market's end will be considered for your compensation.</li>
+          <li>In each period, the probability that the market continues to exist after that period is <b>90%</b>.</li>
+          <li>This probability is determined as follows: for each period, the computer generates a random number between 1 and 10. If a number for a period is 10, then the market ends.</li>
+    </ul>
 
     <h3 style="font-size: 20px;"><b> Example 1 of the compensation</b></h3>
     Suppose the random draw (which will not be shown to you until the end of the experiment) is [1,5,1,6,8,2,9,1,10]. In this example, you will play 10 rounds, but only the first 9 will be relevant for compensation. This happens because the random outcome 10 came at round 9.
@@ -326,7 +330,7 @@ console.log(message_final_payoff)
 {{ else }}
 <div class="table-box">
     <h3 style="font-size: 20px;"><b>Allgemein </b></h3>
-    Im Hauptteil des Experiments agieren Sie als Manager in 4 Märkten. Jeder Markt dauert mehrere Perioden.
+    Im Hauptteil des Experiments agieren Sie als Unternehmensleitung in 4 Märkten. Jeder Markt dauert mehrere Perioden.
     <br>
     In jedem Markt werden Sie mit einer anderen teilnehmenden Person gematcht. Ihnen werden Informationen über Ihren Vertrag, den Vertrag der teilnehmenden Person, mit der Sie gematcht sind, ein Rechner ähnlich dem auf der vorherigen Seite und Details über die Ergebnisse in den vorherigen Perioden gegeben.
     <br>
@@ -337,13 +341,14 @@ console.log(message_final_payoff)
     <br>
     <br>
     <h3 style="font-size: 20px;"><b>Dauer der Märkte</b></h3>
-    Die Märkte dauern eine unbekannte Anzahl von Perioden.
-    <br> In jeder Periode beträgt die Wahrscheinlichkeit, dass der Markt nach dieser Periode weiterbesteht, 90 %.
-    <br>
-    Für jede Periode generiert der Computer eine Zufallszahl zwischen 1 und 10. Wenn eine Zahl für eine Periode 10 ist, endet der Markt und Sie werden mit einer anderen teilnehmenden Person neu gematcht. Sie werden darüber auf einer entsprechenden Seite benachrichtigt.
-    <br>
-Sie spielen jedoch mindestens 10 Perioden. Wenn bei einer Zufallsziehung bestimmt wird, dass der Markt vor 10 Perioden endet, werden die verbleibenden Perioden nicht für Ihre Vergütung verwendet.
-
+    <ul>
+      <li>In zehn oder mehr Perioden werden Sie Entscheidungen treffen.</li>
+      <li>Ihre Vergütung hängt davon ab, ob der Markt besteht oder nicht.</li>
+      <li>Falls der Markt vor <b>10</b> Perioden endet, dann treffen Sie zwar in zehn Perioden Entscheidungen, jedoch werden für Ihre Vergütung nicht 10 Perioden berücksichtigt, sondern nur diejenigen Perioden bis Ende des Marktes.</li>
+      <li>Falls der Markt nach <b>10</b> Perioden endet, dann treffen Sie Entscheidungen solange der Markt besteht und es werden für Ihre Vergütung alle Perioden bis Ende des Marktes berücksichtigt.</li>
+      <li>In jeder Periode beträgt die Wahrscheinlichkeit, dass der Markt nach dieser Periode weiterhin besteht, <b>90%</b>.</li>
+      <li>Diese Wahrscheinlichkeit wird wie folgt ermittelt: für jede Periode generiert der Computer eine Zufallszahl zwischen 1 und 10. Wenn eine Zahl für eine Periode 10 ist, dann endet der Markt.</li>
+    </ul>
 <h3 style="font-size: 20px;"><b>1. Vergütungsbeispiel </b></h3>
 Angenommen, die Zufallsziehung (die Ihnen erst am Ende des Experiments gezeigt wird) lautet [1,5,1,6,8,2,9,1,10]. In diesem Beispiel spielen Sie 10 Runden, aber nur die ersten 9 sind relevant für die Vergütung. Das liegt daran, dass das zufällige Ergebnis 10 in Runde 9 auftrat.
 <br>
@@ -354,11 +359,11 @@ Angenommen, die Zufallsziehung (die Ihnen erst am Ende des Experiments gezeigt w
 <br>
 Sie erhalten also die Summe der Vergütungen für alle 12 Runden.
 <h3 style="font-size: 20px;"><b>Marktbeispiel</b></h3>
-Unten sehen Sie ein Beispiel für den Markt, bei dem Sie die Mengen sowohl für sich selbst als auch für eine hypothetische andere Firma wählen können.
+Unten sehen Sie ein Beispiel für den Markt, bei dem Sie die Mengen sowohl für sich selbst als auch für eine andere Firma wählen können.
 <br>
 Für diesen Beispielmarkt ist Ihr Vertrag <b> VERTRAG A: </b>
 <br>
-Daher beträgt Ihre Gesamtvergütung IHREN PROFIT + 100.
+Daher beträgt Ihre Gesamtvergütung IHREN GEWINN + 100.
 <br>
 </div>
 {{ endif }}

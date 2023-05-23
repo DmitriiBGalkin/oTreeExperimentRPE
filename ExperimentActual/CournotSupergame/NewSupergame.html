@@ -85,7 +85,8 @@ th {
 /* Style the "No data available" message */
 p.no-data {
   font-style: italic;
-  color:
+  color:}
+
 
 </style>
 {{ endblock }}
@@ -494,7 +495,7 @@ firmBChoice=this.value*1;// value B in slider
 
   <div class="table-box">
     <h3 style="font-size: 20px;"><b> {{ if en }} Chat window {{ else }} Chat-Fenster {{ endif }} </b></h3>
-    {{ chat }}
+    {{ include_sibling 'chat.html' }}
   </div>
 </div>
 {{ endif }}

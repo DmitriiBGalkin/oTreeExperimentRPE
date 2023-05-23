@@ -15,7 +15,6 @@ Cournot Supergames
 NUMBER_ROS = 10
 
 
-
 def cumsum(lst):
     total = 0
     new = []
@@ -70,7 +69,6 @@ SUPERGAME_2 = random_numbers_until()
 SUPERGAME_3 = random_numbers_until()
 SUPERGAME_4 = random_numbers_until()
 # Creating 4 sequences for block randomisation
-
 #print(SUPERGAME_1, SUPERGAME_2, SUPERGAME_3, SUPERGAME_4)
 
 
@@ -78,7 +76,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'ExperimentalStudyOfContracts'
     PLAYERS_PER_GROUP = 2
     MIN_ROUNDS = NUMBER_ROS
-    RANDOM_SEQUENCE_IN_SUPERGAMES = [SUPERGAME_1,SUPERGAME_2,SUPERGAME_3,SUPERGAME_4]
+    RANDOM_SEQUENCE_IN_SUPERGAMES = [SUPERGAME_1, SUPERGAME_2, SUPERGAME_3, SUPERGAME_4]
     ROUNDS_PER_SG = [max(MIN_ROUNDS, len(SUPERGAME_1)), max(MIN_ROUNDS, len(SUPERGAME_2)),
                      max(MIN_ROUNDS, len(SUPERGAME_3)), max(MIN_ROUNDS, len(SUPERGAME_4))]
     # In the ROUNDS_PER_SG each supergame consist of at least MIN_ROUNDS rounds.
@@ -123,6 +121,7 @@ class C(BaseConstants):
     }
     EXCHANGE_RATE = 1000
     CHAT_LENGTH_ONE = 180
+
 
 class Subsession(BaseSubsession):
     # Creating fields in the subsession class
@@ -205,10 +204,80 @@ class Player(BasePlayer):
         label=Lexicon.comprehension_question_3,
 
     )
+    #for code in the Uni Wuppertal:
+    codeU1_firstletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU1_secondletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU1_penletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU1_lastletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU2_birthday = models.IntegerField(
+        choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+    )
+    codeU3_firstletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU3_secondletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU4_firstletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU4_secondletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU4_penletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU4_lastletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU5_birthday = models.IntegerField(
+        choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                 29, 30, 31]
+    )
+    codeU6_birthday = models.IntegerField(
+        choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                 29, 30, 31]
+    )
+    codeU7_firstletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU7_secondletter = models.StringField(
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                 'u', 'v', 'w', 'x', 'y', 'z']
+    )
+    codeU8_siblings = models.BooleanField()
+    codeU9_order = models.StringField()
 
 
+class Message(ExtraModel):
+    group = models.Link(Group)
+    sender = models.Link(Player)
+    text = models.StringField()
+
+
+def to_dict(msg: Message):
+    return dict(sender=msg.sender.id_in_group, text=msg.text)
 
 # FUNCTIONS:
+
 
 def calculate_payoffs(group: Group):
     players = group.get_players()
@@ -251,7 +320,7 @@ def get_actions_in_previous_rounds_in_SG(player: Player):
     return (previous_actions[(C.SG_STARTS[player.subsession.sg - 1] - 1):(
             C.SG_STARTS[player.subsession.sg - 1] - 1 + player.subsession.period)])
 
-def set_final_payoffs(player: Player): #
+def set_final_payoffs(player: Player):
     PAYOFF_RELEVANT_SUPERGAME = player.in_round(1).WHICH_SUPERGAME
     RANDOM_SEQUENCE = C.RANDOM_SEQUENCE_IN_SUPERGAMES[PAYOFF_RELEVANT_SUPERGAME]
     qq = player.in_rounds(C.SG_STARTS[PAYOFF_RELEVANT_SUPERGAME], C.SG_ENDS[PAYOFF_RELEVANT_SUPERGAME])
@@ -315,18 +384,6 @@ class IntroductionCalculator(Page):
         )
 
 
-class FirstGame(Page):
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.round_number == 1
-    def vars_for_template(player: Player):
-        chat_treatment = player.session.config['chat_treatment']
-        return dict(
-            Lexicon=Lexicon,
-            **which_language,
-            is_chat = chat_treatment
-        )
-
 class IntroductionGame(Page):
     @staticmethod
     def is_displayed(player: Player):
@@ -342,6 +399,19 @@ class IntroductionGame(Page):
             EXCHANGE_RATE=C.EXCHANGE_RATE,
             is_it_en = which_language['en']
         )
+
+class FirstGame(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
+    def vars_for_template(player: Player):
+        chat_treatment = player.session.config['chat_treatment']
+        return dict(
+            Lexicon=Lexicon,
+            **which_language,
+            is_chat = chat_treatment
+        )
+
 
 class NewSupergame(Page):
     @staticmethod
@@ -361,14 +431,25 @@ class NewSupergame(Page):
             other_contract=OTHER_CONTRACT,
             Lexicon=Lexicon,
             **which_language,
-            is_chat = chat_treatment
+            is_chat = chat_treatment,
         )
     @staticmethod
     def js_vars(player):
         return dict(
             CONTRACT_RP=player.CONTRACT_TYPE_RP,
-            is_it_en=which_language['en']
+            is_it_en=which_language['en'],
+            my_id=player.id_in_group
         )
+    @staticmethod
+    def live_method(player: Player, data):
+        my_id = player.id_in_group
+        group = player.group
+        if 'text' in data:
+            text = data['text']
+            msg = Message.create(group=group, sender=player, text=text)
+            return {0: [to_dict(msg)]}
+        return {my_id: [to_dict(msg) for msg in Message.filter(group=group)]}
+
 
 class Play(Page):
     form_model = 'player'
@@ -427,9 +508,12 @@ class WaitForOthers(WaitPage):
 
 
 class Questionnaire(Page):
+    form_model = 'player'
+    form_fields = ['codeU1_firstletter', 'codeU1_secondletter', 'codeU1_penletter', 'codeU1_lastletter', 'codeU2_birthday', 'codeU3_firstletter', 'codeU3_secondletter', 'codeU4_firstletter', 'codeU4_secondletter', 'codeU4_penletter', 'codeU4_lastletter', 'codeU5_birthday', 'codeU6_birthday', 'codeU7_firstletter', 'codeU7_secondletter', 'codeU8_siblings', 'codeU9_order']
+
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == C.NUM_ROUNDS
+        return player.round_number == 1 and player.session.config['uni_wuppertal']
 
 
 class FinalResultsPage(Page):
@@ -454,4 +538,14 @@ class FinalResultsPage(Page):
         )
 
 
-page_sequence = [IntroductionGeneral,IntroductionMarket, IntroductionCalculator, IntroductionGame, FirstGame, WaitForOthers, NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
+page_sequence = [Questionnaire, IntroductionGeneral, IntroductionMarket, IntroductionCalculator, IntroductionGame, FirstGame, WaitForOthers, NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
+#Making the chat easier to export
+def custom_export(players):
+    yield ['session.code', 'participant_code', 'round_number', 'player.group', 'player.id_in_subsession', 'message_text']
+    messages = Message.filter()
+    for message in messages:
+        player = message.sender
+        group = message.group
+        participant = player.participant
+        yield[participant.code, player.round_number, group, participant.id_in_session, message.text]
+

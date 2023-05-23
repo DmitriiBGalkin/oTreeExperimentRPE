@@ -1,0 +1,202 @@
+{{ block style }}
+<style>
+.otree-body {
+    max-width:95%;
+    margin: 0 auto
+}
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+.btn-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding-top: 20px;
+		}
+
+/* Style the title block */
+h1 {
+  font-size: 24px;
+  margin-top: 0;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+/* Style the main container */
+.main-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the text box */
+.text-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the sub container */
+.sub-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the calculator box */
+.calculator-box {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the table box */
+.table-box {
+  flex-basis: 60%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style the table title */
+.table-box h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+/* Style the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  text-align: center;
+  border-bottom: 1px solid #ddd
+}
+
+/* Style the "No data available" message */
+p.no-data {
+  font-style: italic;
+  color:
+
+</style>
+{{ endblock }}
+
+
+{{ block title }}
+    Code für Experimente
+{{ endblock }}
+
+{{ block content }}
+
+<div class="table-box">
+
+<b> Dies ist die vorletzte Seite des Experiments. Antworten auf diese Fragen helfen uns, einen Code zu erstellen, der Ihre Ergebnisse verknüpft, ohne die Anonymität des Experiments zu gefährden.
+Nachfolgend sehen Sie genau den gleichen Text wie in der Registrierungsumfrage. Bitte beantworten Sie die Fragen auf die gleiche Weise wie in der Umfrage. </b>
+    <br>
+    <br>
+<h3 style="font-size: 20px;"><b> Code für Experimente </b></h3>
+    Erzeugen Sie jetzt bitte den für Sie spezifischen Code. Damit wir Ihre Anonymität garantieren und trotzdem spätere Erhebungen Ihren Angaben in dieser Befragung zuordnen können, werden wir aus Ihren Antworten auf die folgenden Fragen
+    einen Code erstellen. Wenn Sie in allen Erhebungen diese Fragen immer identisch beantworten, dann können wir - ohne Sie als Person identifizieren zu können - Ihre Antworten aus verschiedenen Erhebungen zusammenführen. Stellen Sie bitte sicher, dass
+    Sie sowohl in dieser Umfrage als auch in späteren Erhebungen diese Fragen immer in der gleichen Weise beantworten.
+
+    Bitte beachten Sie, dass nur das deutsche Alphabet ohne ß und Umlaute genutzt werden kann; Groß- und Kleinschreibung wird
+    ignoriert. Für ausländische Studierende: Falls es für Personen- oder Ortsnamen keine in diesem Alphabet darstellbare
+    Entsprechung gibt (z.B. bei chinesischen Namen), dann benutzen Sie bitte den Tag der Geburt der entsprechenden Person oder
+    die ersten beiden Buchstaben des Geburtslandes.
+</div>
+
+
+<div class="table-box">
+    <b>U1. Bitte geben Sie die ersten beiden und die letzten beiden Buchstaben des Vornamens Ihrer Mutter an (Hinweis für kurze Namen: bei "Eva" wäre der zweite und der vorletzte Buchstabe jeweils ein "v").</b>
+<div class="form-group row">
+    <div class="col">
+        {{ formfield 'codeU1_firstletter' label="Erster Buchstabe" }}
+    </div>
+    <div class="col">
+        {{ formfield 'codeU1_secondletter' label="Zweiter Buchstabe" }}
+    </div>
+    <div class="col">
+        {{ formfield 'codeU1_penletter' label="Vorletzter Buchstabe" }}
+    </div>
+    <div class="col">
+        {{ formfield 'codeU1_lastletter' label="Letzter Buchstabe" }}
+    </div>
+</div>
+
+<b>U2. Der Vorname Ihrer Mutter oder Teile davon, lassen sich mit dem gegebenen Alphabet nicht abbilden. Bitte geben deshalb zusätzlich den Tag der Geburt Ihrer Mutter an.</b>
+{{ formfield 'codeU2_birthday' label="Geburtstag" }}
+
+<b>U3. Bitte geben Sie die ersten beiden Buchstaben Ihres Geburtsortes an.</b>
+<div class="form-group row">
+    <div class="col">
+        {{ formfield 'codeU3_firstletter' label="Erster Buchstabe" }}
+    </div>
+    <div class="col">
+        {{ formfield 'codeU3_secondletter' label="Zweiter Buchstabe" }}
+    </div>
+</div>
+
+<b>U4. Bitte geben Sie die ersten beiden und die letzten beiden Buchstaben des Vornamens Ihres Vaters an.</b>
+<div class="form-group row">
+    <div class="col">
+        {{ formfield 'codeU4_firstletter' label="Erster Buchstabe" }}
+    </div>
+    <div class="col">
+        {{ formfield 'codeU4_secondletter' label="Zweiter Buchstabe" }}
+    </div>
+    <div class="col">
+        {{ formfield 'codeU4_penletter' label="Vorletzter Buchstabe" }}
+    </div>
+    <div class="col">
+        {{ formfield 'codeU4_lastletter' label="Letzter Buchstabe" }}
+    </div>
+</div>
+
+<b>U5. Der Vorname Ihres Vaters oder Teile davon, lässt sich mit dem gegebenen Alphabet nicht abbilden. Bitte geben deshalb zusätzlich den Tag der Geburt Ihres Vaters an.</b>
+{{ formfield 'codeU5_birthday' label="Geburtstag" }}
+
+<b>U6. Bitte geben Sie den Tag Ihrer Geburt an.</b>
+{{ formfield 'codeU6_birthday' label="Geburtstag" }}
+
+<b>U7. Der Geburtsort oder Teile davon, lassen sich mit dem gegebenen Alphabet nicht abbilden. Bitte geben deshalb zusätzlich die ersten beiden Buchstaben Ihres Geburtslandes an.</b>
+<div class="form-group row">
+    <div class="col">
+        {{ formfield 'codeU7_firstletter' label="Erster Buchstabe" }}
+    </div>
+    <div class="col">
+        {{ formfield 'codeU7_secondletter' label="Zweiter Buchstabe" }}
+    </div>
+</div>
+
+<b>U8. Haben Sie Zwillings-, Drillings- oder Mehrlingsgeschwister?</b>
+{{ formfield 'codeU8_siblings' label="" }}
+
+<b>U9. An welcher Stelle der Geburtsreihenfolge (z.B. Erste/r, Zweite/r, Dritte/r etc.) kamen Sie auf die Welt?</b>
+{{ formfield 'codeU9_order' label="Reihenfolge" }}
+
+
+
+</div>
+
+
+<div class="btn-container">
+      {{ next_button }}
+</div>
+
+{{ endblock }}

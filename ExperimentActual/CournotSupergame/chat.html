@@ -1,0 +1,75 @@
+<html>
+<head>
+    <style>
+        #chat_messages {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #000;
+            border-radius: 10px;
+            padding: 5px;
+            overflow-y: auto; /* Enables scroll */
+            background-color: #f5f5f5; /* Light gray background */
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1); /* Small shadow for 3D effect */
+            word-break: break-word;
+        }
+        .my_message {
+            width: 99%;
+            align-self: flex-start;
+            background-color: #d1d1d1; /* Light gray for my messages */
+        }
+        .other_message {
+            width: 99%;
+            align-self: flex-end;
+            background-color: #fff; /* White for other messages */
+        }
+    </style>
+</head>
+<body>
+    <div id="chat_messages">
+    </div>
+
+    <div>
+        <input type="text" id="chat_input">
+        <button type="button" onclick="sendMsg()">Send</button>
+    </div>
+    <script>
+        let chat_input = document.getElementById('chat_input');
+
+        chat_input.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                sendMsg();
+            }
+        });
+
+        function sendMsg() {
+            let text = chat_input.value.trim();
+            if (text) {
+                liveSend({'text': text});
+            }
+            chat_input.value = '';
+        }
+
+        let chat_messages = document.getElementById('chat_messages');
+
+        function liveRecv(messages) {
+            for (let msg of messages) {
+                let msgSpan = document.createElement('span');
+                msgSpan.textContent = msg.text;
+                let sender = msg.sender === js_vars.my_id ? '(Ich)' : `Andere Person`;
+                let row = `<div class="message ${msg.sender === js_vars.my_id ? 'my_message' : 'other_message'}"><b>${sender}</b>: ${msgSpan.innerHTML}</div>`;
+                chat_messages.insertAdjacentHTML('beforeend', row);
+            }
+            chat_messages.scrollTop = chat_messages.scrollHeight;
+        }
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            liveSend({});
+        });
+
+    </script>
+</body>
