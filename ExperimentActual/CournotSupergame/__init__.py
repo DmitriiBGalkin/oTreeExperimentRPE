@@ -1,7 +1,7 @@
 from otree.api import *
 import random
 import itertools
-from settings import LANGUAGE_CODE
+from settings import LANGUAGE_CODE, SESSION_CONFIGS
 if LANGUAGE_CODE == 'de':
     from .lexicon_de import Lexicon
 else:
@@ -13,7 +13,8 @@ Cournot Supergames
 """
 # setting the average number of rounds (i.e. through a max value on a die)
 NUMBER_ROS = 10
-
+print(SESSION_CONFIGS[0]['pre_rolls'])
+PRE_ROLLS = SESSION_CONFIGS[0]['pre_rolls']
 
 def cumsum(lst):
     total = 0
@@ -63,13 +64,20 @@ def return_lists(my_list):
         result_list.append([sublist[i] for sublist in my_list])
     return result_list
 
+if PRE_ROLLS:
+    SUPERGAME_1 = [9, 8, 7, 7, 1, 8, 5, 8, 2, 5, 10]
+    SUPERGAME_2 = [1, 6, 7, 8, 4, 3, 7, 10]
+    SUPERGAME_3 = [5, 8, 6, 5, 8, 9, 4, 7, 4, 1, 4, 4, 10]
+    SUPERGAME_4 = [4, 8, 7, 6, 5, 5, 8, 3, 8, 1, 7, 10]
+else:
+    SUPERGAME_1 = random_numbers_until()
+    SUPERGAME_2 = random_numbers_until()
+    SUPERGAME_3 = random_numbers_until()
+    SUPERGAME_4 = random_numbers_until()
 
-SUPERGAME_1 = random_numbers_until()
-SUPERGAME_2 = random_numbers_until()
-SUPERGAME_3 = random_numbers_until()
-SUPERGAME_4 = random_numbers_until()
+
 # Creating 4 sequences for block randomisation
-#print(SUPERGAME_1, SUPERGAME_2, SUPERGAME_3, SUPERGAME_4)
+print(SUPERGAME_1, SUPERGAME_2, SUPERGAME_3, SUPERGAME_4)
 
 
 class C(BaseConstants):
@@ -120,7 +128,7 @@ class C(BaseConstants):
         'q3': 1222
     }
     EXCHANGE_RATE = 1000
-    CHAT_LENGTH_ONE = 180
+    CHAT_LENGTH = 210
 
 
 class Subsession(BaseSubsession):
@@ -418,7 +426,10 @@ class NewSupergame(Page):
     def is_displayed(player: Player):
         subsession = player.subsession
         return subsession.period == 1
-
+    @staticmethod
+    def get_timeout_seconds(player: Player):
+        if player.session.config['chat_treatment']:
+            return C.CHAT_LENGTH
     @staticmethod
     def vars_for_template(player: Player):
         CONTRACT_TYPE = player.CONTRACT_TYPE_RP

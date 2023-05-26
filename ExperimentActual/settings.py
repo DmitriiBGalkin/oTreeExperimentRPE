@@ -8,7 +8,7 @@ SESSION_CONFIGS = [
          use_browser_bots=False,
          chat_treatment=True,
          uni_wuppertal=True,
-
+         pre_rolls=True
         ),
 ]
 ROOMS = [
@@ -34,7 +34,6 @@ SESSION_FIELDS = []
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
 LANGUAGE_CODE = 'de'
-
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'EUR'
 USE_POINTS = False
