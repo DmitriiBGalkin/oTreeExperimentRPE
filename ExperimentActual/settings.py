@@ -5,12 +5,20 @@ SESSION_CONFIGS = [
          name='supergames',
          app_sequence=['CournotSupergame'],
          num_demo_participants=16,
-         use_browser_bots=True,
+         use_browser_bots=False,
          chat_treatment=True,
-         uni_wuppertal=True
+         uni_wuppertal=True,
+
         ),
 ]
-
+ROOMS = [
+    dict(
+        name='econ_lab',
+        display_name='Experimental Economics Lab',
+        participant_label_file='_rooms/participantLabels.txt.txt',
+        use_secure_urls=True
+    ),
+]
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
 # in SESSION_CONFIGS, except those that explicitly override it.
 # the session config can be accessed from methods in your apps as self.session.config,

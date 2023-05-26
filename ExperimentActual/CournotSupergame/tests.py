@@ -5,7 +5,6 @@ import random
 class PlayerBot(Bot):
     def play_round(self):
         if self.round_number == 1:
-            yield Questionnaire, dict(codeU1_firstletter='a', codeU1_secondletter='a', codeU1_penletter='a', codeU1_lastletter='a', codeU2_birthday=1, codeU3_firstletter='a', codeU3_secondletter='a', codeU4_firstletter='a', codeU4_secondletter='a', codeU4_penletter='a', codeU4_lastletter='a', codeU5_birthday=1, codeU6_birthday=1, codeU7_firstletter='a', codeU7_secondletter='a', codeU8_siblings=False, codeU9_order='First')
             yield IntroductionGeneral
             yield IntroductionMarket
             yield IntroductionCalculator, dict(q1 = 1350, q2 = 44, q3 = 1222)
@@ -14,4 +13,6 @@ class PlayerBot(Bot):
         if self.player.subsession.period == 1:
             yield NewSupergame, dict()
         yield Play, dict(UNITS=round(random.gauss(30,5)))
+        if self.round_number == C.NUM_ROUNDS:
+            yield Questionnaire, dict(codeU1_firstletter='a', codeU1_secondletter='a', codeU1_penletter='a', codeU1_lastletter='a', codeU2_birthday=1, codeU3_firstletter='a', codeU3_secondletter='a', codeU4_firstletter='a', codeU4_secondletter='a', codeU4_penletter='a', codeU4_lastletter='a', codeU5_birthday=1, codeU6_birthday=1, codeU7_firstletter='a', codeU7_secondletter='a', codeU8_siblings=False, codeU9_order='First')
 

@@ -538,14 +538,14 @@ class FinalResultsPage(Page):
         )
 
 
-page_sequence = [Questionnaire, IntroductionGeneral, IntroductionMarket, IntroductionCalculator, IntroductionGame, FirstGame, WaitForOthers, NewSupergame, Play, ResultsWaitPage, FinalResultsPage]
+page_sequence = [IntroductionGeneral, IntroductionMarket, IntroductionCalculator, IntroductionGame, FirstGame, WaitForOthers, NewSupergame, Play, ResultsWaitPage, Questionnaire, FinalResultsPage]
 #Making the chat easier to export
+
 def custom_export(players):
-    yield ['session.code', 'participant_code', 'round_number', 'player.group', 'player.id_in_subsession', 'message_text']
+    yield ['session.code', 'round_number', 'player.group', 'player.id_in_subsession', 'message_text']
     messages = Message.filter()
     for message in messages:
         player = message.sender
         group = message.group
         participant = player.participant
         yield[participant.code, player.round_number, group, participant.id_in_session, message.text]
-
