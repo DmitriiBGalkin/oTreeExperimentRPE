@@ -15,7 +15,7 @@ ROOMS = [
     dict(
         name='econ_lab',
         display_name='Experimental Economics Lab',
-        participant_label_file='_rooms/participantLabels.txt.txt',
+        participant_label_file='_rooms/participantLabels.txt',
         use_secure_urls=True
     ),
 ]
