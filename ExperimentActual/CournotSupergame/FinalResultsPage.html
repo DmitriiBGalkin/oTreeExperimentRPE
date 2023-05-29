@@ -102,7 +102,7 @@ p.no-data {
     <br>
     Thank you for participating in our experiment. We have randomly chosen the market {{ chosen_supergame }} to be used for your payment.
     You can find your actions for this market in a table below. Your total compensation in the payoff-relevant rounds was
-    <b>{{ your_final_payoff }} </b>. In addition, to your participation fee (5 EUR), you total payment will be <b> {{ total_payment }} EUR</b>.
+    <b>{{ your_final_payoff }}</b>. In addition, to your participation fee ({{ participation_fee }}), you total payment will be <b> {{ total_payment }} EUR</b>.
 </div>
 {{ else }}
     <div class="table-box">
@@ -110,7 +110,7 @@ p.no-data {
     <br>
     Vielen Dank, dass Sie an unserem Experiment teilgenommen haben. Wir haben den Markt {{ chosen_supergame }} zufällig für Ihre Zahlung ausgewählt.
     Sie können Ihre Aktionen für diesen Markt in der untenstehenden Tabelle finden. Ihre Gesamtvergütung in den für die Auszahlung relevanten Runden beträgt
-    <b>{{ your_final_payoff }} </b>. Zusätzlich zu Ihrer Teilnahmegebühr (5 EUR) beträgt Ihre Gesamtzahlung <b> {{ total_payment }} EUR</b>.
+    <b>{{ your_final_payoff }}</b>. Zusätzlich zu Ihrer Teilnahmegebühr ({{ participation_fee }}) beträgt Ihre Gesamtzahlung <b> {{ total_payment }} EUR</b>.
 </div>
 {{ endif }}
 

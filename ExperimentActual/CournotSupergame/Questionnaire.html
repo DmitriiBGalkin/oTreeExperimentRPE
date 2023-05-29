@@ -97,6 +97,64 @@ p.no-data {
 </style>
 {{ endblock }}
 
+{{ block scripts}}
+<script>
+function checkValuesU1() {
+  const val1 = forminputs.codeU1_firstletter.value;
+  console.log(val1);
+  const val2 = forminputs.codeU1_secondletter.value;
+  const val3 = forminputs.codeU1_penletter.value;
+  const val4 = forminputs.codeU1_lastletter.value;
+
+  const targetString = "NICHT MÖGLICH";
+
+  if (val1 === targetString && val2 === targetString && val3 === targetString && val4 === targetString) {
+    document.getElementById('u2hidden').style.display = 'block';
+  }
+  console.log('function');
+}
+
+function checkValuesU3() {
+  const val1 = forminputs.codeU3_firstletter.value;
+  const val2 = forminputs.codeU3_secondletter.value;
+  const targetString = "NICHT MÖGLICH";
+
+  if (val1 === targetString && val2 === targetString) {
+    document.getElementById('u7hidden').style.display = 'block';
+  }
+}
+
+function checkValuesU4() {
+  const val1 = forminputs.codeU4_firstletter.value;
+  console.log(val1);
+  const val2 = forminputs.codeU4_secondletter.value;
+  const val3 = forminputs.codeU4_penletter.value;
+  const val4 = forminputs.codeU4_lastletter.value;
+
+  const targetString = "NICHT MÖGLICH";
+
+  if (val1 === targetString && val2 === targetString && val3 === targetString && val4 === targetString) {
+    document.getElementById('u5hidden').style.display = 'block';
+  }
+
+}
+
+forminputs.codeU1_firstletter.onchange=checkValuesU1;
+forminputs.codeU1_secondletter.onchange=checkValuesU1;
+forminputs.codeU1_penletter.onchange=checkValuesU1;
+forminputs.codeU1_lastletter.onchange=checkValuesU1;
+forminputs.codeU3_firstletter.onchange=checkValuesU3;
+forminputs.codeU3_secondletter.onchange=checkValuesU3;
+forminputs.codeU4_firstletter.onchange=checkValuesU4;
+forminputs.codeU4_secondletter.onchange=checkValuesU4;
+forminputs.codeU4_penletter.onchange=checkValuesU4;
+forminputs.codeU4_lastletter.onchange=checkValuesU4;
+
+
+
+
+</script>
+{{ endblock }}
 
 {{ block title }}
     Code für Experimente
@@ -114,11 +172,8 @@ Nachfolgend sehen Sie genau den gleichen Text wie in der Registrierungsumfrage. 
     Erzeugen Sie jetzt bitte den für Sie spezifischen Code. Damit wir Ihre Anonymität garantieren und trotzdem spätere Erhebungen Ihren Angaben in dieser Befragung zuordnen können, werden wir aus Ihren Antworten auf die folgenden Fragen
     einen Code erstellen. Wenn Sie in allen Erhebungen diese Fragen immer identisch beantworten, dann können wir - ohne Sie als Person identifizieren zu können - Ihre Antworten aus verschiedenen Erhebungen zusammenführen. Stellen Sie bitte sicher, dass
     Sie sowohl in dieser Umfrage als auch in späteren Erhebungen diese Fragen immer in der gleichen Weise beantworten.
-
-    Bitte beachten Sie, dass nur das deutsche Alphabet ohne ß und Umlaute genutzt werden kann; Groß- und Kleinschreibung wird
-    ignoriert. Für ausländische Studierende: Falls es für Personen- oder Ortsnamen keine in diesem Alphabet darstellbare
-    Entsprechung gibt (z.B. bei chinesischen Namen), dann benutzen Sie bitte den Tag der Geburt der entsprechenden Person oder
-    die ersten beiden Buchstaben des Geburtslandes.
+    <br>
+    Bitte beachten Sie, dass nur das deutsche Alphabet ohne ß und Umlaute genutzt werden kann; Groß- und Kleinschreibung wird ignoriert. Für ausländische Studierende: Wenn es für Personen- oder Ortsnamen keine in diesem Alphabet darstellbare Entsprechung gibt (z.B. bei chinesischen Namen), wählen Sie bitte "NICHT MÖGLICH" aus dem Dropdown-Menü. In diesem Fall wird ein neues Formularfeld erscheinen, in dem Sie bitte den Tag der Geburt der entsprechenden Person eingeben oder die ersten beiden Buchstaben des Geburtslandes eintragen.
 </div>
 
 
@@ -138,10 +193,10 @@ Nachfolgend sehen Sie genau den gleichen Text wie in der Registrierungsumfrage. 
         {{ formfield 'codeU1_lastletter' label="Letzter Buchstabe" }}
     </div>
 </div>
-
+<div id="u2hidden" style="display: none;">
 <b>U2. Der Vorname Ihrer Mutter oder Teile davon, lassen sich mit dem gegebenen Alphabet nicht abbilden. Bitte geben deshalb zusätzlich den Tag der Geburt Ihrer Mutter an.</b>
 {{ formfield 'codeU2_birthday' label="Geburtstag" }}
-
+</div>
 <b>U3. Bitte geben Sie die ersten beiden Buchstaben Ihres Geburtsortes an.</b>
 <div class="form-group row">
     <div class="col">
@@ -151,6 +206,24 @@ Nachfolgend sehen Sie genau den gleichen Text wie in der Registrierungsumfrage. 
         {{ formfield 'codeU3_secondletter' label="Zweiter Buchstabe" }}
     </div>
 </div>
+
+<div id="u7hidden" style="display: none;">
+<b>U7. Der Geburtsort oder Teile davon, lassen sich mit dem gegebenen Alphabet nicht abbilden. Bitte geben deshalb zusätzlich die ersten beiden Buchstaben Ihres Geburtslandes an.</b>
+<div class="form-group row">
+    <div class="col">
+        {{ formfield 'codeU7_firstletter' label="Erster Buchstabe" }}
+    </div>
+    <div class="col">
+        {{ formfield 'codeU7_secondletter' label="Zweiter Buchstabe" }}
+    </div>
+</div>
+</div>
+
+
+
+
+
+
 
 <b>U4. Bitte geben Sie die ersten beiden und die letzten beiden Buchstaben des Vornamens Ihres Vaters an.</b>
 <div class="form-group row">
@@ -168,24 +241,20 @@ Nachfolgend sehen Sie genau den gleichen Text wie in der Registrierungsumfrage. 
     </div>
 </div>
 
+<div id="u5hidden" style="display: none;">
 <b>U5. Der Vorname Ihres Vaters oder Teile davon, lässt sich mit dem gegebenen Alphabet nicht abbilden. Bitte geben deshalb zusätzlich den Tag der Geburt Ihres Vaters an.</b>
 {{ formfield 'codeU5_birthday' label="Geburtstag" }}
+</div>
+
+
 
 <b>U6. Bitte geben Sie den Tag Ihrer Geburt an.</b>
 {{ formfield 'codeU6_birthday' label="Geburtstag" }}
 
-<b>U7. Der Geburtsort oder Teile davon, lassen sich mit dem gegebenen Alphabet nicht abbilden. Bitte geben deshalb zusätzlich die ersten beiden Buchstaben Ihres Geburtslandes an.</b>
-<div class="form-group row">
-    <div class="col">
-        {{ formfield 'codeU7_firstletter' label="Erster Buchstabe" }}
-    </div>
-    <div class="col">
-        {{ formfield 'codeU7_secondletter' label="Zweiter Buchstabe" }}
-    </div>
-</div>
+
 
 <b>U8. Haben Sie Zwillings-, Drillings- oder Mehrlingsgeschwister?</b>
-{{ formfield 'codeU8_siblings' label="" }}
+{{ formfield 'codeU8_siblings' label=''}}
 
 <b>U9. An welcher Stelle der Geburtsreihenfolge (z.B. Erste/r, Zweite/r, Dritte/r etc.) kamen Sie auf die Welt?</b>
 {{ formfield 'codeU9_order' label="Reihenfolge" }}

@@ -65,10 +65,10 @@ def return_lists(my_list):
     return result_list
 
 if PRE_ROLLS:
-    SUPERGAME_1 = [9, 8, 7, 7, 1, 8, 5, 8, 2, 5, 10]
-    SUPERGAME_2 = [1, 6, 7, 8, 4, 3, 7, 10]
-    SUPERGAME_3 = [5, 8, 6, 5, 8, 9, 4, 7, 4, 1, 4, 4, 10]
-    SUPERGAME_4 = [4, 8, 7, 6, 5, 5, 8, 3, 8, 1, 7, 10]
+    SUPERGAME_1 = [9, 8, 7, 7, 1, 8, 5, 8, 2, 5, 10]  #11
+    SUPERGAME_2 = [1, 6, 7, 8, 4, 3, 7, 10] #8
+    SUPERGAME_3 = [5, 8, 6, 5, 8, 9, 4, 7, 4, 1, 4, 4, 10] #13
+    SUPERGAME_4 = [4, 8, 7, 6, 5, 5, 8, 3, 10] #9
 else:
     SUPERGAME_1 = random_numbers_until()
     SUPERGAME_2 = random_numbers_until()
@@ -214,64 +214,70 @@ class Player(BasePlayer):
     )
     #for code in the Uni Wuppertal:
     codeU1_firstletter = models.StringField(
-        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'NICHT MÖGLICH']
     )
     codeU1_secondletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z', 'NICHT MÖGLICH']
     )
     codeU1_penletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z', 'NICHT MÖGLICH']
     )
     codeU1_lastletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z', 'NICHT MÖGLICH']
     )
     codeU2_birthday = models.IntegerField(
-        choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+        choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+        blank=True
     )
     codeU3_firstletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z', 'NICHT MÖGLICH']
     )
     codeU3_secondletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z', 'NICHT MÖGLICH']
     )
     codeU4_firstletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z', 'NICHT MÖGLICH']
     )
     codeU4_secondletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z', 'NICHT MÖGLICH']
     )
     codeU4_penletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z', 'NICHT MÖGLICH']
     )
     codeU4_lastletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z', 'NICHT MÖGLICH']
     )
     codeU5_birthday = models.IntegerField(
         choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-                 29, 30, 31]
+                 29, 30, 31],
+        blank=True
     )
     codeU6_birthday = models.IntegerField(
         choices=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-                 29, 30, 31]
+                 29, 30, 31],
+        blank=True
     )
     codeU7_firstletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z'],
+        blank=True
     )
     codeU7_secondletter = models.StringField(
         choices=['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                 'u', 'v', 'w', 'x', 'y', 'z']
+                 'u', 'v', 'w', 'x', 'y', 'z'],
+        blank=True
     )
-    codeU8_siblings = models.BooleanField()
+    codeU8_siblings = models.StringField(
+        choices=['Ja', 'Nein'])
     codeU9_order = models.StringField()
 
 
@@ -397,13 +403,17 @@ class IntroductionGame(Page):
     def is_displayed(player: Player):
         return player.round_number == 1
     def vars_for_template(player: Player):
+        participation_fee = player.session.config['participation_fee']
         return dict(
+            participation_fee = participation_fee,
             EXCHANGE_RATE = C.EXCHANGE_RATE,
             Lexicon=Lexicon,
             **which_language
             )
     def js_vars(player: Player):
+        participation_fee = player.session.config['participation_fee']
         return dict(
+            participation_fee=participation_fee,
             EXCHANGE_RATE=C.EXCHANGE_RATE,
             is_it_en = which_language['en']
         )
@@ -524,7 +534,7 @@ class Questionnaire(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == 1 and player.session.config['uni_wuppertal']
+        return player.round_number == C.NUM_ROUNDS and player.session.config['uni_wuppertal']
 
 
 class FinalResultsPage(Page):
@@ -536,6 +546,7 @@ class FinalResultsPage(Page):
         display_table_final = set_final_payoffs(player)
         valid_rows = [row for row in display_table_final if isinstance(row[4], int) and row[3] is not None]
         cumulative_payment = round( sum(row[3] for row in valid_rows) / C.EXCHANGE_RATE, 2)
+        participation_fee = player.session.config['participation_fee']
         print(cumulative_payment)
         player.payoff = cumulative_payment
         chosen_supergame = player.in_round(1).WHICH_SUPERGAME + 1
@@ -543,7 +554,8 @@ class FinalResultsPage(Page):
             display_table_final = display_table_final,
             your_final_payoff = cumulative_payment,
             chosen_supergame = chosen_supergame,
-            total_payment = round(cumulative_payment + 5, 2),
+            total_payment = round(cumulative_payment + participation_fee, 2),
+            participation_fee = participation_fee,
             Lexicon=Lexicon,
             **which_language
         )

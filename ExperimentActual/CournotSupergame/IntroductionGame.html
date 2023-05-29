@@ -264,11 +264,11 @@ document.getElementById('chooseBtn').addEventListener('click', function() {
   if (chooseCount == 10) {
     var compensation_in_thousands = total_compensation / js_vars.EXCHANGE_RATE; // divide by 1000 to get the value in thousands
     var compensation_in_thousands_rounded = Math.round(compensation_in_thousands * 100) / 100; // round to the nearest 0.01
-    var compensation_in_thousands_and_show = compensation_in_thousands_rounded + 5;
+    var compensation_in_thousands_and_show = compensation_in_thousands_rounded + js_vars.participation_fee;
     if (is_it_en) {
-      message_final_payoff = 'Your total compensation for the payoff relevant rounds(' + chooseCount + ') ' + total_compensation + ' experimental points. Your total payment is ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR plus your participation fee of 5 EUR. Your final payment is ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. If you would like to try again, please refresh this page (press F5). ';
+      message_final_payoff = 'Your total compensation for the payoff relevant rounds(' + chooseCount + ') ' + total_compensation + ' experimental points. Your total payment is ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR plus your participation fee of ' + js_vars.participation_fee  + 'EUR. Your final payment is ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. If you would like to try again, please refresh this page (press F5). ';
     } else {
-      message_final_payoff = 'Ihre Gesamtentvergütung für die relevanten Auszahlungsrunden (' + chooseCount + ') beträgt ' + total_compensation + ' Experimental Points. Ihre Gesamtzahlung beträgt ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR zuzüglich Ihrer Teilnahmegebühr von 5 EUR. Ihre endgültige Zahlung beträgt ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. Wenn Sie es erneut versuchen möchten, aktualisieren Sie bitte diese Seite (drücken Sie F5). ';
+      message_final_payoff = 'Ihre Gesamtentvergütung für die relevanten Auszahlungsrunden (' + chooseCount + ') beträgt ' + total_compensation + ' Experimental Points. Ihre Gesamtzahlung beträgt ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR zuzüglich Ihrer Teilnahmegebühr von '+ js_vars.participation_fee + ' EUR. Ihre endgültige Zahlung beträgt ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. Wenn Sie es erneut versuchen möchten, aktualisieren Sie bitte diese Seite (drücken Sie F5). ';
     }
 
     message_final.innerHTML = message_final_payoff;
@@ -295,7 +295,7 @@ console.log(message_final_payoff)
     In each market you will be matched with a different participant. You will be given information about your contract, contract of the participant you are matched with, a calculator similar to the one on the previous page and details about the outcomes in the previous periods.
     <br>
     <h3 style="font-size: 20px;"><b> Your compensation </b></h3>
-    After you have played four markets in the main part of the experiment, we will randomly select one market (out of 4) and pay you the total compensation you have earned in that market. In addition, you will also receive your participant fee (5 EUR).
+    After you have played four markets in the main part of the experiment, we will randomly select one market (out of 4) and pay you the total compensation you have earned in that market. In addition, you will also receive your participant fee ({{ participation_fee }} EUR).
     <br>
     <b>The experiment is using exchange rate of {{ EXCHANGE_RATE }} Experimental Points = 1 Euro.</b>
     <br>
@@ -335,7 +335,7 @@ console.log(message_final_payoff)
     In jedem Markt werden Sie mit einer anderen teilnehmenden Person gematcht. Ihnen werden Informationen über Ihren Vertrag, den Vertrag der teilnehmenden Person, mit der Sie gematcht sind, ein Rechner ähnlich dem auf der vorherigen Seite und Details über die Ergebnisse in den vorherigen Perioden gegeben.
     <br>
     <h3 style="font-size: 20px;"><b>Ihre Vergütung</b></h3>
-    Nachdem Sie in vier Märkten im Hauptteil des Experiments Entscheidungen getroffen haben, werden wir zufällig einen Markt (von 4) auswählen und Ihnen die Gesamtvergütung aus diesem Markt auszahlen. Zusätzlich erhalten Sie auch Ihre Teilnahmegebühr von 5 EUR.
+    Nachdem Sie in vier Märkten im Hauptteil des Experiments Entscheidungen getroffen haben, werden wir zufällig einen Markt (von 4) auswählen und Ihnen die Gesamtvergütung aus diesem Markt auszahlen. Zusätzlich erhalten Sie auch Ihre Teilnahmegebühr von {{ participation_fee }} EUR.
     <br>
     <b>Das Experiment verwendet einen Wechselkurs von {{ EXCHANGE_RATE }} Experimental Points (EP) = 1 Euro.</b>
     <br>
