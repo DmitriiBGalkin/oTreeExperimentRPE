@@ -41,7 +41,8 @@ The purpose of this research project is to investigate how managerial incentives
 
 - The matching is hard-coded for a group of 16 participants. Therefore, if you are using rooms or a demo session, there should always be exactly 16 participants (otherwise there would be an error).
 - There are two options for the duration of the supergame. If `pre_rolls` is set to `false` in the session configs, the rounds are not pre-rolled and are unknown to the participants and experimenter until each supergame starts. If `pre_rolls` is set to `true`, the rounds are pre-rolled but not known to the participants. In the latter case, the rolls happen when the session is created (potential problem with that is that rounds are very unbalanced: i.e. even though the expected number of rounds is 10 with 90% continuation probability, one can get a supergame that lasts for 40-50 rounds. Thus, we advice to do pre_rolls option which results in the durations of 11,8,13,9 rounds (to change that one can do pre rolls in any other software and then edit "\_init\_.py" file in the cournotsupergame folder.
--The experiment can be tested with bots - that select a value based on the tests.py file. 
+- The experiment can be tested with bots - that select a value based on the tests.py file. 
+- Experiment has two language settings - German ("de") and English ("en"). German version includes gender-neutral descriptions. 
 ## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). You are free to use the code and adapt it for your own research purposes.
