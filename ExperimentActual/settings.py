@@ -7,7 +7,7 @@ SESSION_CONFIGS = [
          participation_fee = 6,
          num_demo_participants=16,
          use_browser_bots=False,
-         chat_treatment=True,
+         chat_treatment=False,
          uni_wuppertal=True,
          pre_rolls=True
         ),

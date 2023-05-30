@@ -220,7 +220,7 @@ function calculateCompensation(myProfit) {
 }
 
 var chooseCount = 0;
-total_compensation = 0;
+total_compensation_m = 0;
 if (is_it_en) {
   message_final_payoff = 'Please play at least 10 example games to see the final example payoffs. ';
 } else {
@@ -259,16 +259,16 @@ document.getElementById('chooseBtn').addEventListener('click', function() {
   document.getElementById('results').appendChild(newRow);
   chooseCount = chooseCount + 1;
   if (chooseCount < 11) {
-    total_compensation = total_compensation + myCompensation
+    total_compensation_m = total_compensation_m + myCompensation
   }
   if (chooseCount == 10) {
-    var compensation_in_thousands = total_compensation / js_vars.EXCHANGE_RATE; // divide by 1000 to get the value in thousands
+    var compensation_in_thousands = total_compensation_m / js_vars.EXCHANGE_RATE; // divide by 1000 to get the value in thousands
     var compensation_in_thousands_rounded = Math.round(compensation_in_thousands * 100) / 100; // round to the nearest 0.01
     var compensation_in_thousands_and_show = compensation_in_thousands_rounded + js_vars.participation_fee;
     if (is_it_en) {
-      message_final_payoff = 'Your total compensation for the payoff relevant rounds(' + chooseCount + ') ' + total_compensation + ' experimental points. Your total payment is ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR plus your participation fee of ' + js_vars.participation_fee  + 'EUR. Your final payment is ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. If you would like to try again, please refresh this page (press F5). ';
+      message_final_payoff = 'Your total compensation for the payoff relevant rounds(' + chooseCount + ') ' + total_compensation_m + ' experimental points. Your total payment is ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR plus your participation fee of ' + js_vars.participation_fee  + 'EUR. Your final payment is ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. If you would like to try again, please refresh this page (press F5). ';
     } else {
-      message_final_payoff = 'Ihre Gesamtentvergütung für die relevanten Auszahlungsrunden (' + chooseCount + ') beträgt ' + total_compensation + ' Experimental Points. Ihre Gesamtzahlung beträgt ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR zuzüglich Ihrer Teilnahmegebühr von '+ js_vars.participation_fee + ' EUR. Ihre endgültige Zahlung beträgt ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. Wenn Sie es erneut versuchen möchten, aktualisieren Sie bitte diese Seite (drücken Sie F5). ';
+      message_final_payoff = 'Ihre Gesamtentvergütung für die relevanten Auszahlungsrunden (' + chooseCount + ') beträgt ' + total_compensation_m + ' Experimental Points. Ihre Gesamtzahlung beträgt ' + compensation_in_thousands_rounded.toFixed(2) + ' EUR zuzüglich Ihrer Teilnahmegebühr von '+ js_vars.participation_fee + ' EUR. Ihre endgültige Zahlung beträgt ' + compensation_in_thousands_and_show.toFixed(2) + ' EUR. Wenn Sie es erneut versuchen möchten, aktualisieren Sie bitte diese Seite (drücken Sie F5). ';
     }
 
     message_final.innerHTML = message_final_payoff;
@@ -598,10 +598,10 @@ input[type=range]::-ms-thumb {
 
   <div class="table-box">
     <b><label for="userChoice">{{ if en }} Your quantity choice: {{ else }} Ihre Mengenauswahl: {{ endif }}</label> </b>
-    <input type="number" id="userChoice" min="0" max="50">
+    <input type="number" id="userChoice" min="0" max="70">
     <br>
     <b><label for="userChoiceOther">{{ if en }} Quantity choice for the other firm: {{ else }} Mengenauswahl für das andere Unternehmen: {{ endif }}</label> </b>
-    <input type="number" id="userChoiceOther" min="0" max="50">
+    <input type="number" id="userChoiceOther" min="0" max="70">
     <br>
     <button id="chooseBtn">{{ if en }} Choose {{ else }} Wählen {{ endif }}</button>
     <br>
