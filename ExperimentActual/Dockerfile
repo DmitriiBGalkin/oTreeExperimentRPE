@@ -10,5 +10,8 @@ RUN pip3 install --upgrade pip setuptools
 COPY ./ExperimentActual .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
+ENV OTREE_AUTH_LEVEL=STUDY
+ENV OTREE_ADMIN_PASSWORD=DiCe-Lab2023!
+
 # Run oTree prodserver command
 CMD [ "otree", "prodserver" , "3001"]   
