@@ -547,6 +547,7 @@ class FinalResultsPage(Page):
         valid_rows = [row for row in display_table_final if isinstance(row[4], int) and row[3] is not None]
         cumulative_payment = round( sum(row[3] for row in valid_rows) / C.EXCHANGE_RATE, 2)
         participation_fee = player.session.config['participation_fee']
+        uni_wuppertal = player.session.config['uni_wuppertal']
         print(cumulative_payment)
         player.payoff = cumulative_payment
         chosen_supergame = player.in_round(1).WHICH_SUPERGAME + 1
@@ -557,6 +558,7 @@ class FinalResultsPage(Page):
             total_payment = round(cumulative_payment + participation_fee, 2),
             participation_fee = participation_fee,
             Lexicon=Lexicon,
+            uni_wuppertal=uni_wuppertal,
             **which_language
         )
 

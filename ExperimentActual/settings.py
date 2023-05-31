@@ -2,14 +2,16 @@ from os import environ
 
 SESSION_CONFIGS = [
      dict(
-         name='supergames',
-         app_sequence=['CournotSupergame'],
-         participation_fee = 6,
-         num_demo_participants=16,
-         use_browser_bots=False,
-         chat_treatment=True,
-         uni_wuppertal=True,
-         pre_rolls=True
+            name='supergames',
+            app_sequence=['CournotSupergame','payment'],
+            expShortName="TestExp",
+            expId=0000000000,
+            participation_fee = 6,
+            num_demo_participants=16,
+            use_browser_bots=False,
+            chat_treatment=True,
+            uni_wuppertal=True,
+            pre_rolls=True
         ),
 ]
 ROOMS = [
