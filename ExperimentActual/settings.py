@@ -9,8 +9,8 @@ SESSION_CONFIGS = [
             participation_fee = 6,
             num_demo_participants=16,
             use_browser_bots=False,
-            chat_treatment=True,
-            uni_wuppertal=True,
+            chat_treatment=False,
+            uni_wuppertal=False,
             pre_rolls=True
         ),
 ]
