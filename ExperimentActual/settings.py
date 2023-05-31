@@ -7,7 +7,7 @@ SESSION_CONFIGS = [
          participation_fee = 6,
          num_demo_participants=16,
          use_browser_bots=False,
-         chat_treatment=False,
+         chat_treatment=True,
          uni_wuppertal=True,
          pre_rolls=True
         ),
@@ -34,7 +34,7 @@ SESSION_FIELDS = []
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
-LANGUAGE_CODE = 'de'
+LANGUAGE_CODE = 'en'
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'EUR'
 USE_POINTS = False
