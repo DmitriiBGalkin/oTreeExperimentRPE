@@ -4,9 +4,9 @@ SESSION_CONFIGS = [
      dict(
             name='supergames',
             app_sequence=['CournotSupergame','payment'],
-            expShortName="TestExp",
-            expId=0000000000,
-            participation_fee = 6,
+            expShortName="RPE",
+            expId=8,
+            participation_fee=6,
             num_demo_participants=16,
             use_browser_bots=False,
             chat_treatment=False,
