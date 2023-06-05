@@ -279,6 +279,21 @@ class Player(BasePlayer):
     codeU8_siblings = models.StringField(
         choices=['Ja', 'Nein'])
     codeU9_order = models.StringField()
+    student_Duss = models.StringField(
+        label = 'Sind Sie bitte ein Student?',
+        choices=['Ja', 'Nein'])
+    faculty_Duss = models.StringField(
+        label='Bitte geben Sie Ihren Studienbereich an.',
+        choices=['Betriebswirtschaftslehre', 'Informatik', 'Psychologie', 'Ingenieurwissenschaften (verschiedene Disziplinen)', 'Biologie', 'Chemie', 'Mathematik', 'Soziologie', 'Kommunikationswissenschaften', 'Politikwissenschaft', 'Geschichte', 'Krankenpflege', 'Volkswirtschaftslehre', 'Physik', 'Sonstige']
+    )
+    age_group_Duss = models.StringField(
+        label ='Bitte geben Sie Ihre Altersgruppe an.',
+        choices=['18-21', '22-25', '26-30', '31-35', '36-40', '40+','Möchte nicht angeben']
+    )
+    gender_Duss = models.StringField(
+        label='Geben Sie bitte Ihr Geschlecht an.',
+        choices=['Männlich', 'Weiblich', 'Andere', 'Möchte nicht angeben']
+    )
 
 
 class Message(ExtraModel):
@@ -538,6 +553,8 @@ class Questionnaire(Page):
 
 
 class FinalResultsPage(Page):
+    form_model = 'player'
+    form_fields = ['student_Duss','faculty_Duss','age_group_Duss','gender_Duss']
     @staticmethod
     def is_displayed(player: Player):
         return player.round_number == C.NUM_ROUNDS
