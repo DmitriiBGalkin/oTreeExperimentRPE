@@ -1,0 +1,3 @@
+[submodule "oTreePayoutRefModule"]
+	path = ExperimentActual/payment
+	url = https://github.com/LeonHeidelbach/oTreePayoutRefModule.git
