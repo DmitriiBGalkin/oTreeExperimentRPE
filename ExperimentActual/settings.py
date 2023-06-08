@@ -6,6 +6,7 @@ SESSION_CONFIGS = [
             app_sequence=['CournotSupergame','payment'],
             expShortName="RPE",
             expId=8,
+            sessId=55,
             participation_fee=6,
             num_demo_participants=16,
             use_browser_bots=False,
