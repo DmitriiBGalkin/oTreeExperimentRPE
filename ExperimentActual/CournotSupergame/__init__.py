@@ -313,12 +313,15 @@ def calculate_payoffs(group: Group):
     group.TOTAL_UNITS = sum([p.UNITS for p in players])
     group.UNIT_PRICE = C.TOTAL_CAPACITY - group.TOTAL_UNITS
     for p in players:
-        p.FIRM_PROFITS = group.UNIT_PRICE * p.UNITS
-        if not p.CONTRACT_TYPE_RP:
-            p.COMPENSATION = p.FIRM_PROFITS + C.BONUS_FIXED
-        if p.CONTRACT_TYPE_RP:
-            p.COMPENSATION = max(0, group.UNIT_PRICE * p.UNITS * (1 + C.GAMMA) - group.UNIT_PRICE * C.GAMMA * (
-                        group.TOTAL_UNITS - p.UNITS) + C.BONUS_FIXED)
+        p.FIRM_PROFITS = max(0,group.UNIT_PRICE * p.UNITS)
+        if p.FIRM_PROFITS>0:
+            if not p.CONTRACT_TYPE_RP:
+                p.COMPENSATION = p.FIRM_PROFITS + C.BONUS_FIXED
+            if p.CONTRACT_TYPE_RP:
+                p.COMPENSATION = max(0, group.UNIT_PRICE * p.UNITS * (1 + C.GAMMA) - group.UNIT_PRICE * C.GAMMA * (
+                            group.TOTAL_UNITS - p.UNITS) + C.BONUS_FIXED)
+        else:
+            p.COMPENSATION = 0
         p.CHOICE_IN_ROUNDS = p.UNITS
 
 
@@ -326,11 +329,14 @@ def calculate_profits_and_compensation(list_my_choices, list_other_choices, my_c
     profits_and_compensation = []
     for period in range(0, len(list_my_choices)):
         price = C.TOTAL_CAPACITY - list_my_choices[period] - list_other_choices[period]
-        my_profit = price * list_my_choices[period]
-        other_profit = price * list_other_choices[period]
-        my_compensation = my_profit + C.BONUS_FIXED
-        if my_contract:
-            my_compensation = max(0, C.BONUS_FIXED + (1 + C.GAMMA) * my_profit - C.GAMMA * other_profit)
+        my_profit = max(0,price * list_my_choices[period])
+        other_profit = max(0, price * list_other_choices[period])
+        if my_profit>0:
+            my_compensation = my_profit + C.BONUS_FIXED
+            if my_contract:
+                my_compensation = max(0, C.BONUS_FIXED + (1 + C.GAMMA) * my_profit - C.GAMMA * other_profit)
+        else:
+            my_compensation=0
         profits_and_compensation.append(
             [list_my_choices[period], list_other_choices[period], my_profit, other_profit, my_compensation])
     return profits_and_compensation
